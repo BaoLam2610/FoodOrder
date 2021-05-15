@@ -7,4 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    -- Rating bar -- 
+    <color name="duskYellow">#FFEB3B</color>
+    <color name="lightGrey">#888888</color>
+
+    -- Home List --
+
+    -- Item --
+    <color name="item_restaurant_tv_color">#FF000000</color>
+    <color name="item_food_tv_color">#FF000000</color>
+
+    -- Tab layout --
+
 </resources>

@@ -18,6 +18,14 @@ public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
 
+    public static GalleryFragment newInstance() {
+        
+        Bundle args = new Bundle();
+        
+        GalleryFragment fragment = new GalleryFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel =

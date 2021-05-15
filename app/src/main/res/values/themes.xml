@@ -22,4 +22,14 @@
     <style name="Theme.FoodOrderApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FoodOrderApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/lightGrey</item>
+        <item name="colorControlActivated">@color/duskYellow</item>
+    </style>
+    <style name="custom_tab_layout_text" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">@dimen/tab_food_category_tv_size</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
 </resources>

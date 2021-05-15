@@ -5,4 +5,27 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+
+    -- home list
+    <dimen name="padding_home_list">10dp</dimen>
+    <dimen name="home_list_padding_header_title">10dp</dimen>
+    <dimen name="home_list_text_size_header_title">24dp</dimen>
+
+    -- Item Food category --
+    <dimen name="item_food_category_height">160dp</dimen>
+
+    -- Item Quick deliveries --
+    <dimen name="item_quick_deliveries_width">300dp</dimen>
+    <dimen name="item_quick_deliveries_height">100dp</dimen>
+
+
+    -- Item quick and rated
+    <dimen name="margin_item_img_res">5dp</dimen>
+    <dimen name="item_margin">10dp</dimen>
+    <dimen name="item_food_category_width">130dp</dimen>
+    
+    -- Tab layout --
+    <dimen name="tab_food_category_tv_size">20dp</dimen>
+    <dimen name="item_food_height">120dp</dimen>
 </resources>

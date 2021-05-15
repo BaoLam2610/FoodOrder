@@ -7,7 +7,38 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+
+    -- Drawer --
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    -- Bottom menu --
+    <string name="bottom_menu_home">Home</string>
+    <string name="bottom_menu_orders">Orders</string>
+    <string name="bottom_menu_favorites">Favorites</string>
+
+    -- Home List --
+    -- Title --
+    <string name="home_list_title_category">What\'d you like to eat today?</string>
+    <string name="home_list_title_banner">Offers for you</string>
+    <string name="home_list_title_quick_delivery">Quick deliveries</string>
+    <string name="home_list_title_best_rated">Best rated</string>
+
+    <string name="home_list_see_more">See more</string>
+    <string name="tv_restaurant_found">Restaurant found</string>
+
+
+    -- Item food --
+    <string name="item_food_add">Add</string>
+    <string name="order_cart_title">Your list order</string>
+    <string name="order_cart_payment_inf">Payment information</string>
+    <string name="drawer_login">Login</string>
+    <string name="login_phone">Phone</string>
+    <string name="login_password">Password</string>
+    <string name="login_hint_phone">Your phone</string>
+    <string name="login_forger_pass">Forget password?</string>
+    <string name="sign_in_username">Name</string>
+    <string name="sign_in_hint_name">Your name</string>
+    <string name="drawer_sign_in">SIGN IN</string>
 </resources>
