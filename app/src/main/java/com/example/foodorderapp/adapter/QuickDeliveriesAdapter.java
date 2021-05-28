@@ -55,7 +55,7 @@ public class QuickDeliveriesAdapter extends RecyclerView.Adapter<QuickDeliveries
         holder.binding.tvResName.setText(restaurant.getName());
         holder.binding.tvResProvide.setText(restaurant.getProvideType());
         holder.binding.tvResAddress.setText(restaurant.getAddress());
-        holder.binding.llItemRes.setOnClickListener(v -> iOnClickItemRestaurant.onClickItem(restaurant));
+        holder.binding.itemRestaurant.setOnClickListener(v -> iOnClickItemRestaurant.onClickItem(restaurant));
     }
 
     @Override

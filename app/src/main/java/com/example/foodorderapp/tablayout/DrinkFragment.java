@@ -81,8 +81,8 @@ public class DrinkFragment extends Fragment implements IOnListFood,ICartDatabase
 
     @Override
     public void onShowListFood(List<Food> drinkList) {
-
-        foodAdapter = new ListFoodAdapter(drinkList, getContext());
+        foodList = drinkList;
+        foodAdapter = new ListFoodAdapter(foodList, getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         binding.rvListFood.setAdapter(foodAdapter);
         binding.rvListFood.setLayoutManager(layoutManager);
@@ -92,13 +92,8 @@ public class DrinkFragment extends Fragment implements IOnListFood,ICartDatabase
         foodAdapter.setIOnClickAddCart(new IOnClickAddCart() {
             @Override
             public void onClickAddCart(Food food) {
-                ++totalItemCart;
-                totalCost += Integer.parseInt(food.getPrice() + "");
 
-                cartPresenter.saveFoodOnCart(food.getId(), food.getName(), food.getImage(),
-                        food.getCount(), (int) food.getPrice(), food.getCategory(), food.getIdRes());
-
-//                currentCart.setIdCart(rd.nextInt(1000) + "");
+                cartPresenter.saveFoodOnCart(food);
 
                 currentCart.setAmount(currentCart.getAmount()+1);
                 currentCart.setTotalPrice(currentCart.getTotalPrice()+food.getPrice());
@@ -107,8 +102,6 @@ public class DrinkFragment extends Fragment implements IOnListFood,ICartDatabase
 
             @Override
             public void onClickPlus(Food food) {
-                totalCost += Integer.parseInt(food.getPrice() + "");
-                Toast.makeText(getContext(), "count: " + food.getCount(), Toast.LENGTH_SHORT).show();
 
                 currentCart.setTotalPrice(currentCart.getTotalPrice()+food.getPrice());
                 cartPresenter.editFood(food);
@@ -120,17 +113,16 @@ public class DrinkFragment extends Fragment implements IOnListFood,ICartDatabase
             @Override
             public void onClickMinus(Food food) {
                 if (food.getCount() == 0) {
-                    --totalItemCart;
                     cartPresenter.destroyFood(food, currentCart);
                     currentCart.setAmount(currentCart.getAmount()-1);
                 }
-                totalCost -= Integer.parseInt(food.getPrice() + "");
+
                 currentCart.setTotalPrice(currentCart.getTotalPrice()-food.getPrice());
 
                 cartPresenter.editFood(food);
                 cartPresenter.editCart(currentCart);
                 EventBus.getDefault().postSticky(currentCart);
-                Toast.makeText(getContext(), "count: " + food.getCount(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -142,7 +134,7 @@ public class DrinkFragment extends Fragment implements IOnListFood,ICartDatabase
         if (check) {
             int i = foodList.indexOf(food);
             foodList.get(i).setCount(0);
-            foodList.get(i).setIdRes(currentCart.getIdRes());
+
             foodAdapter.notifyDataSetChanged();
         }
 

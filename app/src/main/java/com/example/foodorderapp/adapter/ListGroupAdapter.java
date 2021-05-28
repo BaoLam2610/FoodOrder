@@ -111,11 +111,8 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
                         it.putExtra("quick_deliveries","item");
 
                         EventBus.getDefault().postSticky(restaurant); // dùng luôn sql
-                        cartPresenter.saveRestaurantOnCart(restaurant.getId(),restaurant.getName(),restaurant.getProvideType(),
-                                restaurant.getImage(),restaurant.getAddress(),
-                                restaurant.getPhone(),restaurant.getEmail(),
-                                restaurant.getRate());
-                        Cart currentCart = new Cart("001",restaurant.getId());
+                        cartPresenter.saveRestaurantOnCart(restaurant);
+                        Cart currentCart = new Cart("001",restaurant,0,0);
                         Toast.makeText(context, restaurant.getId(), Toast.LENGTH_SHORT).show();
                         EventBus.getDefault().postSticky(currentCart);
                         context.startActivity(it);
@@ -128,7 +125,20 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
                 holder.binding.rvListItem.setHasFixedSize(true);
                 holder.binding.rvListItem.setAdapter(bestRatedAdapter);
                 holder.binding.rvListItem.setLayoutManager(gridLayoutManager);
+                bestRatedAdapter.setIOnClickItemRestaurant(new IOnClickItemRestaurant() {
+                    @Override
+                    public void onClickItem(Restaurant restaurant) {
+                        Intent it = new Intent(context, DetailActivity.class);
+                        it.putExtra("best_rated","item");
 
+                        EventBus.getDefault().postSticky(restaurant); // dùng luôn sql
+                        cartPresenter.saveRestaurantOnCart(restaurant);
+                        Cart currentCart = new Cart("001",restaurant,0,0);
+                        Toast.makeText(context, restaurant.getId(), Toast.LENGTH_SHORT).show();
+                        EventBus.getDefault().postSticky(currentCart);
+                        context.startActivity(it);
+                    }
+                });
                 break;
         }
         holder.binding.tvSeeMore.setOnClickListener(v -> {

@@ -1,57 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
-        android:id="@+id/llItemRes"
-        android:layout_marginRight="@dimen/item_margin"
-        android:layout_marginBottom="@dimen/item_margin"
+        android:id="@+id/itemRestaurant"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/item_quick_deliveries_height"
+        android:layout_height="@dimen/item_restaurant_span_height"
+        android:layout_marginRight="@dimen/item_restaurant_span_margin"
+        android:layout_marginBottom="@dimen/item_restaurant_span_margin"
         android:orientation="horizontal">
+
         <androidx.cardview.widget.CardView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/item_restaurant_span_height"
+            android:layout_height="@dimen/item_restaurant_span_height"
             app:cardCornerRadius="10dp">
+
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/ivResImage"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_item_img_res"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_item_img_res"
+            android:gravity="center_vertical"
             android:orientation="vertical">
-            <TextView
-                android:gravity="center"
 
-                android:textSize="14dp"
-                android:textStyle="bold"
-                android:textColor="@color/item_restaurant_tv_color"
+            <TextView
+                android:id="@+id/tvResName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:id="@+id/tvResName"/>
-            <TextView
-                android:gravity="center"
+                android:textAppearance="@style/title_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
 
-                android:textSize="10dp"
+            <TextView
+                android:id="@+id/tvResProvide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Provide"
-                android:id="@+id/tvResProvide"/>
-            <TextView
-                android:gravity="center"
+                android:textAppearance="@style/title_item_sub"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.4" />
 
-                android:textSize="10dp"
-                android:drawableLeft="@drawable/custom_item_restaurant_location"
+            <TextView
+                android:textAppearance="@style/title_item_sub"
+                android:id="@+id/tvResAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/custom_item_restaurant_location"
                 android:text="Address"
-                android:id="@+id/tvResAddress"/>
-        </LinearLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.8" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

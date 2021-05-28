@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-
+        android:background="@color/white"
         android:paddingLeft="@dimen/padding_home_list"
         android:paddingRight="@dimen/padding_home_list"
         android:layout_width="match_parent"

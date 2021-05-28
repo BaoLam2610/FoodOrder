@@ -2,6 +2,7 @@ package com.example.foodorderapp.presenter;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -18,7 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartDatabasePresenter {
@@ -30,6 +30,8 @@ public class CartDatabasePresenter {
     Context context;
     CartDatabaseHelper helper;
     String idRes;
+    Cart currentCart;
+    Restaurant tempRestaurant;
 
     public CartDatabasePresenter(IOrderCart iOrderCart, ICartDatabase iCartDatabase, IOnListFood iOnListFood, Context context) {
         this.iOrderCart = iOrderCart;
@@ -54,37 +56,44 @@ public class CartDatabasePresenter {
         this.context = context;
     }
 
-    public void saveRestaurantOnCart(String id, String name, String provideType, String image,
-                                     String address, String phone, String email, double rate) {
-        idRes = id;
-        Restaurant restaurant = new Restaurant(id, name, provideType, image, address, phone, email, rate);
+    public void saveRestaurantOnCart(Restaurant restaurant) {
         try {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
             if (!helper.findRestaurant(restaurant))
-                helper.insertRestaurant(id, name, provideType, image, address, phone, email, rate);
+                helper.insertRestaurant(restaurant);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void saveFoodOnCart(String id, String name, String image, int count, long price, String category, String idRes) {
+
+
+    public void saveFoodOnCart(Food food) {
+        EventBus.getDefault().register(this);
         try {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
-            helper.insertFood(id, name, image, count, price, category, idRes);
+            food.setRestaurant(tempRestaurant);
+            Log.e("Loi",food.getRestaurant().getId());
+            helper.insertFood(food);
 //            String id, String name, String image, int count, long price, String category, String idRes
         } catch (Exception e) {
             e.printStackTrace();
         }
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+    public void getRestaurant(Restaurant restaurant){
+        tempRestaurant = restaurant;
     }
 
-    public void saveCart(String idCart, String idRes, int amount, int cost) {
+    public void saveCart(Cart cart) {
         try {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
-            helper.insertCart(idCart, idRes, amount, cost);
+            helper.insertCart(cart);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,7 +122,6 @@ public class CartDatabasePresenter {
         }
     }
 
-
     public void destroyRestaurant(Restaurant restaurant) {
         try {
             if (helper == null)
@@ -125,7 +133,7 @@ public class CartDatabasePresenter {
         }
     }
 
-    public void destroyCart(Cart cart){
+    public void destroyCart(Cart cart) {
         try {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
@@ -135,38 +143,40 @@ public class CartDatabasePresenter {
             e.printStackTrace();
         }
     }
-Cart currentCart;
+
     public void showCart() {
         if (helper == null)
             helper = new CartDatabaseHelper(context);
-        if(currentCart==null) {
+        if (currentCart == null) {
             currentCart = helper.getCart();
 //        EventBus.getDefault().register(this);
 
         }
         iOnShowCart.onShowCart(currentCart);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void showListOrder(){
+    public void showListOrder() {
         if (helper == null)
             helper = new CartDatabaseHelper(context);
-        List<Food> foodList = helper.getListFood();
-        foodList.sort((f1,f2)->f1.getCategory().compareTo(f2.getCategory()));
+        List<Food> foodList = helper.getFood();
+        foodList.sort((f1, f2) -> f1.getCategory().compareTo(f2.getCategory()));
         EventBus.getDefault().register(this);
-        iOrderCart.onShowListFoodOrder(currentCart,foodList);
+        iOrderCart.onShowListFoodOrder(currentCart, foodList);
         EventBus.getDefault().unregister(this);
     }
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void getCurrentCart(Cart cart) {
 
         currentCart = cart;
     }
 
-    public void destroyFood(Food food,Cart cart){
+    public void destroyFood(Food food, Cart cart) {
         try {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
-            helper.deleteFood(food,cart);
+            helper.deleteFood(food, cart);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,14 +184,12 @@ Cart currentCart;
     }
 
 
-    public boolean checkCart(Cart cart){
+    public boolean checkCart(Cart cart) {
 
-            if (helper == null)
-                helper = new CartDatabaseHelper(context);
+        if (helper == null)
+            helper = new CartDatabaseHelper(context);
 
-            if (helper.findCart(cart))
-                return true;
-            return false;
+        return helper.findCart(cart);
     }
 
     public void destroyAllData(Restaurant restaurant, Cart cart) {

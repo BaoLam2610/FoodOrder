@@ -15,10 +15,12 @@ import com.example.foodorderapp.databinding.ItemFoodOrderCartBinding;
 import com.example.foodorderapp.event.IOnClickDeleteOrder;
 import com.example.foodorderapp.model.Food;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class OrderCartAdapter extends RecyclerView.Adapter<OrderCartAdapter.OrderCartViewHolder> {
 
+    DecimalFormat df = new DecimalFormat("###,###");
     List<Food> foodList;
     Context context;
     IOnClickDeleteOrder iOnClickDeleteOrder;
@@ -46,8 +48,8 @@ public class OrderCartAdapter extends RecyclerView.Adapter<OrderCartAdapter.Orde
         Food food = foodList.get(position);
         holder.binding.tvFoodName.setText(food.getName());
         holder.binding.tvFoodCategory.setText(food.getCategory());
-        holder.binding.tvFoodPrice.setText(food.getPrice()+"");
-        holder.binding.tvFoodCount.setText(food.getCount()+"");
+        holder.binding.tvFoodPrice.setText(df.format(food.getPrice()));
+        holder.binding.tvFoodCount.setText(context.getResources().getString(R.string.amount) + " " + food.getCount());
         Glide.with(context).load(food.getImage())
                 .centerCrop()   // căn ảnh
 //                    .placeholder(R.drawable.ic_baseline_image_24)  // đợi load ảnh

@@ -1,5 +1,6 @@
 package com.example.foodorderapp.detail;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,10 +30,13 @@ import com.example.foodorderapp.presenter.DetailPresenter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ListOrderCartFragment extends Fragment implements IOrderCart {
 
+    DecimalFormat df = new DecimalFormat("###,###");
+    private static final String TAG = "ListOrderCartFragment";
     FragmentOrderCartBinding binding;
     OrderCartAdapter orderCartAdapter;
     CartDatabasePresenter presenter;
@@ -45,6 +50,7 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart {
         return fragment;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,20 +82,28 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart {
 
                 cart.setAmount(amount);
                 cart.setTotalPrice(totalPrice);
-                Toast.makeText(getContext(), food.getIdRes(), Toast.LENGTH_SHORT).show();
-//                presenter.editCart(cart);
+
+                presenter.editCart(cart);
 
 
-//                food.setCount(0);
+                food.setCount(0);
                 EventBus.getDefault().postSticky(food);
                 EventBus.getDefault().postSticky(cart);
                 orderCartAdapter.notifyDataSetChanged();
 
-
+                binding.tvSubTotal.setText(df.format(cart.getTotalPrice())+"đ");
+                binding.tvAmountToPay.setText(df.format(cart.getTotalPrice())+"đ");
             }
         });
-        binding.tvSubTotal.setText(cart.getTotalPrice()+"đ");
+        binding.tvSubTotal.setText(df.format(cart.getTotalPrice())+"đ");
 //        binding.tvCoupon.setText(cart.getTotalPrice()+"");
-        binding.tvAmountToPay.setText(cart.getTotalPrice()+"đ");
+        binding.tvAmountToPay.setText(df.format(cart.getTotalPrice())+"đ");
+        binding.btnOrder.setOnClickListener(v->getFragment(PaymentsFragment.newInstance()));
+    }
+    public void getFragment(Fragment fragment){
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.flDetailFragment,fragment)
+                .addToBackStack(TAG)
+                .commit();
     }
 }

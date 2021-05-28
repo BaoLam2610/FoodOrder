@@ -1,16 +1,16 @@
 package com.example.foodorderapp.model;
 
 public class UserAccount {
-    private String phone,username,password, avatar, address;
-    private long money;
+    private String phone, username, password, avatar, address;
+    private int status;
 
-    public UserAccount(String phone, String username, String password, String avatar, String address, long money) {
+    public UserAccount(String phone, String username, String password, String avatar, String address, int status) {
         this.phone = phone;
         this.username = username;
         this.password = password;
         this.avatar = avatar;
         this.address = address;
-        this.money = money;
+        this.status = status;
     }
 
     public String getPhone() {
@@ -53,11 +53,11 @@ public class UserAccount {
         this.address = address;
     }
 
-    public long getMoney() {
-        return money;
+    public int getStatus() {
+        return status;
     }
 
-    public void setMoney(long money) {
-        this.money = money;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

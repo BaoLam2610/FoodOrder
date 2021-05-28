@@ -4,124 +4,146 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clItemFood"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_food_height">
-        <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/line_divide_1"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.25"/>
-        <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/line_divide_2"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.8"/>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/line_divide_1"
-            app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="@dimen/item_food_height"
+        android:layout_marginBottom="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="@dimen/item_food_img"
+            android:layout_height="@dimen/item_food_img"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="10dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+>
+
             <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.8">
+
                 <ImageView
+                    android:id="@+id/ivFoodImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/ivFoodImage"
-                    android:src="@drawable/ic_launcher_background"/>
+                    android:src="@drawable/ic_launcher_background" />
             </androidx.cardview.widget.CardView>
-        </RelativeLayout>
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout5"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/line_divide_1"
-            app:layout_constraintEnd_toEndOf="@id/line_divide_2"
-            app:layout_constraintTop_toTopOf="parent"
+
+            app:layout_constraintWidth_percent="0.65"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/tvFoodName"
-                android:text="Food name"
-                android:textStyle="bold"
-                android:textColor="@color/item_food_tv_color"
-                />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Name"
+                android:textAppearance="@style/title_item_food"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
+
+            <TextView
                 android:id="@+id/tvFoodPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/drawable_left_money"
                 android:text="price"
-                />
-        </LinearLayout>
+                android:textAppearance="@style/title_item_food_sub"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFoodName"
+                app:layout_constraintVertical_bias="0.45" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <RelativeLayout
+
+            app:layout_constraintHorizontal_bias="0"
+            android:id="@+id/relativeLayout2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/line_divide_2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+            app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:id="@+id/btnAmount"
-                android:visibility="invisible"
-                android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/custom_item_food_amount"
                 android:padding="4dp"
-                android:background="@drawable/custom_item_food_amount">
+                android:visibility="visible">
+
                 <ImageView
                     android:id="@+id/btnMinus"
-                    android:layout_weight="1"
                     android:layout_width="12dp"
                     android:layout_height="match_parent"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_minus"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_minus" />
+
                 <TextView
                     android:id="@+id/tvAmount"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    />
+                    android:text="1"
+                    android:textAppearance="@style/title_item" />
+
                 <ImageView
                     android:id="@+id/btnPlus"
-                    android:layout_weight="1"
                     android:layout_width="12dp"
                     android:layout_height="match_parent"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_add"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_add" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/btnAddToCart"
-                android:visibility="visible"
-                android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/custom_item_food_amount"
                 android:padding="4dp"
-                android:background="@drawable/custom_item_food_amount">
+                android:visibility="invisible">
 
                 <TextView
 
-                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_food_add"
                     android:layout_weight="1"
                     android:gravity="center"
-                    />
+                    android:text="@string/item_food_add"
+                    android:textColor="@color/title_item_cart_bgr"
+                    android:textAppearance="@style/title_item" />
 
             </LinearLayout>
         </RelativeLayout>

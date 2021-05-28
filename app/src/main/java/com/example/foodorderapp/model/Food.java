@@ -4,53 +4,33 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 public class Food {
-    private String id,idRes, name;
+    @SerializedName("food_id")
+    private String id;
+    @SerializedName("food_name")
+    private String name;
+    @SerializedName("food_img")
     private String image;
+    @SerializedName("food_price")
     private long price;
+    @SerializedName("food_category")
     private String category;
     private int count;
-    private String type;
+    private Restaurant restaurant;
 
-    public Food(String id) {
-        this.id = id;
-    }
 
-    public Food(String id, String name, String image, long price, String category) {
+    public Food(String id, String name, String image, long price, String category, int count, Restaurant restaurant) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.price = price;
         this.category = category;
-        count = 0;
-    }
-
-    public String getIdRes() {
-        return idRes;
-    }
-
-    public void setIdRes(String idRes) {
-        this.idRes = idRes;
-    }
-
-    public Food(String id, String idRes, String name, String image, String category, int count, long price) {
-        this.id = id;
-        this.idRes = idRes;
-        this.name = name;
-        this.image = image;
-        this.price = price;
-        this.category = category;
         this.count = count;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
+        this.restaurant = restaurant;
     }
 
     public String getImage() {
@@ -93,12 +73,20 @@ public class Food {
         this.category = category;
     }
 
-    public String getType() {
-        return type;
+    public int getCount() {
+        return count;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     @Override

@@ -4,197 +4,212 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/line_divide"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.2"/>
-        <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/line_divide_3"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.93"/>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/line_divide">
+            app:layout_constraintVertical_bias="0">
+
             <androidx.constraintlayout.widget.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/line_start"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.04"/>
-            <androidx.constraintlayout.widget.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/line_divide_1"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.73"/>
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.02" />
+
             <LinearLayout
+                android:id="@+id/linearLayout4"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="@id/line_start"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.75"
+                app:layout_constraintStart_toStartOf="@id/line_start"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/line_divide_1"
-                android:orientation="vertical">
+                app:layout_constraintVertical_bias="0">
+
                 <TextView
-                    android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/item_restaurant_tv_color"
+                    android:id="@+id/tvResName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Name"
-                    android:id="@+id/tvResName"/>
+                    android:textAppearance="@style/title" />
+
                 <TextView
-                    android:textSize="17dp"
-                    android:textStyle="bold"
+                    android:id="@+id/tvResProvide"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Provide"
-                    android:id="@+id/tvResProvide"/>
+                    android:textAppearance="@style/title_item_detail_sub" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
-                    <androidx.constraintlayout.widget.Guideline
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/line_divide_2"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.6"/>
+                    android:layout_height="match_parent">
+
+
                     <TextView
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/line_divide_2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:textSize="17dp"
-                        android:textStyle="bold"
+                        android:id="@+id/tvResAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/custom_item_restaurant_location"
                         android:text="Address"
-                        android:id="@+id/tvResAddress"/>
+                        android:textAppearance="@style/title_item_detail_sub"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.7" />
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="@id/line_divide_2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         android:gravity="center"
-                        >
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tvResAddress"
+                        app:layout_constraintTop_toTopOf="parent">
+
                         <TextView
+                            android:id="@+id/rbResRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="10dp"
+                            android:drawableTint="@color/duskYellow"
                             android:drawableLeft="@drawable/custom_item_restaurant_star"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="4.2"
-                            android:id="@+id/rbResRate"/>
+                            android:textAppearance="@style/title_item_detail_sub" />
+
                         <TextView
+                            android:id="@+id/tvReview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Reviews"
-                            android:id="@+id/tvReview"
-                            android:drawableRight="@drawable/custom_item_restaurant_review"/>
+                            android:drawableRight="@drawable/custom_item_restaurant_review"
+                            android:text="Reviews" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
             <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tlFoodCategory"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:tabGravity="fill"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+
+                app:tabTextColor="@color/lightGrey"
+                app:tabSelectedTextColor="@color/title_item_cart_bgr"
                 app:tabIndicatorFullWidth="true"
                 app:tabIndicatorHeight="3dp"
-                app:tabMode="fixed"
-                android:id="@+id/tlFoodCategory"
+                app:tabMode="scrollable"
+                app:tabGravity="center"
 
-                app:tabTextAppearance="@style/custom_tab_layout_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/line_divide_1"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+                app:tabTextAppearance="@style/custom_tab_layout_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vpListFood"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/line_divide"
-            app:layout_constraintBottom_toBottomOf="@id/line_divide_3"
-            android:id="@+id/vpListFood"/>
-        <RelativeLayout
-            android:background="#8BC34A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintVertical_bias="0" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout"
+            app:layout_constraintVertical_bias="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@color/title_item_cart_bgr"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/line_divide_3"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <LinearLayout
-
-                android:layout_centerVertical="true"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
+
                 <ImageView
+                    app:tint="@color/icon_tint_default"
                     android:id="@+id/ivShoppingCart"
                     android:layout_width="24dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_shopping_cart"/>
+                    android:src="@drawable/ic_shopping_cart" />
+
                 <TextView
-                    android:layout_marginLeft="20dp"
                     android:id="@+id/tvItemCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Item"
-                    />
+                    android:layout_marginLeft="20dp"
+                    android:textAppearance="@style/title_item_cart"
+                    android:text="Item" />
+
                 <View
+                    android:layout_width="1dp"
+                    android:layout_height="22dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_width="1dp"
-                    android:layout_height="22dp"
-                    android:background="@color/black"
-                    />
-                <TextView
+                    android:background="@color/icon_tint_default" />
 
+                <TextView
+                    android:textAppearance="@style/title_item_cart"
                     android:id="@+id/tvTotalCost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cost"
-                    />
+                    android:text="Cost" />
             </LinearLayout>
-            <RelativeLayout
-                android:padding="10dp"
-                android:id="@+id/btnViewCart"
-                android:background="@drawable/custom_item_food_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                >
 
-                    <TextView
-                        android:textSize="15dp"
-                        android:layout_centerInParent="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="View Cart"
-                        />
+            <RelativeLayout
+                app:layout_constraintWidth_percent="0.3"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintHeight_percent="0.75"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/btnViewCart"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/custom_item_food_amount"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/detail_restaurant_view_cart"
+                    android:textAppearance="@style/text_view_cart" />
 
             </RelativeLayout>
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

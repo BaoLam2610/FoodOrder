@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -15,11 +17,13 @@ import com.example.foodorderapp.databinding.ItemRestaurantBinding;
 import com.example.foodorderapp.event.IOnClickItemRestaurant;
 import com.example.foodorderapp.model.Restaurant;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAdapter.RestaurantViewHolder> {
+public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAdapter.RestaurantViewHolder> implements Filterable {
 
     List<Restaurant> restaurantList;
+    List<Restaurant> tempList;
     Context context;
     IOnClickItemRestaurant clickItemRestaurant;
 
@@ -29,6 +33,7 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
 
     public ListRestaurantAdapter(List<Restaurant> restaurantList, Context context) {
         this.restaurantList = restaurantList;
+        this.tempList = restaurantList;
         this.context = context;
     }
 
@@ -54,7 +59,8 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
         holder.binding.tvResProvide.setText(restaurant.getProvideType());
         holder.binding.tvResAddress.setText(restaurant.getAddress());
         holder.binding.rbResRate.setRating((float) restaurant.getRate());
-        holder.binding.llItemRes.setOnClickListener( v->{
+        holder.binding.tvResRate.setText(restaurant.getRate()+"");
+        holder.binding.itemRestaurant.setOnClickListener( v->{
             clickItemRestaurant.onClickItem(restaurant);
         });
     }
@@ -71,4 +77,36 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
             this.binding = itemView;
         }
     }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String search = constraint.toString();
+                if(search.isEmpty())
+                    restaurantList = tempList;
+                else{
+                    List<Restaurant> list = new ArrayList<>();
+                    for (Restaurant res: tempList
+                         ) {
+                        if(res.getName().toLowerCase().contains(search.toLowerCase()))
+                            list.add(res);
+                    }
+                    restaurantList = list;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = restaurantList;
+                filterResults.count = restaurantList.size();
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                restaurantList = (List<Restaurant>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+
 }

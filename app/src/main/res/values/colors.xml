@@ -8,16 +8,52 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    -- Action bar --
+    <color name="action_bar_bgr">#FFFFFFFF</color>
+    <color name="action_bar_title">#FF000000</color>
+    -- Bottom menu --
+    <color name="bottom_menu_bgr">#FFFFFFFF</color>
+
+    -- Title --
+    <color name="title">#FF000000</color>
+    <color name="title_see_all">#4CAF50</color>
+    <color name="title_sub">@color/lightGrey</color>
+    -- Title item --
+    <color name="title_item">#FF000000</color>
+    <color name="title_item_sub">@color/lightGrey</color>
+    - detail -
+    <color name="title_item_detail">#FF000000</color>
+    <color name="title_item_detail_sub">@color/lightGrey</color>
+    - cart -
+    <color name="title_item_cart">#FFFFFFFF</color>
+    <color name="title_item_cart_bgr">#43A047</color>
+
+    -- item food --
+    <color name="title_item_food">#FF000000</color>
+    <color name="title_item_food_sub">#FF000000</color>
+
+
+    -- Icon tint default --
+    <color name="icon_tint_default">#FFFFFFFF</color>
+
     -- Rating bar -- 
-    <color name="duskYellow">#FFEB3B</color>
+    <color name="duskYellow">#FF9F11</color>
     <color name="lightGrey">#888888</color>
 
     -- Home List --
+    <color name="home_list_title_text_color">#FF000000</color>
+    - category
+    <color name="item_category_bgr">#F4F4F4</color>
+
+
+
+
 
     -- Item --
     <color name="item_restaurant_tv_color">#FF000000</color>
     <color name="item_food_tv_color">#FF000000</color>
 
-    -- Tab layout --
 
+    -- Tab layout --
+    <color name="tab_selected">#4CAF50</color>
 </resources>

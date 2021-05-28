@@ -43,8 +43,6 @@ public class DesertFragment extends Fragment implements IOnListFood,ICartDatabas
     CartDatabaseHelper helper;
     Random rd = new Random();
 
-    Integer totalItemCart = 0;
-    Integer totalCost = 0;
     Cart currentCart;
 
     public static DesertFragment newInstance() {
@@ -80,8 +78,8 @@ public class DesertFragment extends Fragment implements IOnListFood,ICartDatabas
 
     @Override
     public void onShowListFood(List<Food> desertList) {
-
-        foodAdapter = new ListFoodAdapter(desertList, getContext());
+        foodList = desertList;
+        foodAdapter = new ListFoodAdapter(foodList, getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         binding.rvListFood.setAdapter(foodAdapter);
         binding.rvListFood.setLayoutManager(layoutManager);
@@ -91,14 +89,7 @@ public class DesertFragment extends Fragment implements IOnListFood,ICartDatabas
         foodAdapter.setIOnClickAddCart(new IOnClickAddCart() {
             @Override
             public void onClickAddCart(Food food) {
-//                ++totalItemCart;
-//                totalCost += Integer.parseInt(food.getPrice() + "");
-
-                cartPresenter.saveFoodOnCart(food.getId(), food.getName(), food.getImage(),
-                        food.getCount(), (int) food.getPrice(), food.getCategory(), food.getIdRes());
-
-//                currentCart.setIdCart(rd.nextInt(1000) + "");
-
+                cartPresenter.saveFoodOnCart(food);
                 currentCart.setAmount(currentCart.getAmount()+1);
                 currentCart.setTotalPrice(currentCart.getTotalPrice()+food.getPrice());
                 EventBus.getDefault().postSticky(currentCart);
@@ -106,8 +97,6 @@ public class DesertFragment extends Fragment implements IOnListFood,ICartDatabas
 
             @Override
             public void onClickPlus(Food food) {
-
-                Toast.makeText(getContext(), "count: " + food.getCount(), Toast.LENGTH_SHORT).show();
 
                 currentCart.setTotalPrice(currentCart.getTotalPrice()+food.getPrice());
                 cartPresenter.editFood(food);
@@ -127,7 +116,7 @@ public class DesertFragment extends Fragment implements IOnListFood,ICartDatabas
                 cartPresenter.editFood(food);
                 cartPresenter.editCart(currentCart);
                 EventBus.getDefault().postSticky(currentCart);
-                Toast.makeText(getContext(), "count: " + food.getCount(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -139,7 +128,6 @@ public class DesertFragment extends Fragment implements IOnListFood,ICartDatabas
         if (check) {
             int i = foodList.indexOf(food);
             foodList.get(i).setCount(0);
-            foodList.get(i).setIdRes(currentCart.getIdRes());
             foodAdapter.notifyDataSetChanged();
         }
 

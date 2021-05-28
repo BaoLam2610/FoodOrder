@@ -2,9 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-
-        android:background="@color/purple_200">
+        android:layout_height="@dimen/item_banner_height">
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vpBanner"
             android:layout_width="match_parent"

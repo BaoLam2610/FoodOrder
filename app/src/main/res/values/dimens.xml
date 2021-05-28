@@ -7,25 +7,65 @@
     <dimen name="fab_margin">16dp</dimen>
 
 
+    -- Title --
+    <dimen name="title">24dp</dimen>
+    <dimen name="title_see_all">15dp</dimen>
+    <dimen name="title_sub">15dp</dimen>
+    -- Title item --
+    <dimen name="title_item">15dp</dimen>
+    <dimen name="title_item_sub">12dp</dimen>
+    - detail -
+    <dimen name="title_item_detail">24dp</dimen>
+    <dimen name="title_item_detail_sub">15dp</dimen>
+     - cart -
+    <dimen name="title_item_cart">15dp</dimen>
+
+    -- Item default --
+    <dimen name="item_margin">10dp</dimen>
+
     -- home list
     <dimen name="padding_home_list">10dp</dimen>
     <dimen name="home_list_padding_header_title">10dp</dimen>
     <dimen name="home_list_text_size_header_title">24dp</dimen>
-
-    -- Item Food category --
-    <dimen name="item_food_category_height">160dp</dimen>
-
-    -- Item Quick deliveries --
-    <dimen name="item_quick_deliveries_width">300dp</dimen>
-    <dimen name="item_quick_deliveries_height">100dp</dimen>
+    - banner
+    <dimen name="item_banner_height">200dp</dimen>
 
 
+    - item category --
+    <dimen name="item_food_category_height">150dp</dimen>
+    <dimen name="item_category_corner">20dp</dimen>
+    <dimen name="item_category_margin">6dp</dimen>
+    <dimen name="item_category_elevation">35dp</dimen>
+
+
+    - item restaurant span--
+    <dimen name="item_restaurant_span_width">300dp</dimen>
+    <dimen name="item_restaurant_span_height">80dp</dimen>
+    <dimen name="item_restaurant_span_margin">10dp</dimen>
+
+    - item restaurant list -
+    <dimen name="item_restaurant_list_height">100dp</dimen>
+    <dimen name="item_restaurant_list_logo">80dp</dimen>
     -- Item quick and rated
     <dimen name="margin_item_img_res">5dp</dimen>
-    <dimen name="item_margin">10dp</dimen>
+
     <dimen name="item_food_category_width">130dp</dimen>
-    
+
+    -- Item food --
+    <dimen name="item_food_height">70dp</dimen>
+    <dimen name="item_food_img">70dp</dimen>
+    <dimen name="title_item_food">20dp</dimen>
+    <dimen name="title_item_food_sub">15dp</dimen>
+
+    -- Item food cart --
+    <dimen name="item_food_cart_height">100dp</dimen>
+
+
     -- Tab layout --
     <dimen name="tab_food_category_tv_size">20dp</dimen>
-    <dimen name="item_food_height">120dp</dimen>
+
+    -- sign up
+    <dimen name="sign_up_ic">30dp</dimen>
+
+
 </resources>

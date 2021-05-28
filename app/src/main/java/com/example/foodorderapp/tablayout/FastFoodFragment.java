@@ -65,12 +65,6 @@ public class FastFoodFragment extends Fragment implements IOnListFood,ICartDatab
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_food, container, false);
-//        if ((savedInstanceState != null) && savedInstanceState.containsKey("totalItem")
-//                ) {
-//
-//            currentCart.setAmount(savedInstanceState.getInt("totalItem"));
-//            currentCart.setTotalPrice(savedInstanceState.getLong("totalCost"));
-//        }
 
         presenter = new DetailPresenter(this, getContext());
         presenter.showListFood(IHelper.TAB_FAST_FOOD);
@@ -86,8 +80,8 @@ public class FastFoodFragment extends Fragment implements IOnListFood,ICartDatab
 
     @Override
     public void onShowListFood(List<Food> fastFoodList) {
-
-        foodAdapter = new ListFoodAdapter(fastFoodList, getContext());
+        foodList = fastFoodList;
+        foodAdapter = new ListFoodAdapter(foodList, getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         binding.rvListFood.setAdapter(foodAdapter);
         binding.rvListFood.setLayoutManager(layoutManager);
@@ -97,13 +91,10 @@ public class FastFoodFragment extends Fragment implements IOnListFood,ICartDatab
         foodAdapter.setIOnClickAddCart(new IOnClickAddCart() {
             @Override
             public void onClickAddCart(Food food) {
-//                ++totalItemCart;
-//                totalCost += Integer.parseInt(food.getPrice() + "");
+//
+                cartPresenter.saveFoodOnCart(food);
 
-                cartPresenter.saveFoodOnCart(food.getId(), food.getName(), food.getImage(),
-                        food.getCount(), (int) food.getPrice(), food.getCategory(), food.getIdRes());
-
-//                currentCart.setIdCart(rd.nextInt(1000) + "");
+//
 
                 currentCart.setAmount(currentCart.getAmount()+1);
                 currentCart.setTotalPrice(currentCart.getTotalPrice()+food.getPrice());
@@ -112,7 +103,6 @@ public class FastFoodFragment extends Fragment implements IOnListFood,ICartDatab
 
             @Override
             public void onClickPlus(Food food) {
-                Toast.makeText(getContext(), "count: " + food.getCount(), Toast.LENGTH_SHORT).show();
 
                 currentCart.setTotalPrice(currentCart.getTotalPrice()+food.getPrice());
                 cartPresenter.editFood(food);
@@ -132,7 +122,7 @@ public class FastFoodFragment extends Fragment implements IOnListFood,ICartDatab
                 cartPresenter.editFood(food);
                 cartPresenter.editCart(currentCart);
                 EventBus.getDefault().postSticky(currentCart);
-                Toast.makeText(getContext(), "count: " + food.getCount(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -144,7 +134,7 @@ public class FastFoodFragment extends Fragment implements IOnListFood,ICartDatab
         if (check) {
             int i = foodList.indexOf(food);
             foodList.get(i).setCount(0);
-            foodList.get(i).setIdRes(currentCart.getIdRes());
+
             foodAdapter.notifyDataSetChanged();
         }
 

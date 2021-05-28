@@ -12,23 +12,28 @@ import com.example.foodorderapp.model.Restaurant;
 import com.example.foodorderapp.model.UserAccount;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartDatabaseHelper extends SQLiteOpenHelper {
-
+    Context context;
     static final String DB_NAME = "FoodOrderCart.db";
     static final String DB_TABLE_ACCOUNT = "Account";
+    static final String DB_TABLE_CHECK_ACC = "CheckAcc";
     static final String DB_TABLE_CART = "Cart";
     static final String DB_TABLE_RESTAURANT = "Restaurant";
     static final String DB_TABLE_FOOD = "Food";
     static final String DB_TABLE_FOOD_LIST = "FoodList";
-    static final int DB_VERSION = 1;
+    static final int DB_VERSION = 4;
 
     public CartDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        this.context = context;
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         String createTableRestaurant = "CREATE TABLE Restaurant(" +
                 "idRes TEXT NOT NULL PRIMARY KEY," +
                 "resName TEXT," +
@@ -61,17 +66,22 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
 //                "foodPrice INTEGER," +
 //                "foodCount INTEGER," +
 //                "foodCategory TEXT)";
+
         String createAccount = "CREATE TABLE Account(" +
                 "phone TEXT NOT NULL PRIMARY KEY," +
-                "username TEXT NOT NULL," +
-                "password TEXT NOT NULL," +
+                "username TEXT," +
+                "password TEXT," +
                 "avatar TEXT," +
                 "address TEXT," +
-                "money INTEGER)";
+                "status INTEGER" +
+                ")";
+
+
         db.execSQL(createTableRestaurant);
         db.execSQL(createTableFood);
         db.execSQL(createTableCart);
-//        db.execSQL(createAccount);
+        db.execSQL(createAccount);
+
     }
 
     @Override
@@ -81,70 +91,75 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_FOOD);
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_CART);
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_ACCOUNT);
+            db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_CHECK_ACC);
             onCreate(db);
         }
     }
 
-    public void insertAccount(String phone, String username, String password, String avatar, String address, long money) {
+    public void insertAccount(UserAccount userAccount) {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("phone", phone);
-        values.put("username", username);
-        values.put("password", password);
-        values.put("avatar", avatar);
-        values.put("address", address);
-        values.put("money", money);
+        values.put("phone", userAccount.getPhone());
+        values.put("username", userAccount.getUsername());
+        values.put("password", userAccount.getPassword());
+        values.put("avatar", userAccount.getAvatar());
+        values.put("address", userAccount.getAddress());
+        values.put("status", userAccount.getStatus());
         sql.insert(DB_TABLE_ACCOUNT, null, values);
     }
 
-    public void insertRestaurant(String id, String name, String provideType, String image, String address, String phone, String email, double rate) {
+
+    public void insertRestaurant(Restaurant restaurant){
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("idRes", id);
-        values.put("resName", name);
-        values.put("resProvideType", provideType);
-        values.put("resImage", image);
-        values.put("resAddress", address);
-        values.put("resPhone", phone);
-        values.put("resEmail", email);
-        values.put("resRate", rate);
+        values.put("idRes", restaurant.getId());
+        values.put("resName", restaurant.getName());
+        values.put("resProvideType", restaurant.getProvideType());
+        values.put("resImage", restaurant.getImage());
+        values.put("resAddress", restaurant.getAddress());
+        values.put("resPhone", restaurant.getPhone());
+        values.put("resEmail", restaurant.getEmail());
+        values.put("resRate", restaurant.getRate());
         sql.insert(DB_TABLE_RESTAURANT, null, values);
     }
 
-    public void insertFood(String id, String name, String image, int count, long price, String category, String idRes) {
+
+
+    public void insertFood(Food food){
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("idFood", id);
-        values.put("foodName", name);
-        values.put("foodImage", image);
-        values.put("foodCount", count);
-        values.put("foodPrice", price);
-        values.put("foodCategory", category);
-        values.put("idRes", idRes);
+        values.put("idFood", food.getId());
+        values.put("foodName", food.getName());
+        values.put("foodImage", food.getImage());
+        values.put("foodCount", food.getCount());
+        values.put("foodPrice", food.getPrice());
+        values.put("foodCategory", food.getCategory());
+        values.put("idRes", food.getRestaurant().getId());
         sql.insert(DB_TABLE_FOOD, null, values);
     }
 
-    public void insertCart(String idCart, String idRes, int amount, int cost) {
+
+    public void insertCart(Cart cart){
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("idCart", idCart);
-        values.put("idRes", idRes);
-        values.put("amount", amount);
-        values.put("cost", cost);
+        values.put("idCart", cart.getIdCart());
+        values.put("idRes", cart.getRestaurant().getId());
+        values.put("amount", cart.getAmount());
+        values.put("cost", cart.getTotalPrice());
         sql.insert(DB_TABLE_CART, null, values);
     }
 
-    public void insertFoodList(String id, String name, String image, int count, long price, String category) {
-        SQLiteDatabase sql = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("id", id);
-        values.put("foodName", name);
-        values.put("foodImage", image);
-        values.put("foodCount", count);
-        values.put("foodPrice", price);
-        values.put("foodCategory", category);
-        sql.insert(DB_TABLE_FOOD_LIST, null, values);
-    }
+//    public void insertFoodList(String id, String name, String image, int count, long price, String category) {
+//        SQLiteDatabase sql = getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("id", id);
+//        values.put("foodName", name);
+//        values.put("foodImage", image);
+//        values.put("foodCount", count);
+//        values.put("foodPrice", price);
+//        values.put("foodCategory", category);
+//        sql.insert(DB_TABLE_FOOD_LIST, null, values);
+//    }
 
 //    public void dropAllTable(){
 //        SQLiteDatabase sql = getWritableDatabase();
@@ -159,6 +174,12 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         sql.delete(DB_TABLE_ACCOUNT, whereClause, new String[]{userAccount.getPhone()});
     }
 
+    public void deleteCheckAcc(UserAccount userAccount) {
+        SQLiteDatabase sql = getWritableDatabase();
+        String whereClause = "phone=?";
+        sql.delete(DB_TABLE_CHECK_ACC, whereClause, new String[]{userAccount.getPhone()});
+    }
+
     public void deleteRestaurant(Restaurant restaurant) {
         SQLiteDatabase sql = getWritableDatabase();
         String whereClause = "idRes=?";
@@ -169,13 +190,11 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sql = getWritableDatabase();
         String whereClause = "idFood=?";
         sql.delete(DB_TABLE_FOOD, whereClause, new String[]{food.getId()});
-//        String query = "UPDATE Cart SET amount = amount - Food.foodCount, cost = cost - (Food.foodPrice * Food.foodCount)" +
-//                "WHERE CART.idRes = Food.idRes AND idFood=?";
-//        Cursor cursor = sql.rawQuery(query,new String[]{food.getId()});
+//
         String whereClause1 = "idCart=?";
         ContentValues values = new ContentValues();
         values.put("idCart", cart.getIdCart());
-        values.put("idRes", cart.getIdRes());
+        values.put("idRes", cart.getRestaurant().getId());
         values.put("amount", cart.getAmount());
         values.put("cost", cart.getTotalPrice());
         sql.update(DB_TABLE_CART, values, whereClause1, new String[]{cart.getIdCart()});
@@ -200,6 +219,44 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
     public void deleteAllCart() {
         SQLiteDatabase sql = getWritableDatabase();
         sql.execSQL("DELETE FROM " + DB_TABLE_CART);
+    }
+
+    public UserAccount checkStatusAccount(){
+        UserAccount user = null;
+
+        SQLiteDatabase sql = getReadableDatabase();
+        Cursor cursor = sql.rawQuery("SELECT * FROM Account WHERE status=1", null);
+        if(cursor.moveToNext()){
+            String phone = cursor.getString(cursor.getColumnIndex("phone"));
+            String username = cursor.getString(cursor.getColumnIndex("username"));
+            String password = cursor.getString(cursor.getColumnIndex("password"));
+            String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
+            String address = cursor.getString(cursor.getColumnIndex("address"));
+            user = new UserAccount(phone,username,password,avatar,address,1);
+        }
+
+        return user;
+    }
+
+    public boolean checkAccount(String phone, String password){
+        SQLiteDatabase sql = getReadableDatabase();
+        Cursor cursor = sql.rawQuery("SELECT * FROM Account WHERE phone=? AND password=?", new String[]{phone,password});
+        return cursor.moveToNext();
+    }
+
+    public void setStatusAccount(String phone){
+        SQLiteDatabase sql = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("phone",phone);
+        values.put("status", 1);
+        String whereClause = "phone=?";
+        sql.update(DB_TABLE_ACCOUNT, values, whereClause, new String[]{phone});
+    }
+
+    public boolean findAccount(String phone){
+        SQLiteDatabase sql = getReadableDatabase();
+        Cursor cursor = sql.rawQuery("SELECT * FROM Account WHERE phone=?", new String[]{phone});
+        return cursor.moveToNext();
     }
 
     public boolean findRestaurant(Restaurant restaurant) {
@@ -231,10 +288,9 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("phone", userAccount.getPhone());
         values.put("username", userAccount.getUsername());
-        values.put("password", userAccount.getPassword());
         values.put("avatar", userAccount.getAvatar());
         values.put("address", userAccount.getAddress());
-        values.put("balance", userAccount.getMoney());
+        values.put("status", userAccount.getStatus());
         String whereClause = "phone=?";
         sql.update(DB_TABLE_ACCOUNT, values, whereClause, new String[]{userAccount.getPhone()});
     }
@@ -270,31 +326,33 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("idCart", cart.getIdCart());
-        values.put("idRes", cart.getIdRes());
+        values.put("idRes", cart.getRestaurant().getId());
         values.put("amount", cart.getAmount());
         values.put("cost", cart.getTotalPrice());
-        String whereClause = "idCart=? AND idRes=?";
-        sql.update(DB_TABLE_CART, values, whereClause, new String[]{cart.getIdCart(), cart.getIdRes()});
+        String whereClause = "idCart=? and idRes=?";
+        sql.update(DB_TABLE_CART, values, whereClause, new String[]{cart.getIdCart(),cart.getRestaurant().getId()});
     }
 
-    public UserAccount getAccount() {
-        UserAccount account = null;
-        String phone, username, password, avatar, address;
-        long money;
-        SQLiteDatabase sql = getReadableDatabase();
-        Cursor cursorAccount = sql.query(false, DB_TABLE_ACCOUNT, null, null, null, null, null, null, null);
-        if (cursorAccount.moveToNext()) {
-            phone = cursorAccount.getString(cursorAccount.getColumnIndex("phone"));
-            username = cursorAccount.getString(cursorAccount.getColumnIndex("username"));
-            password = cursorAccount.getString(cursorAccount.getColumnIndex("password"));
-            avatar = cursorAccount.getString(cursorAccount.getColumnIndex("avatar"));
-            address = cursorAccount.getString(cursorAccount.getColumnIndex("address"));
-            money = cursorAccount.getLong(cursorAccount.getColumnIndex("money"));
-            account = new UserAccount(phone, username, password, avatar, address, money);
-        }
-
-        return account;
-    }
+//    public List<UserAccount> getAccount() {
+//        List<UserAccount> list = new ArrayList<>();
+//        UserAccount account;
+//        String phone, username, password, avatar, address;
+//        long money;
+//        SQLiteDatabase sql = getReadableDatabase();
+//        Cursor cursorAccount = sql.query(false, DB_TABLE_ACCOUNT, null, null, null, null, null, null, null);
+//        while (cursorAccount.moveToNext()) {
+//            phone = cursorAccount.getString(cursorAccount.getColumnIndex("phone"));
+//            username = cursorAccount.getString(cursorAccount.getColumnIndex("username"));
+//            password = cursorAccount.getString(cursorAccount.getColumnIndex("password"));
+//            avatar = cursorAccount.getString(cursorAccount.getColumnIndex("avatar"));
+//            address = cursorAccount.getString(cursorAccount.getColumnIndex("address"));
+//            money = cursorAccount.getLong(cursorAccount.getColumnIndex("money"));
+//            account = new UserAccount(phone, username, password, avatar, address, money);
+//            list.add(account);
+//        }
+//
+//        return list;
+//    }
 
     public Restaurant getRestaurant() {
         Restaurant restaurant = null;
@@ -312,12 +370,34 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
             resEmail = cursorRestaurant.getString(cursorRestaurant.getColumnIndex("resEmail"));
             resRate = cursorRestaurant.getDouble(cursorRestaurant.getColumnIndex("resRate"));
             restaurant = new Restaurant(idRes, resName, resProvideType, resImage, resAddress, resPhone, resEmail, resRate);
+//            String id, String name, String provideType, String image, String address, String phone, String email, double rate
         }
         cursorRestaurant.close();
         return restaurant;
     }
+    public Restaurant findRestaurant(String idRes) {
+        Restaurant restaurant = null;
+        String resName, resProvideType, resImage, resAddress, resPhone, resEmail;
+        double resRate;
+        SQLiteDatabase sql = getReadableDatabase();
+        Cursor cursorRestaurant = sql.rawQuery("SELECT * FROM Restaurant WHERE idRes=?", new String[]{idRes});
+        if(cursorRestaurant.moveToNext()){
+            resName = cursorRestaurant.getString(cursorRestaurant.getColumnIndex("resName"));
+            resProvideType = cursorRestaurant.getString(cursorRestaurant.getColumnIndex("resProvideType"));
+            resImage = cursorRestaurant.getString(cursorRestaurant.getColumnIndex("resImage"));
+            resAddress = cursorRestaurant.getString(cursorRestaurant.getColumnIndex("resAddress"));
+            resPhone = cursorRestaurant.getString(cursorRestaurant.getColumnIndex("resPhone"));
+            resEmail = cursorRestaurant.getString(cursorRestaurant.getColumnIndex("resEmail"));
+            resRate = cursorRestaurant.getDouble(cursorRestaurant.getColumnIndex("resRate"));
+            restaurant = new Restaurant(idRes, resName, resProvideType, resImage, resAddress, resPhone, resEmail, resRate);
+        }
 
-    public ArrayList<Food> getListFood() {
+        return restaurant;
+    }
+
+
+
+    public ArrayList<Food> getFood(){
         Food food;
         String idFood, idRes, foodName, foodImage, foodCategory;
         int foodCount;
@@ -333,7 +413,9 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
             foodCount = cursorFood.getInt(cursorFood.getColumnIndex("foodCount"));
             foodPrice = cursorFood.getLong(cursorFood.getColumnIndex("foodPrice"));
             idRes = cursorFood.getString(cursorFood.getColumnIndex("idRes"));
-            food = new Food(idFood, idRes, foodName, foodImage, foodCategory, foodCount, foodPrice);
+            Restaurant restaurant = findRestaurant(idRes);
+            food = new Food(idFood, foodName, foodImage, foodPrice, foodCategory, foodCount,restaurant);
+//            String id, String name, String image, long price, String category, int count, Restaurant restaurant
             foodList.add(food);
 
         }
@@ -343,8 +425,7 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
 
     public Cart getCart() {
         Cart cart = null;
-        Restaurant restaurant = getRestaurant();
-        ArrayList<Food> foodList = getListFood();
+
 
 
         SQLiteDatabase sql = getReadableDatabase();
@@ -359,7 +440,8 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
             idRes = cursorCart.getString(cursorCart.getColumnIndex("idRes"));
             amount = cursorCart.getInt(cursorCart.getColumnIndex("amount"));
             cost = cursorCart.getLong(cursorCart.getColumnIndex("cost"));
-            cart = new Cart(idCart, idRes, amount, cost);
+            Restaurant restaurant = findRestaurant(idRes);
+            cart = new Cart(idCart, restaurant, amount, cost);
         }
 
 //        cart.setRestaurant(restaurant);

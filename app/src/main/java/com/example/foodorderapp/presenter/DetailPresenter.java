@@ -1,7 +1,12 @@
 package com.example.foodorderapp.presenter;
 
 import android.content.Context;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+
+import com.example.foodorderapp.event.ICartDatabase;
+import com.example.foodorderapp.event.ICheckLogin;
 import com.example.foodorderapp.event.IDetailRestaurant;
 import com.example.foodorderapp.event.IListRestaurant;
 import com.example.foodorderapp.event.IOnListFood;
@@ -10,6 +15,7 @@ import com.example.foodorderapp.event.IOrderCart;
 import com.example.foodorderapp.model.Cart;
 import com.example.foodorderapp.model.Food;
 import com.example.foodorderapp.model.Restaurant;
+import com.example.foodorderapp.sql.CartDatabaseHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -19,50 +25,76 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailPresenter {
+
+    ICartDatabase iCartDatabase;
     IListRestaurant iListRestaurant;
     IDetailRestaurant iDetailRestaurant;
+    ICheckLogin iCheckLogin;
     IOnShowCart iOnShowCart;
     IOrderCart iOrderCart;
+    CartDatabaseHelper helper;
     IOnListFood iOnListFood;
     List<Restaurant> restaurantList;
     Food food;
     Integer totalItemCart;
     Restaurant res;
     Context context;
+    List<Food> list;
+    List<Food> fastFoodList;
+    List<Food> starterFoodList;
+    List<Food> mainCourseList;
+    List<Food> desertList;
+    List<Food> drinkList;
+    List<Food> listOrder;
+
+    public DetailPresenter(ICheckLogin iCheckLogin, Context context) {
+        this.iCheckLogin = iCheckLogin;
+        this.context = context;
+    }
+
     public DetailPresenter(IDetailRestaurant iDetailRestaurant, IOnShowCart iOnShowCart) {
         this.iDetailRestaurant = iDetailRestaurant;
         this.iOnShowCart = iOnShowCart;
 
     }
 
+
     public DetailPresenter(IOnListFood iOnListFood, Context context) {
         this.iOnListFood = iOnListFood;
         this.context = context;
     }
-
     public DetailPresenter(IOnShowCart iOnShowCart, Context context) {
         this.iOnShowCart = iOnShowCart;
         this.context = context;
     }
-
-    public DetailPresenter(IListRestaurant iListRestaurant,Context context) {
+    public DetailPresenter(IListRestaurant iListRestaurant, Context context) {
         this.iListRestaurant = iListRestaurant;
         this.context = context;
     }
-
-    public DetailPresenter(IDetailRestaurant iDetailRestaurant,Context context) {
+    public DetailPresenter(IDetailRestaurant iDetailRestaurant, Context context) {
         this.iDetailRestaurant = iDetailRestaurant;
         this.context = context;
     }
-
-    public DetailPresenter(IOrderCart iOrderCart,Context context) {
+    public DetailPresenter(IOrderCart iOrderCart, Context context) {
         this.iOrderCart = iOrderCart;
         this.context = context;
     }
 
-    public void showListRestaurant() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void showListRestaurant(String type) {
+
         EventBus.getDefault().register(this);
-        iListRestaurant.onShowListRestaurant(restaurantList);
+        switch (type) {
+            case "0":
+                iListRestaurant.onShowListRestaurant(restaurantList);
+                break;
+            case "1":
+                List<Restaurant> bestRestaurantList = restaurantList;
+                bestRestaurantList.removeIf(r -> r.getRate() <= 4.0);
+                iListRestaurant.onShowListRestaurant(bestRestaurantList);
+                break;
+        }
+
         EventBus.getDefault().unregister(this);
     }
 
@@ -71,13 +103,8 @@ public class DetailPresenter {
         iDetailRestaurant.onShowDetailRestaurant(res);
         EventBus.getDefault().unregister(this);
     }
-    List<Food> list;
-    List<Food> fastFoodList;
-    List<Food> starterFoodList;
-    List<Food> mainCourseList;
-    List<Food> desertList;
-    List<Food> drinkList;
-    public List<Food> getListFood(int type){
+
+    public List<Food> getListFood(int type) {
         fastFoodList = new ArrayList<>();
         starterFoodList = new ArrayList<>();
         mainCourseList = new ArrayList<>();
@@ -87,7 +114,7 @@ public class DetailPresenter {
         EventBus.getDefault().register(this);
         list = res.getFoodList();
         for (int i = 0; i < list.size(); i++) {
-            switch (list.get(i).getCategory()){
+            switch (list.get(i).getCategory()) {
                 case "Fast food":
                     fastFoodList.add(list.get(i));
                     break;
@@ -107,7 +134,7 @@ public class DetailPresenter {
                     break;
             }
         }
-        switch (type){
+        switch (type) {
             case 0:
                 return fastFoodList;
             case 1:
@@ -119,13 +146,14 @@ public class DetailPresenter {
             case 4:
                 return drinkList;
         }
-        return  null;
+        return null;
 //        iOnListFood.onShowListFood(fastFoodList,starterFoodList,mainCourseList,desertList,drinkList);
     }
 
-    public void showListFood(int type){
+    public void showListFood(int type) {
         iOnListFood.onShowListFood(getListFood(type));
     }
+
 
     public void showTotalItemCart() {
 //        if(totalItemCart == 0)
@@ -134,17 +162,10 @@ public class DetailPresenter {
 //        iOnShowTotalItemCart.onShowTotalItemCart();
         EventBus.getDefault().unregister(this);
     }
-//    public void showListFoodOrder(){
-//        EventBus.getDefault().register(this);
-//        iOrderCart.onShowListFoodOrder(listOrder);
-//        EventBus.getDefault().unregister(this);
-//    }
 
-    List<Food> listOrder;
-
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void getListOrderCart(Cart cart) {
-        if(cart!=null && cart.getRestaurant()!=null && cart.getRestaurant().getFoodList()!=null)
+        if (cart != null && cart.getRestaurant() != null && cart.getRestaurant().getFoodList() != null)
             listOrder = new ArrayList<>(cart.getRestaurant().getFoodList());
     }
 

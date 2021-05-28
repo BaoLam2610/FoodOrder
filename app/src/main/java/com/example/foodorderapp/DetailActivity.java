@@ -1,61 +1,80 @@
 package com.example.foodorderapp;
 
-import androidx.annotation.Nullable;
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import com.example.foodorderapp.databinding.ActivityDetailBinding;
 import com.example.foodorderapp.detail.DetailRestaurantFragment;
-import com.example.foodorderapp.detail.ListQuickDeliveriesFragment;
-import com.example.foodorderapp.detail.LoginSignUpFragment;
+import com.example.foodorderapp.detail.ListRestaurantFragment;
+import com.example.foodorderapp.login.LoginSignUpFragment;
 import com.example.foodorderapp.event.IOnBackPressed;
+import com.example.foodorderapp.helper.IHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = "DetailActivity";
     ActivityDetailBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        setSupportActionBar(binding.toolbar);
 
         Intent it = getIntent();
         Bundle bundle = new Bundle();
-        switch (it.getStringExtra("quick_deliveries")){
-            case "show_more":
-                getFragment(ListQuickDeliveriesFragment.newInstance());
-                break;
-            case "item":
-                bundle.putString("quick_deliveries","check");
-                DetailRestaurantFragment detailRestaurantFragment = DetailRestaurantFragment.newInstance();
-                detailRestaurantFragment.setArguments(bundle);
-                getFragmentDetail(detailRestaurantFragment);
-                break;
-            default:
-                break;
+        if (it.hasExtra("quick_deliveries")) {
+            switch (it.getStringExtra("quick_deliveries")) {
+                case "show_more":
+                    getFragment(ListRestaurantFragment.newInstance(IHelper.TYPE_QUICK_DELIVERIES));
+                    break;
+                case "item":
+                    bundle.putString("back_pressed", "check");
+                    DetailRestaurantFragment detailRestaurantFragment = DetailRestaurantFragment.newInstance();
+                    detailRestaurantFragment.setArguments(bundle);
+                    getFragmentDetail(detailRestaurantFragment);
+                    break;
+                default:
+                    break;
+            }
         }
-        switch (it.getStringExtra("login_screen")){
-            case "login":
-                getFragment(LoginSignUpFragment.newInstance());
-                break;
-            default:
-                break;
+        if (it.hasExtra("best_rated")) {
+            switch (it.getStringExtra("best_rated")) {
+                case "show_more":
+                    getFragment(ListRestaurantFragment.newInstance(IHelper.TYPE_BEST_RATED));
+                    break;
+                case "item":
+                    bundle.putString("back_pressed", "check");
+                    DetailRestaurantFragment detailRestaurantFragment = DetailRestaurantFragment.newInstance();
+                    detailRestaurantFragment.setArguments(bundle);
+                    getFragmentDetail(detailRestaurantFragment);
+                    break;
+                default:
+                    break;
+            }
         }
 
+
     }
-    public void getFragment(Fragment fragment){
+
+    public void getFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flDetailFragment,fragment)
+                .replace(R.id.flDetailFragment, fragment)
                 .commit();
     }
-    public void getFragmentDetail(Fragment fragment){
+
+    public void getFragmentDetail(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flDetailFragment,fragment)
+                .replace(R.id.flDetailFragment, fragment)
                 .commit();
+    }
+
+    public void setActionBarTitle(String title){
+        binding.toolbar.setTitle(title);
     }
 
     @Override
@@ -65,5 +84,6 @@ public class DetailActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 
 }

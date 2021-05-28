@@ -2,6 +2,7 @@ package com.example.foodorderapp.detail;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -12,13 +13,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.foodorderapp.DetailActivity;
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.adapter.TabFoodCategoryAdapter;
 import com.example.foodorderapp.databinding.FragmentDetailRestaurantBinding;
 import com.example.foodorderapp.event.ICartDatabase;
 import com.example.foodorderapp.event.IDetailRestaurant;
 import com.example.foodorderapp.event.IOnBackPressed;
-import com.example.foodorderapp.event.IOnShowCart;
 import com.example.foodorderapp.model.Cart;
 import com.example.foodorderapp.model.Food;
 import com.example.foodorderapp.model.Restaurant;
@@ -60,7 +61,8 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
         categoryAdapter = new TabFoodCategoryAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, getContext());
         binding.vpListFood.setAdapter(categoryAdapter);
         binding.tlFoodCategory.setupWithViewPager(binding.vpListFood);
-
+        setHasOptionsMenu(true);
+        setTitleActionBar();
         presenter = new DetailPresenter((IDetailRestaurant) this, getContext());
         presenter.showDetailRestaurant();
 //        presenter1 = new DetailPresenter((IOnShowCart) this, getContext());
@@ -71,6 +73,11 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
 
 
         return binding.getRoot();
+    }
+
+    public void setTitleActionBar(){
+        ((DetailActivity) getActivity()).getSupportActionBar().setTitle(getContext().getResources().getString(R.string.detail_restaurant));
+        ((DetailActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void getFragment(Fragment fragment) {
@@ -89,26 +96,24 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
         binding.rbResRate.setText(restaurant.getRate() + "");
 
         String title = categoryAdapter.getPageTitle(0).toString();
-        binding.tvItemCart.setOnClickListener(v-> Toast.makeText(getContext(), "2" + title, Toast.LENGTH_SHORT).show());
+        binding.tvItemCart.setOnClickListener(v -> Toast.makeText(getContext(), "2" + title, Toast.LENGTH_SHORT).show());
 
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void getListFoodOrder(Cart cart) {
         currentCart = cart;
-//        currentCart.setIdCart(cart.getIdCart());
-        if(cart.getAmount()==0)
+        if (cart.getAmount() == 0)
             return;
 
         currentCart.setAmount(cart.getAmount());
         currentCart.setTotalPrice(cart.getTotalPrice());
         binding.btnViewCart.setOnClickListener(v -> {
-            Toast.makeText(getContext(), currentCart.getIdRes(), Toast.LENGTH_SHORT).show();
+
             EventBus.getDefault().postSticky(currentCart);
             getFragment(ListOrderCartFragment.newInstance());
-            if(!cartPresenter.checkCart(cart))
-                cartPresenter.saveCart(currentCart.getIdCart(), currentCart.getIdRes(),
-                        currentCart.getAmount(), (int) currentCart.getTotalPrice());
+            if (!cartPresenter.checkCart(cart))
+                cartPresenter.saveCart(cart);
             else
                 cartPresenter.editCart(cart);
         });
@@ -143,26 +148,42 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
 //        }
 //    }
 
-
-
-
-    @Override
-    public boolean onBackPressed() {
-        Toast.makeText(getContext(), "Back pressed", Toast.LENGTH_SHORT).show();
-        cartPresenter.destroyAllData(currentRes, currentCart);
-        binding.tvTotalCost.setText("0đ");
-        binding.tvItemCart.setText("Item");
+    public void resetFragment(){
 
         Bundle bundle = getArguments();
-        if(bundle!=null){
-            String check = bundle.getString("quick_deliveries");
-            if(check!=null)
+        if (bundle != null) {
+            String check = bundle.getString("back_pressed");
+            if (check != null)
                 getActivity().finish();
             else
                 getParentFragmentManager().popBackStack();
         }
+        List<Food> foodList = currentRes.getFoodList();
+        for (int i = 0; i < foodList.size(); i++) {
+            foodList.get(i).setCount(0);
+        }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+
+        cartPresenter.destroyAllData(currentRes, currentCart);
+
+        resetFragment();
+
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+
+            default:
+                resetFragment();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

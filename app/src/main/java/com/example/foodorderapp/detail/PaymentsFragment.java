@@ -1,4 +1,4 @@
-package com.example.foodorderapp.tablayout;
+package com.example.foodorderapp.detail;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,16 +11,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.foodorderapp.R;
-import com.example.foodorderapp.databinding.FragmentLoginBinding;
+import com.example.foodorderapp.databinding.FragmentPaymentOrderBinding;
 
-public class LoginFragment extends Fragment {
-    FragmentLoginBinding binding;
+public class PaymentsFragment extends Fragment {
+    FragmentPaymentOrderBinding binding;
 
-    public static LoginFragment newInstance() {
+    public static PaymentsFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        LoginFragment fragment = new LoginFragment();
+        PaymentsFragment fragment = new PaymentsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -28,7 +28,7 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_payment_order,container,false);
         return binding.getRoot();
     }
 }

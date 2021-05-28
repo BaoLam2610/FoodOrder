@@ -25,13 +25,14 @@
     <string name="home_list_title_quick_delivery">Quick deliveries</string>
     <string name="home_list_title_best_rated">Best rated</string>
 
-    <string name="home_list_see_more">See more</string>
+    <string name="home_list_see_all">See all</string>
     <string name="tv_restaurant_found">Restaurant found</string>
 
 
     -- Item food --
     <string name="item_food_add">Add</string>
     <string name="order_cart_title">Your list order</string>
+
     <string name="order_cart_payment_inf">Payment information</string>
     <string name="drawer_login">Login</string>
     <string name="login_phone">Phone</string>
@@ -41,4 +42,32 @@
     <string name="sign_in_username">Name</string>
     <string name="sign_in_hint_name">Your name</string>
     <string name="drawer_sign_in">SIGN IN</string>
+    <string name="drawer_logout">Logout</string>
+
+
+
+    -- Detail activity --
+    <string name="detail_restaurant">Detail restaurant</string>
+    <string name="detail_activity_menu_search">Search</string>
+    <string name="detail_restaurant_view_cart">View Cart</string>
+    <string name="account_my_wallet">My Wallet</string>
+    <string name="payments_cards">Cards</string>
+    <string name="payments_wallet">Wallet</string>
+    <string name="payments_bank_cards">Bank Cards</string>
+    <string name="payments_cash">Cash</string>
+    <string name="payments_cash_on_delivery">Cash On Delivery</string>
+    <string name="payments_other">Other</string>
+    <string name="payments_other_paypal">PayPal</string>
+    <string name="payments_other_visa">Visa</string>
+    <string name="payments_other_discover">Discover</string>
+
+    -- Cart
+    <string name="price">Price</string>
+    <string name="amount">Amount: </string>
+    <string name="login_continue">Continue</string>
+    <string name="login_continue_with_google">Continue with <b>Google</b></string>
+    <string name="sign_up_full_name">Full name</string>
+    <string name="sign_up_password">Password</string>
+    <string name="sign_up_confirm_pass">Confirm password</string>
+    <string name="login_title_welcome">You are almost in.<br/>Please enter your password to continue</string>
 </resources>

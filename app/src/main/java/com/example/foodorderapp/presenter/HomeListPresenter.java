@@ -2,9 +2,15 @@ package com.example.foodorderapp.presenter;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.adapter.ListGroupAdapter;
+import com.example.foodorderapp.api.ApiRestaurant;
 import com.example.foodorderapp.event.IHomeListHelper;
 import com.example.foodorderapp.model.Banner;
 import com.example.foodorderapp.model.Food;
@@ -22,6 +28,10 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeListPresenter {
     final String LIST_RESTAURANT_API = "https://demo9455117.mockable.io/ListRestaurant";
     final String LIST_BANNER_API = "https://demo9455117.mockable.io/ListBanner";
@@ -30,13 +40,7 @@ public class HomeListPresenter {
     final int LIST_FOOD_CATEGORY = 1;
     final int LIST_RESTAURANT = 2;
     IHomeListHelper iHomeListHelper;
-    List<Banner> bannerList;
     List<GroupList> groupList;
-    List<Restaurant> restaurantList;
-    List<FoodBanner> foodBannerList;
-    List<Food> foodList;
-    List<FoodCategory> categoryList;
-    List<String> listApi;
     Context context;
 
     public HomeListPresenter(Context context, IHomeListHelper iHomeListHelper) {
@@ -45,153 +49,71 @@ public class HomeListPresenter {
     }
 
     public void showGroupList() {
-        iHomeListHelper.onShowGroupList(getGroupList());
+        ApiRestaurant.apiRestaurant.getListRestaurant().enqueue(new Callback<List<Restaurant>>() {
+            @Override
+            public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
+
+                if (response.body() != null) {
+                    List<Restaurant> restaurantList = response.body();
+                    restaurantList.isEmpty();
+                    restaurantList.size();
+                    groupList = new ArrayList<>();
+                    groupList.add(new GroupList(
+                            ListGroupAdapter.TYPE_FOOD_BANNER,
+                            context.getResources().getString(R.string.home_list_title_banner),
+                            null, getBannerList(restaurantList), null
+                    ));
+
+
+                    groupList.add(new GroupList(
+                            ListGroupAdapter.TYPE_FOOD_CATEGORY,
+                            context.getResources().getString(R.string.home_list_title_category),
+                            getFoodCategory(), null, null
+                    ));
+
+//            restaurantList = readApiRestaurant(listApi.get(LIST_RESTAURANT));
+                    groupList.add(new GroupList(
+                            ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES,
+                            context.getResources().getString(R.string.home_list_title_quick_delivery),
+                            null, null,
+                            restaurantList
+                    ));
+                    groupList.add(new GroupList(ListGroupAdapter.TYPE_FOOD_BEST_RATED,
+                            context.getResources().getString(R.string.home_list_title_best_rated),
+                            null, null,
+                            restaurantList));
+
+
+                }
+                iHomeListHelper.onShowGroupList(groupList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Restaurant>> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
+
     }
 
-    public List<FoodCategory> readApiFoodCategory(String s) throws Exception {
-        String id, name, image;
-        categoryList = new ArrayList<>();
-        JSONArray jsonArray = new JSONArray(s);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                id = jsonObject.getString("cate_id");
-            name = jsonObject.getString("cate_name");
-            image = jsonObject.getString("cate_image");
 
-            categoryList.add(new FoodCategory(name, image));
+    public List<FoodBanner> getBannerList(List<Restaurant> list){
+        List<Banner> bannerList = new ArrayList<>();
+        List<FoodBanner> foodBannerList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            bannerList.add(list.get(i).getBanner());
         }
-        return categoryList;
-    }
-
-    public List<FoodBanner> readApiFoodBanner(String s) throws Exception {
-        String id, bannerImg;
-        foodBannerList = new ArrayList<>();
-        bannerList = new ArrayList<>();
-        JSONArray jsonArray = new JSONArray(s);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                id = jsonObject.getString("id");
-            bannerImg = jsonObject.getString("banner");
-
-            bannerList.add(new Banner(bannerImg));
-        }
-        foodBannerList.add(new FoodBanner(bannerList));
+        FoodBanner foodBanner = new FoodBanner(bannerList);
+        foodBannerList.add(foodBanner);
         return foodBannerList;
     }
-
-    public List<Restaurant> readApiRestaurant(String s) throws Exception {
-        String resId, resName, resImage, resAddress, resPhone, resEmail, resProvide, resListFood;
-        double resRate;
-        String foodID, foodName, foodImage, foodCategory, foodType;
-        long foodPrice;
-        restaurantList = new ArrayList<>();
-
-        JSONArray jsonArray = new JSONArray(s);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            resId = jsonObject.getString("res_id");
-            resName = jsonObject.getString("res_name");
-            resImage = jsonObject.getString("res_img");
-            resAddress = jsonObject.getString("res_addr");
-            resPhone = jsonObject.getString("res_phone");
-            resEmail = jsonObject.getString("res_email");
-            resRate = jsonObject.getDouble("res_rate");
-            resProvide = jsonObject.getString("res_provide");
-
-            resListFood = jsonObject.getString("res_list_food");
-            JSONArray jsonArray1 = new JSONArray(resListFood);
-            foodList = new ArrayList<>();
-            for (int j = 0; j < jsonArray1.length(); j++) {
-
-                JSONObject jsonObject1 = jsonArray1.getJSONObject(j);
-                foodID = jsonObject1.getString("food_id");
-                foodName = jsonObject1.getString("food_name");
-                foodImage = jsonObject1.getString("food_img");
-                foodPrice = jsonObject1.getLong("food_price");
-                foodCategory = jsonObject1.getString("food_category");
-//                foodType = jsonObject1.getString("food_type");
-                Food food = new Food(foodID,resId, foodName, foodImage, foodCategory,0,foodPrice);
-//                String id, String idRes, String name, String image, String category, int count, long price
-                foodList.add(food);
-            }
-            Restaurant restaurant = new Restaurant(resId, resName, resProvide, resImage, resAddress,
-                    resPhone, resEmail, resRate, (ArrayList<Food>) foodList);
-            restaurantList.add(restaurant);
-
-        }
-        return restaurantList;
-    }
-
-    public List<GroupList> getGroupList() {
-        try {
-            groupList = new ArrayList<>();
-            listApi = new GetListRestaurant().execute().get();// size = 3
-            foodBannerList = readApiFoodBanner(listApi.get(LIST_BANNER));
-            groupList.add(new GroupList(
-                    ListGroupAdapter.TYPE_FOOD_BANNER,
-                    context.getResources().getString(R.string.home_list_title_banner),
-                    null, foodBannerList, null
-            ));
-
-            categoryList = readApiFoodCategory(listApi.get(LIST_FOOD_CATEGORY));
-            groupList.add(new GroupList(
-                    ListGroupAdapter.TYPE_FOOD_CATEGORY,
-                    context.getResources().getString(R.string.home_list_title_category),
-                    categoryList, null, null
-            ));
-
-            restaurantList = readApiRestaurant(listApi.get(LIST_RESTAURANT));
-            groupList.add(new GroupList(
-                    ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES,
-                    context.getResources().getString(R.string.home_list_title_quick_delivery),
-                    null, null,
-                    restaurantList
-            ));
-            groupList.add(new GroupList(ListGroupAdapter.TYPE_FOOD_BEST_RATED,
-                    context.getResources().getString(R.string.home_list_title_best_rated),
-                    null, null,
-                    restaurantList));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return groupList;
-    }
-// rì trô phít
-    class GetListRestaurant extends AsyncTask<Void, Void, List<String>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<String> doInBackground(Void... voids) {
-            List<String> listApi = new ArrayList<>();
-            try {
-                String bannerApi = getStringApi(LIST_BANNER_API);
-                String categoryApi = getStringApi(LIST_FOOD_CATEGORY_API);
-                String restaurantApi = getStringApi(LIST_RESTAURANT_API);
-
-                listApi.add(bannerApi);
-                listApi.add(categoryApi);
-                listApi.add(restaurantApi);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return listApi;
-        }
-
-        public String getStringApi(String urlApi) throws Exception {
-            String result = "";
-            URL url = new URL(urlApi);
-            URLConnection connection = url.openConnection();
-            InputStream is = connection.getInputStream();
-
-            int byteCharacter;
-            while ((byteCharacter = is.read()) != -1) {
-                result += (char) byteCharacter;
-            }
-            return result;
-        }
+    public List<FoodCategory> getFoodCategory(){
+        List<FoodCategory> foodCategoryList = new ArrayList<>();
+        foodCategoryList.add(new FoodCategory("Fast Food","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
+        foodCategoryList.add(new FoodCategory("Starter","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
+        foodCategoryList.add(new FoodCategory("Main Course","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
+        foodCategoryList.add(new FoodCategory("Dessert","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
+        foodCategoryList.add(new FoodCategory("Drink","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
+        return foodCategoryList;
     }
 }

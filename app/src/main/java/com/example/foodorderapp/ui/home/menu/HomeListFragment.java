@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderapp.DetailActivity;
-import com.example.foodorderapp.MainActivity;
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.adapter.ListGroupAdapter;
 import com.example.foodorderapp.databinding.FragmentHomeListBinding;
@@ -22,7 +21,6 @@ import com.example.foodorderapp.event.IHomeListHelper;
 import com.example.foodorderapp.event.IOnClickItem;
 import com.example.foodorderapp.model.GroupList;
 import com.example.foodorderapp.presenter.HomeListPresenter;
-import com.example.foodorderapp.detail.ListQuickDeliveriesFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,7 +30,6 @@ public class HomeListFragment extends Fragment implements IHomeListHelper {
     FragmentHomeListBinding binding;
     ListGroupAdapter groupAdapter;
     HomeListPresenter presenter;
-    List<GroupList> groupList;
 
 
     public static HomeListFragment newInstance() {
@@ -53,11 +50,9 @@ public class HomeListFragment extends Fragment implements IHomeListHelper {
         presenter = new HomeListPresenter(getContext(), this);
 
         presenter.showGroupList();
-
+//        getApiRestaurant();
         return binding.getRoot();
     }
-
-
 
 
     @Override
@@ -66,28 +61,39 @@ public class HomeListFragment extends Fragment implements IHomeListHelper {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         binding.rvListGroup.setAdapter(groupAdapter);
         binding.rvListGroup.setLayoutManager(layoutManager);
+        Intent it = new Intent(getContext(), DetailActivity.class);
         groupAdapter.setIOnClickItem(new IOnClickItem() {
             @Override
             public void onClickShowMore(int type, int position) {
-                switch (type){
+
+                switch (type) {
                     case ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES:
-//                        getFragment(ListQuickDeliveriesFragment.newInstance());
-                        Intent it = new Intent(getContext(), DetailActivity.class);
-                        EventBus.getDefault().postSticky(groupList.get(ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES-1)
-                        .getRestaurants());
-                        it.putExtra("quick_deliveries","show_more");
+                        EventBus.getDefault().postSticky(groupList.get(ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES - 1)
+                                .getRestaurants());
+                        it.putExtra("quick_deliveries", "show_more");
                         startActivity(it);
 
+                        break;
+                    case ListGroupAdapter.TYPE_FOOD_BEST_RATED:
+                        EventBus.getDefault().postSticky(groupList.get(ListGroupAdapter.TYPE_FOOD_BEST_RATED - 1)
+                                .getRestaurants());
+                        it.putExtra("best_rated", "show_more");
+                        startActivity(it);
                         break;
                 }
             }
         });
     }
 
-    public void getFragment(Fragment fragment){
+    public void getFragment(Fragment fragment) {
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment)
+//        getActivity().getSupportFragmentManager().beginTransaction()
+//                .add(R.id.vpFragment, fragment)
+//                .addToBackStack(null)
+//                .commit();
+
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.vpFragment, fragment)
                 .addToBackStack(null)
                 .commit();
     }
