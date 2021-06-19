@@ -35,6 +35,7 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
         this.restaurantList = restaurantList;
         this.tempList = restaurantList;
         this.context = context;
+        notifyDataSetChanged();
     }
 
     @NonNull

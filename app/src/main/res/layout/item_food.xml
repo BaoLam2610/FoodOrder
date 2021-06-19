@@ -4,7 +4,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clItemFood"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_food_height"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +14,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 >
@@ -41,11 +42,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout5"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
 
-            app:layout_constraintWidth_percent="0.65"
+            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/relativeLayout2"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
             app:layout_constraintTop_toTopOf="parent">
@@ -61,7 +62,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.15" />
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/tvFoodPrice"
@@ -73,21 +74,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvFoodName"
                 app:layout_constraintTop_toBottomOf="@+id/tvFoodName"
-                app:layout_constraintVertical_bias="0.45" />
+                app:layout_constraintVertical_bias="0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
-
-            app:layout_constraintHorizontal_bias="0"
             android:id="@+id/relativeLayout2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3">
 
             <LinearLayout
                 android:id="@+id/btnAmount"
@@ -142,8 +143,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/item_food_add"
-                    android:textColor="@color/title_item_cart_bgr"
-                    android:textAppearance="@style/title_item" />
+                    android:textAppearance="@style/title_item"
+                    android:textColor="@color/title_item_cart_bgr" />
 
             </LinearLayout>
         </RelativeLayout>

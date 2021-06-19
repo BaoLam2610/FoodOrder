@@ -1,206 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/line_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.02" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.75"
-                app:layout_constraintStart_toStartOf="@id/line_start"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0">
-
-                <TextView
-                    android:id="@+id/tvResName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textAppearance="@style/title" />
-
-                <TextView
-                    android:id="@+id/tvResProvide"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Provide"
-                    android:textAppearance="@style/title_item_detail_sub" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <TextView
-                        android:id="@+id/tvResAddress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/custom_item_restaurant_location"
-                        android:text="Address"
-                        android:textAppearance="@style/title_item_detail_sub"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.7" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tvResAddress"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/rbResRate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawableTint="@color/duskYellow"
-                            android:drawableLeft="@drawable/custom_item_restaurant_star"
-                            android:text="4.2"
-                            android:textAppearance="@style/title_item_detail_sub" />
-
-                        <TextView
-                            android:id="@+id/tvReview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableRight="@drawable/custom_item_restaurant_review"
-                            android:text="Reviews" />
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tlFoodCategory"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-
-                app:tabTextColor="@color/lightGrey"
-                app:tabSelectedTextColor="@color/title_item_cart_bgr"
-                app:tabIndicatorFullWidth="true"
-                app:tabIndicatorHeight="3dp"
-                app:tabMode="scrollable"
-                app:tabGravity="center"
-
-
-
-                app:tabTextAppearance="@style/custom_tab_layout_text" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vpListFood"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintVertical_bias="0" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/relativeLayout"
-            app:layout_constraintVertical_bias="1"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:background="@color/title_item_cart_bgr"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/layout_5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <LinearLayout
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="@dimen/item_detail_restaurant_logo"
+                        android:layout_height="@dimen/item_restaurant_list_logo"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.02"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/ivResImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/bgr_food_delivery" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/tvResName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textAppearance="@style/title"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.02"
+                        app:layout_constraintStart_toEndOf="@+id/cardView"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.1" />
+
+                    <TextView
+                        android:id="@+id/tvResProvide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Provide"
+                        android:textAppearance="@style/title_item_detail_sub"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="@+id/tvResName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvResName"
+                        app:layout_constraintVertical_bias="0" />
+
+                    <TextView
+                        android:id="@+id/tvResRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3.2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="@+id/tvResName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvResProvide"
+                        app:layout_constraintVertical_bias="0.01" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/rbResRate"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:rating="3"
+                        android:stepSize="0.1"
+                        android:theme="@style/RatingBar"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvResRate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@+id/tvResRate"
+                        app:layout_constraintTop_toTopOf="@+id/tvResRate"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_1"
+                    app:layout_constraintVertical_bias="0">
+
+                    <TextView
+                        android:id="@+id/text_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Introductions"
+                        android:textAppearance="@style/title_item"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.02"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.02" />
+
+                    <TextView
+                        android:id="@+id/tvResIntroduction"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
+                        android:text="@string/detail_restaurant_introduction"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_2"
+                        app:layout_constraintVertical_bias="0.01"
+                        app:layout_constraintWidth_percent="0.95" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_2"
+                    app:layout_constraintVertical_bias="0">
+
+                    <TextView
+                        android:id="@+id/text_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contact Information"
+                        android:textAppearance="@style/title_item"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.02"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.02" />
+
+                    <TextView
+                        android:id="@+id/title_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/custom_item_restaurant_location"
+                        android:drawableTint="@color/detail_restaurant_location"
+                        android:text="Address: "
+                        android:textAppearance="@style/title_item_detail_sub"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="@+id/text_1"
+                        app:layout_constraintTop_toBottomOf="@+id/text_1"
+                        app:layout_constraintVertical_bias="0.01" />
+
+                    <TextView
+                        android:id="@+id/tvResAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Tu Hoang, Quan Nam Tu Liem, Ha Noi"
+                        android:textAppearance="@style/title_item_detail_sub"
+                        app:layout_constraintBottom_toBottomOf="@+id/title_address"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@+id/title_address"
+                        app:layout_constraintTop_toTopOf="@+id/title_address"
+                        app:layout_constraintVertical_bias="0" />
+
+                    <TextView
+                        android:id="@+id/title_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/custom_item_restaurant_phone"
+                        android:drawableTint="@color/detail_restaurant_phone"
+                        android:text="Phone: "
+                        android:textAppearance="@style/title_item_detail_sub"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="@+id/title_address"
+                        app:layout_constraintTop_toBottomOf="@+id/tvResAddress"
+                        app:layout_constraintVertical_bias="0.01" />
+
+                    <TextView
+                        android:id="@+id/tvResPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="0945676638"
+                        android:textAppearance="@style/title_item_detail_sub"
+                        app:layout_constraintBottom_toBottomOf="@+id/title_phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@+id/title_phone"
+                        app:layout_constraintTop_toTopOf="@+id/title_phone"
+                        app:layout_constraintVertical_bias="0" />
+
+                    <TextView
+                        android:id="@+id/title_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/custom_item_restaurant_email"
+                        android:drawableTint="@color/detail_restaurant_email"
+                        android:text="Email: "
+                        android:textAppearance="@style/title_item_detail_sub"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="@+id/title_phone"
+                        app:layout_constraintTop_toBottomOf="@+id/tvResPhone"
+                        app:layout_constraintVertical_bias="0.01" />
+
+                    <TextView
+                        android:id="@+id/tvResEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="baolam@gmail.com"
+                        android:textAppearance="@style/title_item_detail_sub"
+                        app:layout_constraintBottom_toBottomOf="@+id/title_email"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@+id/title_email"
+                        app:layout_constraintTop_toTopOf="@+id/title_email"
+                        app:layout_constraintVertical_bias="0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_3"
+                    app:layout_constraintVertical_bias="0">
+
+                    <TextView
+                        android:id="@+id/text_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Menu"
+                        android:textAppearance="@style/title_item"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.02"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tlFoodCategory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toBottomOf="@+id/text_3"
+                        app:layout_constraintVertical_bias="0"
+                        app:tabGravity="center"
+                        app:tabIndicatorFullWidth="true"
+                        app:tabIndicatorHeight="3dp"
+                        app:tabMode="scrollable"
+                        app:tabIndicatorColor="@color/tab_selected"
+                        app:tabSelectedTextColor="@color/title_item_cart_bgr"
+                        app:tabTextAppearance="@style/custom_tab_layout_text"
+                        app:tabTextColor="@color/lightGrey"
+                        />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/vpListFood"
+                    android:layout_width="match_parent"
+                    android:layout_height="455dp" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_5"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@drawable/custom_bgr_view_cart"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1">
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    app:tint="@color/icon_tint_default"
                     android:id="@+id/ivShoppingCart"
                     android:layout_width="24dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_shopping_cart" />
+                    android:src="@drawable/ic_shopping_cart"
+                    app:tint="@color/icon_tint_default" />
 
-                <TextView
-                    android:id="@+id/tvItemCart"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:textAppearance="@style/title_item_cart"
-                    android:text="Item" />
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp">
+                    <TextView
+                        android:id="@+id/tvItemCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Item"
+                        android:textAppearance="@style/title_item_cart" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/icon_tint_default" />
 
-                <TextView
-                    android:textAppearance="@style/title_item_cart"
-                    android:id="@+id/tvTotalCost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cost" />
+
+                    <TextView
+                        android:id="@+id/tvTotalCost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cost"
+                        android:textAppearance="@style/title_item_cart" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <RelativeLayout
-                app:layout_constraintWidth_percent="0.3"
-                app:layout_constraintHorizontal_bias="1"
-                app:layout_constraintHeight_percent="0.75"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/btnViewCart"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/custom_item_food_amount"
-                android:padding="10dp">
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.75"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3">
 
                 <TextView
                     android:layout_width="wrap_content"

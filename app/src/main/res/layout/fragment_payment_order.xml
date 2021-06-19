@@ -5,74 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/titleMyWallet"
-            app:layout_constraintHorizontal_bias="0.05"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            >
-            <TextView
-                android:id="@+id/tvMyWallet"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0.02"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/account_my_wallet"
-                android:textAppearance="@style/title"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@color/icon_tint_default"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvMyWallet"
-                app:layout_constraintVertical_bias="0">
 
-                <ImageView
-                    android:id="@+id/ivMyWallet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_wallet"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.05"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/payments_wallet"
-                    android:textAppearance="@style/title_sub"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tvMoney"
-                    app:layout_constraintHorizontal_bias="0.1"
-                    app:layout_constraintStart_toEndOf="@+id/ivMyWallet"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvMoney"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$10.000"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.94"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/titleCards"
             app:layout_constraintHorizontal_bias="0.05"
@@ -81,7 +15,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleMyWallet"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
             >
             <TextView
@@ -97,6 +31,7 @@
                 android:text="@string/payments_cards"
                 android:textAppearance="@style/title"/>
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnBankCards"
                 android:background="@color/icon_tint_default"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -196,7 +131,7 @@
             >
             <TextView
                 android:id="@+id/tvOther"
-                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0.02"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

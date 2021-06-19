@@ -2,21 +2,20 @@ package com.example.foodorderapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderapp.DetailActivity;
-import com.example.foodorderapp.MainActivity;
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.databinding.ItemListGroupBinding;
-import com.example.foodorderapp.detail.DetailRestaurantFragment;
 import com.example.foodorderapp.event.ICartDatabase;
 import com.example.foodorderapp.event.IOnClickItem;
 import com.example.foodorderapp.event.IOnClickItemRestaurant;
@@ -29,6 +28,7 @@ import com.example.foodorderapp.presenter.CartDatabasePresenter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.ListGroupViewHolder> implements ICartDatabase {
@@ -42,16 +42,14 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
     IOnClickItem iOnClickItem;
     CartDatabasePresenter cartPresenter;
 
-    public void setIOnClickItem(IOnClickItem iOnClickItem) {
-        this.iOnClickItem = iOnClickItem;
-    }
-
     public ListGroupAdapter(List<GroupList> groupList, Context context) {
         this.groupList = groupList;
         this.context = context;
     }
 
-
+    public void setIOnClickItem(IOnClickItem iOnClickItem) {
+        this.iOnClickItem = iOnClickItem;
+    }
 
     @NonNull
     @Override
@@ -68,6 +66,7 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
         return groupList.get(position).getType();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ListGroupViewHolder holder, int position) {
         GroupList list = groupList.get(position);
@@ -81,7 +80,7 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
         List<FoodCategory> categoryList = list.getFoodCategory();
         List<Restaurant> restaurantList = list.getRestaurants();
 
-        switch (holder.getItemViewType()){
+        switch (holder.getItemViewType()) {
             case TYPE_FOOD_BANNER:
                 FoodBannerAdapter foodBannerAdapter = new FoodBannerAdapter(foodBannerList, context);
                 holder.binding.rvListItem.setHasFixedSize(true);
@@ -103,17 +102,16 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
                 holder.binding.rvListItem.setHasFixedSize(true);
                 holder.binding.rvListItem.setAdapter(quickDeliveriesAdapter);
                 holder.binding.rvListItem.setLayoutManager(gridLayoutManager);
-                cartPresenter = new CartDatabasePresenter(this,context);
+                cartPresenter = new CartDatabasePresenter(this, context);
                 quickDeliveriesAdapter.setIOnClickItemRestaurant(new IOnClickItemRestaurant() {
                     @Override
                     public void onClickItem(Restaurant restaurant) {
                         Intent it = new Intent(context, DetailActivity.class);
-                        it.putExtra("quick_deliveries","item");
-
+                        it.putExtra("quick_deliveries", "item");
                         EventBus.getDefault().postSticky(restaurant); // dùng luôn sql
                         cartPresenter.saveRestaurantOnCart(restaurant);
-                        Cart currentCart = new Cart("001",restaurant,0,0);
-                        Toast.makeText(context, restaurant.getId(), Toast.LENGTH_SHORT).show();
+                        Cart currentCart = new Cart(restaurant, 0, 0);
+                        cartPresenter.saveCart(currentCart);
                         EventBus.getDefault().postSticky(currentCart);
                         context.startActivity(it);
                         // edge://inspect/#devices
@@ -121,7 +119,15 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
                 });
                 break;
             case TYPE_FOOD_BEST_RATED:
-                BestRatedAdapter bestRatedAdapter = new BestRatedAdapter(restaurantList, context);
+                List<Restaurant> bestRatedList = new ArrayList<>();
+                for (int i = 0; i < restaurantList.size(); i++) {
+                    if (restaurantList.get(i).getRate() >= 4.0)
+                        bestRatedList.add(restaurantList.get(i));
+                }
+//
+//
+
+                BestRatedAdapter bestRatedAdapter = new BestRatedAdapter(bestRatedList, context);
                 holder.binding.rvListItem.setHasFixedSize(true);
                 holder.binding.rvListItem.setAdapter(bestRatedAdapter);
                 holder.binding.rvListItem.setLayoutManager(gridLayoutManager);
@@ -129,12 +135,11 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
                     @Override
                     public void onClickItem(Restaurant restaurant) {
                         Intent it = new Intent(context, DetailActivity.class);
-                        it.putExtra("best_rated","item");
-
+                        it.putExtra("best_rated", "item");
                         EventBus.getDefault().postSticky(restaurant); // dùng luôn sql
                         cartPresenter.saveRestaurantOnCart(restaurant);
-                        Cart currentCart = new Cart("001",restaurant,0,0);
-                        Toast.makeText(context, restaurant.getId(), Toast.LENGTH_SHORT).show();
+                        Cart currentCart = new Cart(restaurant, 0, 0);
+                        cartPresenter.saveCart(currentCart);
                         EventBus.getDefault().postSticky(currentCart);
                         context.startActivity(it);
                     }
@@ -142,7 +147,7 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
                 break;
         }
         holder.binding.tvSeeMore.setOnClickListener(v -> {
-            iOnClickItem.onClickShowMore(holder.getItemViewType(),position);
+            iOnClickItem.onClickShowMore(holder.getItemViewType(), position);
         });
     }
 

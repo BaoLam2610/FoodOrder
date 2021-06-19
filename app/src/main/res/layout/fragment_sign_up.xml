@@ -22,7 +22,7 @@
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/iv_1"
-                android:src="@drawable/custom_sign_up_ic_user"
+                android:src="@drawable/custom_sign_up_ic_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -45,13 +45,80 @@
                     android:textSize="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/sign_up_phone"
+                    android:textAppearance="@style/title"
+                    android:textStyle="normal"/>
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Phone"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:inputType="number"-->
+<!--                        android:maxLength="11"-->
+<!--                        android:maxLines="1"-->
+<!--                        />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+                <EditText
+
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:maxLines="1"
+                    android:id="@+id/tvPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_3"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.02"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_1">
+            <ImageView
+                app:tint="@color/tab_selected"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                android:id="@+id/iv_3"
+                android:src="@drawable/custom_sign_up_ic_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_3"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/sign_up_full_name"
                     android:textAppearance="@style/title"
                     android:textStyle="normal"/>
 
                 <EditText
                     android:inputType="text"
-                    android:maxLength="50"
+                    android:maxLength="35"
                     android:maxLines="1"
                     android:id="@+id/tvName"
                     android:layout_width="match_parent"
@@ -59,7 +126,6 @@
                     app:layout_constraintBottom_toBottomOf="parent" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_2"
             app:layout_constraintWidth_percent="0.9"
@@ -70,7 +136,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_1">
+            app:layout_constraintTop_toBottomOf="@id/layout_3">
             <ImageView
                 app:tint="@color/tab_selected"
                 app:layout_constraintVertical_bias="0"
@@ -137,38 +203,21 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.55"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_2">
 
-            <ImageView
-                android:scaleType="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bgr_sign_up"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
+            android:elevation="10dp"
             android:id="@+id/btnContinue"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/tab_selected"
+            android:background="@drawable/custom_btn_continue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintHeight_percent="0.08"
+            app:layout_constraintWidth_percent="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1">
+            app:layout_constraintVertical_bias="0.99">
 
             <TextView
                 android:layout_width="wrap_content"

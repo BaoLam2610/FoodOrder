@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IListRestaurant {
     void onShowListRestaurant(List<Restaurant> restaurantList);
+    void onErrorListRestaurant();
 }

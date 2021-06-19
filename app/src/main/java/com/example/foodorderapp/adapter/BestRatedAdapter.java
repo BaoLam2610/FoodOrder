@@ -22,13 +22,13 @@ public class BestRatedAdapter extends RecyclerView.Adapter<BestRatedAdapter.Best
     Context context;
     IOnClickItemRestaurant iOnClickItemRestaurant;
 
-    public void setIOnClickItemRestaurant(IOnClickItemRestaurant iOnClickItemRestaurant) {
-        this.iOnClickItemRestaurant = iOnClickItemRestaurant;
-    }
-
     public BestRatedAdapter(List<Restaurant> restaurantList, Context context) {
         this.restaurantList = restaurantList;
         this.context = context;
+    }
+
+    public void setIOnClickItemRestaurant(IOnClickItemRestaurant iOnClickItemRestaurant) {
+        this.iOnClickItemRestaurant = iOnClickItemRestaurant;
     }
 
     @NonNull
@@ -44,16 +44,17 @@ public class BestRatedAdapter extends RecyclerView.Adapter<BestRatedAdapter.Best
     public void onBindViewHolder(@NonNull BestRatedViewHolder holder, int position) {
         Restaurant restaurant = restaurantList.get(position);
 //        if (restaurant.getRate() >= 4.0) {
-            holder.binding.ivResImage.setImageResource(R.drawable.ic_launcher_background);// change this
-            Glide.with(context).load(restaurant.getImage())
-                    .centerCrop()   // căn ảnh
+        holder.binding.ivResImage.setImageResource(R.drawable.ic_launcher_background);// change this
+        Glide.with(context).load(restaurant.getImage())
+                .centerCrop()   // căn ảnh
 //                    .placeholder(R.drawable.ic_baseline_image_24)  // đợi load ảnh
 //                    .error(R.drawable.ic_baseline_error_24)        // load ảnh bị lỗi
-                    .into(holder.binding.ivResImage);
-            holder.binding.tvResName.setText(restaurant.getName());
-            holder.binding.tvResAddress.setText(restaurant.getAddress());
-            holder.binding.rbResRate.setRating((float) restaurant.getRate());
-            holder.binding.itemRestaurant.setOnClickListener(v -> iOnClickItemRestaurant.onClickItem(restaurant));
+                .into(holder.binding.ivResImage);
+        holder.binding.tvResName.setText(restaurant.getName());
+        holder.binding.tvResAddress.setText(restaurant.getAddress());
+        holder.binding.tvResRate.setText(restaurant.getRate() + " ");
+        holder.binding.rbResRate.setRating((float) restaurant.getRate());
+        holder.binding.itemRestaurant.setOnClickListener(v -> iOnClickItemRestaurant.onClickItem(restaurant));
 //        }
     }
 

@@ -6,32 +6,41 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.foodorderapp.adapter.MyOrderListFoodAdapter;
+import com.example.foodorderapp.adapter.OrderCartAdapter;
 import com.example.foodorderapp.event.ICartDatabase;
 import com.example.foodorderapp.event.IOnListFood;
 import com.example.foodorderapp.event.IOnShowCart;
+import com.example.foodorderapp.event.IOnShowDetailCart;
 import com.example.foodorderapp.event.IOrderCart;
+import com.example.foodorderapp.helper.FormatHelper;
 import com.example.foodorderapp.model.Cart;
+import com.example.foodorderapp.model.DetailCart;
 import com.example.foodorderapp.model.Food;
+import com.example.foodorderapp.model.FoodCart;
 import com.example.foodorderapp.model.Restaurant;
+import com.example.foodorderapp.model.Voucher;
 import com.example.foodorderapp.sql.CartDatabaseHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartDatabasePresenter {
 
     IOrderCart iOrderCart;
     IOnShowCart iOnShowCart;
-    ICartDatabase iCartDatabase;
     IOnListFood iOnListFood;
+    ICartDatabase iCartDatabase;
     Context context;
     CartDatabaseHelper helper;
     String idRes;
     Cart currentCart;
     Restaurant tempRestaurant;
+    IOnShowDetailCart iOnShowDetailCart;
 
     public CartDatabasePresenter(IOrderCart iOrderCart, ICartDatabase iCartDatabase, IOnListFood iOnListFood, Context context) {
         this.iOrderCart = iOrderCart;
@@ -39,6 +48,13 @@ public class CartDatabasePresenter {
         this.iOnListFood = iOnListFood;
         this.context = context;
     }
+
+    public CartDatabasePresenter(IOnShowDetailCart iOnShowDetailCart,Context context) {
+        this.context = context;
+        this.iOnShowDetailCart = iOnShowDetailCart;
+    }
+
+
 
     public CartDatabasePresenter(ICartDatabase iCartDatabase, Context context) {
         this.iCartDatabase = iCartDatabase;
@@ -76,7 +92,6 @@ public class CartDatabasePresenter {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
             food.setRestaurant(tempRestaurant);
-            Log.e("Loi",food.getRestaurant().getId());
             helper.insertFood(food);
 //            String id, String name, String image, int count, long price, String category, String idRes
         } catch (Exception e) {
@@ -88,7 +103,11 @@ public class CartDatabasePresenter {
     public void getRestaurant(Restaurant restaurant){
         tempRestaurant = restaurant;
     }
-
+    DetailCart tempDc;
+    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+    public void getDetailCart(DetailCart detailCart){
+        tempDc = detailCart;
+    }
     public void saveCart(Cart cart) {
         try {
             if (helper == null)
@@ -121,6 +140,30 @@ public class CartDatabasePresenter {
             e.printStackTrace();
         }
     }
+//    Cart currentCart;
+//    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+//    public void getStatusCart(Cart cart){
+//
+//    }
+    public void setCart(){
+        EventBus.getDefault().register(this);
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            currentCart.setStatus(1);
+            String date = FormatHelper.getCurrentDate();
+            System.out.println(date);
+            currentCart.setDate(date);
+
+            helper.setStatusDetailCart(tempDc);
+            helper.setStatusRestaurant(tempRestaurant);
+            helper.setStatusCart(currentCart);
+            helper.setDateCart(currentCart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        EventBus.getDefault().unregister(this);
+    }
 
     public void destroyRestaurant(Restaurant restaurant) {
         try {
@@ -144,31 +187,45 @@ public class CartDatabasePresenter {
         }
     }
 
-    public void showCart() {
-        if (helper == null)
+    public void showDetailCart(Food food, Cart cart, OrderCartAdapter.OrderCartViewHolder holder){
+        if(helper == null)
             helper = new CartDatabaseHelper(context);
-        if (currentCart == null) {
-            currentCart = helper.getCart();
-//        EventBus.getDefault().register(this);
+        DetailCart detailCart = helper.findDetailCart(food,cart);
+        iOnShowDetailCart.onShowDetailCart(detailCart,holder);
+    }
 
-        }
-        iOnShowCart.onShowCart(currentCart);
+    public void showDetailCart(Food food, Cart cart, MyOrderListFoodAdapter.ListFoodOrderViewHolder holder){
+        if(helper == null)
+            helper = new CartDatabaseHelper(context);
+        DetailCart detailCart = helper.findDetailCart(food,cart);
+        iOnShowDetailCart.onShowDetailCart(detailCart,holder);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void showListOrder() {
+        EventBus.getDefault().register(this);
         if (helper == null)
             helper = new CartDatabaseHelper(context);
-        List<Food> foodList = helper.getFood();
-        foodList.sort((f1, f2) -> f1.getCategory().compareTo(f2.getCategory()));
-        EventBus.getDefault().register(this);
-        iOrderCart.onShowListFoodOrder(currentCart, foodList);
+
+        Voucher voucher = helper.getVoucher(currentCart);
+        if(voucher !=null)
+            iOrderCart.onShowVoucher(voucher,currentCart);
+
+        List<Food> foodList = helper.getFood(currentCart);
+        if(foodList.size() != 0) {
+            foodList.sort((f1, f2) -> f1.getCategory().compareTo(f2.getCategory()));
+
+            iOrderCart.onShowListFoodOrder(currentCart, foodList);
+        } else
+            iOrderCart.onEmptyListFoodOrder();
+
         EventBus.getDefault().unregister(this);
     }
 
+
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void getCurrentCart(Cart cart) {
-
         currentCart = cart;
     }
 
@@ -192,18 +249,18 @@ public class CartDatabasePresenter {
         return helper.findCart(cart);
     }
 
-    public void destroyAllData(Restaurant restaurant, Cart cart) {
+    public void destroyAllData() {
         try {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
-            if (helper.findRestaurant(restaurant))
-                helper.deleteRestaurant(restaurant);
-            helper.deleteAllFood();
-            if (helper.findCart(cart))
-                helper.deleteCart(cart);
+            helper.deleteAllRestaurant();
+            helper.deleteAllDetailCart();
+//            helper.deleteAllFood();
             helper.deleteAllCart();
+            helper.deleteAllCartEmpty();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

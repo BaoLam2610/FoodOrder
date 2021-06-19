@@ -14,17 +14,23 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
+            case 0:
+                return HomeListFragment.newInstance();
             case 1:
-                return OrdersFragment.newInstance();
+//                return HomeListFragment.newInstance();
+            return OrdersFragment.newInstance();
             case 2:
+//                return OrdersFragment.newInstance();
                 return FavoritesFragment.newInstance();
             default:
-                return HomeListFragment.newInstance();
+                return FavoritesFragment.newInstance();
         }
+
     }
 
     @Override
     public int getCount() {
         return 3;
     }
+
 }

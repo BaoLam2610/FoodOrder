@@ -11,9 +11,11 @@
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="@dimen/item_restaurant_span_height"
             android:layout_height="@dimen/item_restaurant_span_height"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
 
             <ImageView
                 android:id="@+id/ivResImage"
@@ -46,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/custom_item_restaurant_location"
+                android:drawableTint="@color/icon_location"
                 android:text="Address"
                 android:textAppearance="@style/title_item_sub"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -54,6 +57,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.4" />
+
+            <TextView
+                android:id="@+id/tvResRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.2"
+                android:textStyle="bold"
+                android:textColor="@color/rated"
+                android:textAppearance="@style/title_item_sub"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.85" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rbResRate"
@@ -65,12 +83,12 @@
                 android:rating="3"
                 android:stepSize="0.1"
                 android:theme="@style/RatingBar"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/tvResRate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.85" />
+                app:layout_constraintStart_toEndOf="@+id/tvResRate"
+                app:layout_constraintTop_toTopOf="@+id/tvResRate"
+                app:layout_constraintVertical_bias="0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

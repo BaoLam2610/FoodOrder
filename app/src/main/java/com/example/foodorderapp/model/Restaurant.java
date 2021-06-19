@@ -1,10 +1,13 @@
 package com.example.foodorderapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Restaurant {
+public class Restaurant implements Parcelable {
     @SerializedName("res_id")
     private String id;
     @SerializedName("res_name")
@@ -26,22 +29,9 @@ public class Restaurant {
     @SerializedName("res_list_food")
     private ArrayList<Food> foodList;
     private int cart;
-
+    private int status;
 
     //    String id, String name, String provideType, String image, String address, String phone, String email, double rate
-    public Restaurant(String id, String name, String provideType, String image, String address, String phone, String email, double rate, ArrayList<Food> foodList) {
-        this.id = id;
-        this.name = name;
-        this.provideType = provideType;
-        this.image = image;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-        this.rate = rate;
-        this.foodList = foodList;
-//        this.banner = banner;
-        cart = 0;
-    }
 
     public Restaurant(String id, String name, String provideType, String image, String address, String phone, String email, double rate) {
         this.id = id;
@@ -52,8 +42,33 @@ public class Restaurant {
         this.phone = phone;
         this.email = email;
         this.rate = rate;
+        status = 0;
     }
 
+
+    protected Restaurant(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        provideType = in.readString();
+        image = in.readString();
+        address = in.readString();
+        phone = in.readString();
+        email = in.readString();
+        rate = in.readDouble();
+        cart = in.readInt();
+    }
+
+    public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
+        @Override
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
+
+        @Override
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
 
     public Banner getBanner() {
         return banner;
@@ -141,5 +156,31 @@ public class Restaurant {
 
     public void setFoodList(ArrayList<Food> foodList) {
         this.foodList = foodList;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(provideType);
+        dest.writeString(image);
+        dest.writeString(address);
+        dest.writeString(phone);
+        dest.writeString(email);
+        dest.writeDouble(rate);
+        dest.writeInt(cart);
     }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:topRightRadius="@dimen/item_category_corner"
+        android:topLeftRadius="@dimen/item_category_corner"/>
+    <solid android:color="@color/title_item_cart_bgr"/>
+</shape>

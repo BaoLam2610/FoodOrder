@@ -12,12 +12,10 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/title_sub"
             android:layout_marginTop="@dimen/item_margin"
-            android:layout_marginLeft="@dimen/item_margin"
             android:layout_marginBottom="@dimen/item_margin"
             android:fontFamily="@font/allerta"
             android:text="found" />
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginLeft="@dimen/item_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/rvListRestaurant"/>

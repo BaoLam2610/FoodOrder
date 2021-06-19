@@ -4,15 +4,20 @@ import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.solver.widgets.Helper;
 
 import com.example.foodorderapp.event.ICartDatabase;
 import com.example.foodorderapp.event.ICheckLogin;
 import com.example.foodorderapp.event.IDetailRestaurant;
+import com.example.foodorderapp.event.IListFood;
 import com.example.foodorderapp.event.IListRestaurant;
 import com.example.foodorderapp.event.IOnListFood;
 import com.example.foodorderapp.event.IOnShowCart;
 import com.example.foodorderapp.event.IOrderCart;
+import com.example.foodorderapp.event.IRestoreList;
+import com.example.foodorderapp.helper.IHelper;
 import com.example.foodorderapp.model.Cart;
+import com.example.foodorderapp.model.DetailCart;
 import com.example.foodorderapp.model.Food;
 import com.example.foodorderapp.model.Restaurant;
 import com.example.foodorderapp.sql.CartDatabaseHelper;
@@ -26,7 +31,10 @@ import java.util.List;
 
 public class DetailPresenter {
 
+    IListFood iListFood;
+    IRestoreList iRestoreList;
     ICartDatabase iCartDatabase;
+    CartDatabasePresenter cartPresenter;
     IListRestaurant iListRestaurant;
     IDetailRestaurant iDetailRestaurant;
     ICheckLogin iCheckLogin;
@@ -35,17 +43,17 @@ public class DetailPresenter {
     CartDatabaseHelper helper;
     IOnListFood iOnListFood;
     List<Restaurant> restaurantList;
-    Food food;
-    Integer totalItemCart;
     Restaurant res;
     Context context;
-    List<Food> list;
     List<Food> fastFoodList;
     List<Food> starterFoodList;
     List<Food> mainCourseList;
     List<Food> desertList;
     List<Food> drinkList;
     List<Food> listOrder;
+    List<Food> listDelete = new ArrayList<>();
+    String typeCheck;
+
 
     public DetailPresenter(ICheckLogin iCheckLogin, Context context) {
         this.iCheckLogin = iCheckLogin;
@@ -58,126 +66,368 @@ public class DetailPresenter {
 
     }
 
-
-    public DetailPresenter(IOnListFood iOnListFood, Context context) {
+    public DetailPresenter(IOnListFood iOnListFood, Context context, CartDatabasePresenter cartPresenter) {
         this.iOnListFood = iOnListFood;
         this.context = context;
+        this.cartPresenter = cartPresenter;
     }
-    public DetailPresenter(IOnShowCart iOnShowCart, Context context) {
-        this.iOnShowCart = iOnShowCart;
+
+
+    public DetailPresenter(IDetailRestaurant iDetailRestaurant, Context context, IRestoreList iRestoreList) {
+        this.iDetailRestaurant = iDetailRestaurant;
         this.context = context;
+        this.iRestoreList = iRestoreList;
     }
+
+    public DetailPresenter(IOrderCart iOrderCart, IOnShowCart iOnShowCart, Context context, CartDatabasePresenter cartPresenter) {
+        this.iOrderCart = iOrderCart;
+        this.context = context;
+        this.cartPresenter = cartPresenter;
+        this.iOnShowCart = iOnShowCart;
+    }
+
     public DetailPresenter(IListRestaurant iListRestaurant, Context context) {
         this.iListRestaurant = iListRestaurant;
         this.context = context;
     }
+
+    public DetailPresenter(ICartDatabase iCartDatabase, IListFood iListFood, IOnListFood iOnListFood, Context context) {
+        this.iCartDatabase = iCartDatabase;
+        this.iOnListFood = iOnListFood;
+        this.iListFood = iListFood;
+        this.context = context;
+    }
+
+
     public DetailPresenter(IDetailRestaurant iDetailRestaurant, Context context) {
         this.iDetailRestaurant = iDetailRestaurant;
         this.context = context;
     }
-    public DetailPresenter(IOrderCart iOrderCart, Context context) {
-        this.iOrderCart = iOrderCart;
-        this.context = context;
+    String tempType;
+//    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+//    public void getListType(String type){
+//        if(type.equals(IHelper.TYPE_QUICK_DELIVERIES) || type.equals(IHelper.TYPE_BEST_RATED))
+//            tempType = type;
+//    }
+    List<Restaurant> bestRestaurantList;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void showListRestaurant(String type) {// quick delivery or best rated
+        EventBus.getDefault().register(this);
+//        type = tempType;
+        System.out.println(type);
+//        System.out.println(type);
+//        switch (type) {
+//            case "0":
+                iListRestaurant.onShowListRestaurant(restaurantList);
+//                break;
+//            case "1":
+//                bestRestaurantList = new ArrayList<>();
+//                if(bestRestaurantList != null) {
+////                    bestRestaurantList.removeIf(r -> r.getRate() <= 4.0);
+//                    for (int i = 0; i < restaurantList.size(); i++) {
+//                        if(restaurantList.get(i).getRate()>= 4.0)
+//                            bestRestaurantList.add(restaurantList.get(i));
+//                    }
+//
+//                }
+//                iListRestaurant.onShowListRestaurant(bestRestaurantList);
+//                break;
+//        }
+
+        EventBus.getDefault().unregister(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void showListRestaurant(String type) {
+    public void saveRestaurantOnCart(Restaurant restaurant) {
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            if (!helper.findRestaurant(restaurant))
+                helper.insertRestaurant(restaurant);
 
-        EventBus.getDefault().register(this);
-        switch (type) {
-            case "0":
-                iListRestaurant.onShowListRestaurant(restaurantList);
-                break;
-            case "1":
-                List<Restaurant> bestRestaurantList = restaurantList;
-                bestRestaurantList.removeIf(r -> r.getRate() <= 4.0);
-                iListRestaurant.onShowListRestaurant(bestRestaurantList);
-                break;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
+    public void saveOnDatabase() {
+        helper = new CartDatabaseHelper(context);
+        EventBus.getDefault().register(this);
+        for (int i = 0; i < restaurantList.size(); i++) {
+            if (!helper.findRestaurant(restaurantList.get(i)))
+                saveRestaurantOnCart(restaurantList.get(i));
+        }
         EventBus.getDefault().unregister(this);
     }
 
     public void showDetailRestaurant() {
+
         EventBus.getDefault().register(this);
         iDetailRestaurant.onShowDetailRestaurant(res);
         EventBus.getDefault().unregister(this);
+
     }
 
-    public List<Food> getListFood(int type) {
+    public List<Food> getListFood() {
+        List<Food> foodList;
+//        EventBus.getDefault().register(this);
+        foodList = res.getFoodList();
+        iListFood.onListFood(res, restaurantList);
+//        EventBus.getDefault().unregister(this);
+        return foodList;
+    }
+
+//    public void showListFood(){
+//        iListFood.onListFood(getListFood());
+//    }
+
+    public List<Food> getListFood(List<Food> foodList, String type) {
         fastFoodList = new ArrayList<>();
         starterFoodList = new ArrayList<>();
         mainCourseList = new ArrayList<>();
         desertList = new ArrayList<>();
         drinkList = new ArrayList<>();
 
-        EventBus.getDefault().register(this);
-        list = res.getFoodList();
-        for (int i = 0; i < list.size(); i++) {
-            switch (list.get(i).getCategory()) {
+//        EventBus.getDefault().register(this);
+//        foodList = res.getFoodList();
+        for (int i = 0; i < foodList.size(); i++) {
+            switch (foodList.get(i).getCategory()) {
                 case "Fast food":
-                    fastFoodList.add(list.get(i));
+                    fastFoodList.add(foodList.get(i));
                     break;
                 case "Starter food":
-                    starterFoodList.add(list.get(i));
+                    starterFoodList.add(foodList.get(i));
                     break;
                 case "Main course food":
-                    mainCourseList.add(list.get(i));
+                    mainCourseList.add(foodList.get(i));
                     break;
                 case "Desert food":
-                    desertList.add(list.get(i));
+                    desertList.add(foodList.get(i));
                     break;
                 case "Drink":
-                    drinkList.add(list.get(i));
+                    drinkList.add(foodList.get(i));
                     break;
                 default:
                     break;
             }
         }
         switch (type) {
-            case 0:
+            case "Fast Food":
                 return fastFoodList;
-            case 1:
+            case "Starter":
                 return starterFoodList;
-            case 2:
+            case "Main Course":
                 return mainCourseList;
-            case 3:
+            case "Desert":
                 return desertList;
-            case 4:
+            case "Drink":
                 return drinkList;
         }
+//        EventBus.getDefault().unregister(this);
         return null;
-//        iOnListFood.onShowListFood(fastFoodList,starterFoodList,mainCourseList,desertList,drinkList);
     }
 
-    public void showListFood(int type) {
-        iOnListFood.onShowListFood(getListFood(type));
-    }
+    public List<Food> getListFavoriteFood() {
+//        EventBus.getDefault().register(this);
+        List<Food> foodList;
+        if (helper == null)
+            helper = new CartDatabaseHelper(context);
+        foodList = helper.getListFavoriteFood(res);
 
-
-    public void showTotalItemCart() {
-//        if(totalItemCart == 0)
-//            return;
-        EventBus.getDefault().register(this);
-//        iOnShowTotalItemCart.onShowTotalItemCart();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
+        return foodList;
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void getListOrderCart(Cart cart) {
-        if (cart != null && cart.getRestaurant() != null && cart.getRestaurant().getFoodList() != null)
-            listOrder = new ArrayList<>(cart.getRestaurant().getFoodList());
+    public void getCheck(String type) {
+        typeCheck = type;
     }
+
+    public void showListFood(String type, String listType) {
+//        public void showListFood(List<Food> foodList,String type) {
+//        iListFood.onListFood(getListFood());
+        EventBus.getDefault().register(this);
+
+        System.out.println(typeCheck);
+        System.out.println(typeCheck);
+        switch (typeCheck) {
+            case "default":
+                iOnListFood.onShowListFood(getListFood(getListFood(), type));
+                break;
+            case "favorite":
+                iOnListFood.onShowListFood(getListFood(getListFavoriteFood(), type));
+                break;
+        }
+        EventBus.getDefault().unregister(this);
+//        iOnListFood.onShowListFood(getListFood(foodList, type));
+//        iListFood.onListFood(res, restaurantList);
+
+//        List<Food> foodList = getListFood();
+
+    }
+
+
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void getListRestaurant(List<Restaurant> list) {
-        restaurantList = new ArrayList<>(list);
+
+        restaurantList = list;
+
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) // get detail from restaurant fragment
     public void getDetailRestaurant(Restaurant restaurant) {
+
         res = restaurant;
     }
 
+    public void saveFood(Food food) {
+//        EventBus.getDefault().register(this);
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            if (helper.findFood(food))
+                return;
+            food.setRestaurant(res);
+            helper.insertFood(food);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        EventBus.getDefault().unregister(this);
+    }
 
+    public void saveDetailCart(DetailCart detailCart) {
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            helper.insertDetailCart(detailCart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editFood(Food food) {
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+
+            helper.updateFood(food);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editCart(Cart cart) {
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            helper.updateCart(cart);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editDetailCart(DetailCart detailCart) {
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            helper.updateDetailCart(detailCart);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void destroyDetailCart(DetailCart detailCart) {
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            helper.deleteDetailCart(detailCart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void destroyFood(Food food, Cart cart) {
+        try {
+            if (helper == null)
+                helper = new CartDatabaseHelper(context);
+            helper.deleteFood(food, cart);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addFoodOrder(Food food, Cart cart) {
+
+    }
+
+    public void updateFoodOrder(Food food, Cart cart, String type) {
+        DetailCart detailCart = new DetailCart(food, cart);
+        switch (type) {
+            case "add":
+                saveFood(food);
+                detailCart.setCount(1);
+                saveDetailCart(detailCart); // create relationship food - cart
+
+                cart.setAmount(cart.getAmount() + 1);
+                cart.setTotalPrice(cart.getTotalPrice() + food.getPrice());
+
+
+                editCart(cart);
+//                iCartDatabase.onShowCart(cart);
+                EventBus.getDefault().postSticky(cart);
+                break;
+            case "plus":
+                cart.setTotalPrice(cart.getTotalPrice() + food.getPrice());
+
+//                editFood(food);
+                detailCart.setCount(food.getCount());
+                editDetailCart(detailCart);
+                editCart(cart);
+//                iCartDatabase.onShowCart(cart);
+                EventBus.getDefault().postSticky(cart);
+                break;
+            case "minus":
+                if (food.getCount() == 0) {
+//                    cartPresenter.destroyFood(food, cart);
+                    destroyDetailCart(detailCart);
+                    destroyFood(food, cart);
+                    cart.setAmount(cart.getAmount() - 1);
+                }
+                cart.setTotalPrice(cart.getTotalPrice() - food.getPrice());
+
+//                cartPresenter.editFood(food);
+//                cartPresenter.editCart(cart);
+//                editFood(food);
+                detailCart.setCount(food.getCount());
+                editDetailCart(detailCart);
+                editCart(cart);
+//                iCartDatabase.onShowCart(cart);
+                EventBus.getDefault().postSticky(cart);
+        }
+        EventBus.getDefault().postSticky(detailCart);
+    }
+
+    public void deleteOrder(Food food, Cart cart) {
+        listDelete.add(food);
+
+        if (helper == null)
+            helper = new CartDatabaseHelper(context);
+        DetailCart detailCart = helper.findDetailCart(food, cart);
+        int amount = cart.getAmount() - 1;
+        long totalPrice = cart.getTotalPrice() - (detailCart.getCount() * food.getPrice());
+        destroyDetailCart(detailCart);
+        destroyFood(food, cart);
+
+        cart.setAmount(amount);
+        cart.setTotalPrice(totalPrice);
+
+        editCart(cart);
+        food.setCount(0);
+        EventBus.getDefault().postSticky(listDelete);
+        EventBus.getDefault().postSticky(cart);
+        iOnShowCart.onShowCart(cart.getAmount(), cart.getTotalPrice());
+    }
 }

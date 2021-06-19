@@ -8,14 +8,14 @@
 
 
     -- Title --
-    <dimen name="title">24dp</dimen>
+    <dimen name="title">20dp</dimen>
     <dimen name="title_see_all">15dp</dimen>
-    <dimen name="title_sub">15dp</dimen>
+    <dimen name="title_sub">12dp</dimen>
     -- Title item --
     <dimen name="title_item">15dp</dimen>
     <dimen name="title_item_sub">12dp</dimen>
     - detail -
-    <dimen name="title_item_detail">24dp</dimen>
+    <dimen name="title_item_detail">20dp</dimen>
     <dimen name="title_item_detail_sub">15dp</dimen>
      - cart -
     <dimen name="title_item_cart">15dp</dimen>
@@ -25,14 +25,16 @@
 
     -- home list
     <dimen name="padding_home_list">10dp</dimen>
-    <dimen name="home_list_padding_header_title">10dp</dimen>
+    <dimen name="home_list_padding_header_title">7dp</dimen>
     <dimen name="home_list_text_size_header_title">24dp</dimen>
+
     - banner
-    <dimen name="item_banner_height">200dp</dimen>
+    <dimen name="item_banner_height">135dp</dimen>
 
 
     - item category --
-    <dimen name="item_food_category_height">150dp</dimen>
+    <dimen name="item_food_category_width">80dp</dimen>
+    <dimen name="item_food_category_height">100dp</dimen>
     <dimen name="item_category_corner">20dp</dimen>
     <dimen name="item_category_margin">6dp</dimen>
     <dimen name="item_category_elevation">35dp</dimen>
@@ -45,11 +47,16 @@
 
     - item restaurant list -
     <dimen name="item_restaurant_list_height">100dp</dimen>
+
     <dimen name="item_restaurant_list_logo">80dp</dimen>
+    -- detail restaurant
+    <dimen name="item_detail_restaurant_logo">80dp</dimen>
+
     -- Item quick and rated
     <dimen name="margin_item_img_res">5dp</dimen>
 
-    <dimen name="item_food_category_width">130dp</dimen>
+    -- order cart
+    <dimen name="order_cart_note_height">100dp</dimen>
 
     -- Item food --
     <dimen name="item_food_height">70dp</dimen>
@@ -66,6 +73,17 @@
 
     -- sign up
     <dimen name="sign_up_ic">30dp</dimen>
+    -- my order --
+    <dimen name="my_order_restaurant_logo">50dp</dimen>
 
+    -- profile
+    <dimen name="profile_et_height">40dp</dimen>
+
+    -- action bar --
+    <dimen name="action_bar_height">50dp</dimen>
+    <dimen name="action_bar_image">200dp</dimen>
+
+    <dimen name="action_bar_bgr_corner">30dp</dimen>
+    <dimen name="order_cart_promo_height">50dp</dimen>
 
 </resources>

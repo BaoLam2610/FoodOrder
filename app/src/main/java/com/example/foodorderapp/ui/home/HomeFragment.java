@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getViewPager(){
-        viewPagerAdapter = new ViewPagerAdapter(getParentFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         binding.vpFragment.setAdapter(viewPagerAdapter);
         binding.vpFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -8,20 +8,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.foodorderapp.tablayout.DesertFragment;
-import com.example.foodorderapp.tablayout.DrinkFragment;
-import com.example.foodorderapp.tablayout.FastFoodFragment;
-import com.example.foodorderapp.tablayout.MainCourseFoodFragment;
-import com.example.foodorderapp.tablayout.StarterFoodFragment;
+import com.example.foodorderapp.R;
+import com.example.foodorderapp.detail.ListFoodFragment;
+import com.example.foodorderapp.model.Food;
+
+import java.util.List;
 
 public class TabFoodCategoryAdapter extends FragmentStatePagerAdapter {
 
     Context context;
-
+    List<Food> foodList;
+    String type;
 
     public TabFoodCategoryAdapter(@NonNull FragmentManager fm, int behavior, Context context) {
         super(fm, behavior);
         this.context = context;
+        this.type = type;
     }
 
     @NonNull
@@ -29,30 +31,15 @@ public class TabFoodCategoryAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                FastFoodFragment fastFoodFragment = null;
-                if (fastFoodFragment == null)
-                    fastFoodFragment = FastFoodFragment.newInstance();
-                return fastFoodFragment;
+                return ListFoodFragment.newInstance(context.getResources().getString(R.string.fast_food));
             case 1:
-                StarterFoodFragment starterFoodFragment = null;
-                if (starterFoodFragment == null)
-                    starterFoodFragment = StarterFoodFragment.newInstance();
-                return starterFoodFragment;
+                return ListFoodFragment.newInstance(context.getResources().getString(R.string.starter));
             case 2:
-                MainCourseFoodFragment mainCourseFoodFragment = null;
-                if (mainCourseFoodFragment == null)
-                    mainCourseFoodFragment = MainCourseFoodFragment.newInstance();
-                return mainCourseFoodFragment;
+                return ListFoodFragment.newInstance(context.getResources().getString(R.string.main_course));
             case 3:
-                DesertFragment desertFragment = null;
-                if (desertFragment == null)
-                    desertFragment = DesertFragment.newInstance();
-                return desertFragment;
+                return ListFoodFragment.newInstance(context.getResources().getString(R.string.desert));
             case 4:
-                DrinkFragment drinkFragment = null;
-                if (drinkFragment == null)
-                    drinkFragment = DrinkFragment.newInstance();
-                return drinkFragment;
+                return ListFoodFragment.newInstance(context.getResources().getString(R.string.drink));
         }
         return null;
     }
@@ -68,19 +55,19 @@ public class TabFoodCategoryAdapter extends FragmentStatePagerAdapter {
         String title = "";
         switch (position) {
             case 0:
-                title = "Fast Food";
+                title = context.getResources().getString(R.string.fast_food);
                 break;
             case 1:
-                title = "Starter";
+                title = context.getResources().getString(R.string.starter);
                 break;
             case 2:
-                title = "Main Course";
+                title = context.getResources().getString(R.string.main_course);
                 break;
             case 3:
-                title = "Desert";
+                title = context.getResources().getString(R.string.desert);
                 break;
             case 4:
-                title = "Drink";
+                title = context.getResources().getString(R.string.drink);
                 break;
         }
         return title;

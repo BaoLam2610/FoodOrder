@@ -1,10 +1,11 @@
 package com.example.foodorderapp.model;
 
 public class UserAccount {
-    private String phone, username, password, avatar, address;
+    private String phone, username, password, address;
+    private byte[] avatar;
     private int status;
 
-    public UserAccount(String phone, String username, String password, String avatar, String address, int status) {
+    public UserAccount(String phone, String username, String password, byte[] avatar, String address, int status) {
         this.phone = phone;
         this.username = username;
         this.password = password;
@@ -37,11 +38,11 @@ public class UserAccount {
         this.password = password;
     }
 
-    public String getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 

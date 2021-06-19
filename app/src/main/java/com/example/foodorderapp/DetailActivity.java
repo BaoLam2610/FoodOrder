@@ -1,6 +1,7 @@
 package com.example.foodorderapp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,9 +11,15 @@ import androidx.fragment.app.Fragment;
 import com.example.foodorderapp.databinding.ActivityDetailBinding;
 import com.example.foodorderapp.detail.DetailRestaurantFragment;
 import com.example.foodorderapp.detail.ListRestaurantFragment;
-import com.example.foodorderapp.login.LoginSignUpFragment;
+
 import com.example.foodorderapp.event.IOnBackPressed;
 import com.example.foodorderapp.helper.IHelper;
+import com.example.foodorderapp.login.LoginSignUpFragment;
+import com.example.foodorderapp.model.Restaurant;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -30,10 +37,15 @@ public class DetailActivity extends AppCompatActivity {
         if (it.hasExtra("quick_deliveries")) {
             switch (it.getStringExtra("quick_deliveries")) {
                 case "show_more":
+//                    List<Restaurant> quickDeliveriesList = it.getParcelableArrayListExtra("quick_deliveries_list");
+//                    EventBus.getDefault().postSticky("check");
+//                    EventBus.getDefault().postSticky(IHelper.TYPE_QUICK_DELIVERIES);
                     getFragment(ListRestaurantFragment.newInstance(IHelper.TYPE_QUICK_DELIVERIES));
+//                    getFragment(ListRestaurantFragment.newInstance());
                     break;
                 case "item":
                     bundle.putString("back_pressed", "check");
+                    EventBus.getDefault().postSticky("default");
                     DetailRestaurantFragment detailRestaurantFragment = DetailRestaurantFragment.newInstance();
                     detailRestaurantFragment.setArguments(bundle);
                     getFragmentDetail(detailRestaurantFragment);
@@ -41,14 +53,32 @@ public class DetailActivity extends AppCompatActivity {
                 default:
                     break;
             }
+
         }
         if (it.hasExtra("best_rated")) {
             switch (it.getStringExtra("best_rated")) {
                 case "show_more":
+//                    EventBus.getDefault().postSticky(IHelper.TYPE_BEST_RATED);
                     getFragment(ListRestaurantFragment.newInstance(IHelper.TYPE_BEST_RATED));
+//                    getFragment(ListRestaurantFragment.newInstance());
                     break;
                 case "item":
                     bundle.putString("back_pressed", "check");
+                    EventBus.getDefault().postSticky("default");
+                    DetailRestaurantFragment detailRestaurantFragment = DetailRestaurantFragment.newInstance();
+                    detailRestaurantFragment.setArguments(bundle);
+                    getFragmentDetail(detailRestaurantFragment);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        if (it.hasExtra("favorite")) {
+            switch (it.getStringExtra("favorite")) {
+                case "item":
+                    bundle.putString("back_pressed", "check");
+                    EventBus.getDefault().postSticky("favorite");
                     DetailRestaurantFragment detailRestaurantFragment = DetailRestaurantFragment.newInstance();
                     detailRestaurantFragment.setArguments(bundle);
                     getFragmentDetail(detailRestaurantFragment);
@@ -57,8 +87,28 @@ public class DetailActivity extends AppCompatActivity {
                     break;
             }
         }
+        if(it.hasExtra("login_screen")){
+            switch (it.getStringExtra("login_screen")){
+                case "login":
+                    getFragment(LoginSignUpFragment.newInstance("main",null));
+                    break;
+            }
+        }
 
+    }
 
+    public void setActionBarCustom(int dp){
+        float density = getResources().getDisplayMetrics().density;
+        float px = dp *density;
+        binding.appBar.getLayoutParams().height = (int)px;
+        binding.appBar.setBackgroundResource(R.drawable.bgr_cooking);
+    }
+
+    public void setActionBarDefault(int dp){
+        float density = getResources().getDisplayMetrics().density;
+        float px = dp *density;
+        binding.appBar.getLayoutParams().height = (int)px;
+        binding.appBar.setBackgroundResource(R.color.white);
     }
 
     public void getFragment(Fragment fragment) {
@@ -73,9 +123,6 @@ public class DetailActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void setActionBarTitle(String title){
-        binding.toolbar.setTitle(title);
-    }
 
     @Override
     public void onBackPressed() {
@@ -85,5 +132,12 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getIntent().removeExtra("quick_deliveries");
+        getIntent().removeExtra("best_rated");
+        getIntent().removeExtra("favorite");
+        getIntent().removeExtra("login_screen");
+    }
 }

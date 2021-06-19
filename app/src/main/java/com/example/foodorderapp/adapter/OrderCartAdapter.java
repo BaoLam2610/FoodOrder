@@ -12,26 +12,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.databinding.ItemFoodOrderCartBinding;
+import com.example.foodorderapp.event.ICartDatabase;
 import com.example.foodorderapp.event.IOnClickDeleteOrder;
+import com.example.foodorderapp.event.IOnShowDetailCart;
+import com.example.foodorderapp.model.Cart;
+import com.example.foodorderapp.model.DetailCart;
 import com.example.foodorderapp.model.Food;
+import com.example.foodorderapp.presenter.CartDatabasePresenter;
+import com.example.foodorderapp.sql.CartDatabaseHelper;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class OrderCartAdapter extends RecyclerView.Adapter<OrderCartAdapter.OrderCartViewHolder> {
+public class OrderCartAdapter extends RecyclerView.Adapter<OrderCartAdapter.OrderCartViewHolder>
+implements IOnShowDetailCart {
 
     DecimalFormat df = new DecimalFormat("###,###");
     List<Food> foodList;
     Context context;
+    CartDatabaseHelper helper;
     IOnClickDeleteOrder iOnClickDeleteOrder;
+    CartDatabasePresenter presenter;
+    Cart cart;
 
     public void setIOnClickDeleteOrder(IOnClickDeleteOrder iOnClickDeleteOrder) {
         this.iOnClickDeleteOrder = iOnClickDeleteOrder;
     }
 
-    public OrderCartAdapter(List<Food> foodList, Context context) {
+    public OrderCartAdapter(List<Food> foodList,Cart cart, Context context) {
         this.foodList = foodList;
         this.context = context;
+        this.cart = cart;
     }
 
     @NonNull
@@ -49,7 +60,8 @@ public class OrderCartAdapter extends RecyclerView.Adapter<OrderCartAdapter.Orde
         holder.binding.tvFoodName.setText(food.getName());
         holder.binding.tvFoodCategory.setText(food.getCategory());
         holder.binding.tvFoodPrice.setText(df.format(food.getPrice()));
-        holder.binding.tvFoodCount.setText(context.getResources().getString(R.string.amount) + " " + food.getCount());
+        presenter = new CartDatabasePresenter(this,context);
+        presenter.showDetailCart(food,cart,holder);
         Glide.with(context).load(food.getImage())
                 .centerCrop()   // căn ảnh
 //                    .placeholder(R.drawable.ic_baseline_image_24)  // đợi load ảnh
@@ -62,6 +74,17 @@ public class OrderCartAdapter extends RecyclerView.Adapter<OrderCartAdapter.Orde
     public int getItemCount() {
         return foodList.size();
     }
+
+    @Override
+    public void onShowDetailCart(DetailCart detailCart, OrderCartViewHolder holder) {
+        holder.binding.tvFoodCount.setText(context.getResources().getString(R.string.amount) + " " + detailCart.getCount());
+    }
+
+    @Override
+    public void onShowDetailCart(DetailCart detailCart, MyOrderListFoodAdapter.ListFoodOrderViewHolder holder) {
+
+    }
+
 
     public class OrderCartViewHolder extends RecyclerView.ViewHolder {
         ItemFoodOrderCartBinding binding;

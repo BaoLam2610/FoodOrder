@@ -5,32 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/line_bottom_menu"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.93"/>
-
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/vpFragment"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomMenu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/line_bottom_menu"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        app:layout_constraintVertical_bias="1"
+        android:layout_height="wrap_content"
         android:id="@+id/bottomMenu"
         android:background="@color/bottom_menu_bgr"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/line_bottom_menu"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_menu"/>
+        app:itemIconTint="@color/item_menu_selection"
+        app:itemTextColor="@color/item_menu_selection"
+        app:menu="@menu/bottom_menu"
+        android:elevation="5dp"
+        app:elevation="5dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

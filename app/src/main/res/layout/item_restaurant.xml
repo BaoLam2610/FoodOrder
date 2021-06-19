@@ -73,6 +73,7 @@
                 android:id="@+id/tvResAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:drawableTint="@color/icon_location"
                 android:drawableLeft="@drawable/custom_item_restaurant_location"
                 android:text="Address"
                 android:textAppearance="@style/title_item_sub"
@@ -85,15 +86,14 @@
                 app:layout_constraintWidth_percent="0.65" />
 
             <TextView
-
                 android:id="@+id/tvResRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3.2"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@+id/tvResAddress"
+                app:layout_constraintEnd_toStartOf="@+id/rbResRate"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvResProvide"
                 app:layout_constraintVertical_bias="0.5" />
 
@@ -109,8 +109,8 @@
                 android:theme="@style/RatingBar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.05"
-                app:layout_constraintStart_toEndOf="@+id/tvResRate"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvResProvide"
                 app:layout_constraintVertical_bias="0.5" />
 

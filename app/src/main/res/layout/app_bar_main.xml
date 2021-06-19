@@ -8,18 +8,17 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_height="@dimen/action_bar_height"
+            android:gravity="center_vertical"
+            android:background="@color/action_bar_bgr"
             android:theme="@style/Theme.FoodOrderApp.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/action_bar_bgr"
+                android:layout_height="@dimen/action_bar_height"
+
                 app:titleTextColor="@color/black"
-
-
                  />
 
         </com.google.android.material.appbar.AppBarLayout>

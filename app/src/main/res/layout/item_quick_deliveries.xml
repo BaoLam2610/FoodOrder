@@ -13,9 +13,11 @@
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/item_restaurant_span_height"
             android:layout_height="@dimen/item_restaurant_span_height"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
 
             <ImageView
+
                 android:id="@+id/ivResImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -59,6 +61,7 @@
                 android:id="@+id/tvResAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableTint="@color/icon_location"
                 android:drawableLeft="@drawable/custom_item_restaurant_location"
                 android:text="Address"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -1,22 +1,40 @@
 package com.example.foodorderapp.model;
 
+import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 
-public class Cart {
+public class Cart implements Serializable {
     private String idCart;
     private Restaurant restaurant;
     private List<Food> foodOrder;
+    private String date;
     private int amount;
     private long totalPrice;
+    private Voucher voucher;
+    private String note;
+    private int status = 0;
+    private static int id = 0;
+    Random rd = new Random();
+    DecimalFormat df = new DecimalFormat("0");
 
-    public Cart() {
-    }
-
-    public Cart(String idCart, Restaurant restaurant, int amount, long totalPrice) {
-        this.restaurant = restaurant;
+    public Cart(String idCart, Restaurant restaurant, int amount, long totalPrice,int status) {
         this.idCart = idCart;
+        this.restaurant = restaurant;
         this.amount = amount;
         this.totalPrice = totalPrice;
+        this.status = status;
+    }
+
+    public Cart(Restaurant restaurant, int amount, long totalPrice) {
+
+        idCart = df.format(rd.nextInt(1000));
+        this.restaurant = restaurant;
+
+        this.amount = amount;
+        this.totalPrice = totalPrice;
+        status = 0;
     }
 
     public Cart(List<Food> foodOrder) {
@@ -61,5 +79,37 @@ public class Cart {
 
     public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Voucher getVoucher() {
+        return voucher;
+    }
+
+    public void setVoucher(Voucher voucher) {
+        this.voucher = voucher;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

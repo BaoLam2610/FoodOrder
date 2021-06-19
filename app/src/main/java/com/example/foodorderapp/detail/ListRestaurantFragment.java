@@ -33,25 +33,31 @@ import com.example.foodorderapp.model.Cart;
 import com.example.foodorderapp.model.Restaurant;
 import com.example.foodorderapp.presenter.CartDatabasePresenter;
 import com.example.foodorderapp.presenter.DetailPresenter;
+import com.example.foodorderapp.presenter.ListFoodPresenter;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
 public class ListRestaurantFragment extends Fragment implements IListRestaurant, ICartDatabase {
-    private static final String TAG = "ListQuickDeliveriesFrag";
+    public static final String TAG = "ListQuickDeliveriesFrag";
     FragmentListQuickDeliveriesBinding binding;
-    List<Restaurant> restaurantList;
+    List<Restaurant> restaurants;
     ListRestaurantAdapter restaurantAdapter;
+    ListFoodPresenter restaurantPresenter;
     CartDatabasePresenter cartPresenter;
     DetailPresenter presenter;
     SearchView searchView;
     String type;
     int countRes;
+
     public static ListRestaurantFragment newInstance(String type) {
 
         Bundle args = new Bundle();
-        args.putString("list_type", type);
+        args.putString("list_type_check", type);
+//        args.putParcelableArrayList("restaurant_list", (ArrayList<? extends Parcelable>) restaurantList);
         ListRestaurantFragment fragment = new ListRestaurantFragment();
         fragment.setArguments(args);
         return fragment;
@@ -59,21 +65,43 @@ public class ListRestaurantFragment extends Fragment implements IListRestaurant,
 
     public String getListType() {
         Bundle args = getArguments();
-        return args.getString("list_type", "NO TITLE FOUND");
+        return args.getString("list_type_check", "NO TITLE FOUND");
     }
+//    public List<Restaurant> getRestaurantList(){
+//        Bundle args = getArguments();
+//        return args.getParcelableArrayList("restaurant_list");
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_quick_deliveries, container, false);
+
+        String type = getListType();
+        System.out.println(type);
+
+
         presenter = new DetailPresenter(this, getContext());
+//        presenter.showListRestaurant(getRestaurantList(),getListType()); // bundle
+//        presenter.saveOnDatabase();
         presenter.showListRestaurant(getListType()); // from API
+//        if (getListType() != null)
+//            presenter.showListRestaurant(getListType()); // from API
+//        restaurantPresenter = new ListRestaurantPresenter(this,getContext());
+//        restaurantPresenter.showListRestaurant(getListType());
         setHasOptionsMenu(true);
         setTitleActionBar();
 
         return binding.getRoot();
     }
+//
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        presenter.showListRestaurant(getListType()); // from API
+//    }
 
     public void setTitleActionBar() {
         String title = "";
@@ -99,22 +127,28 @@ public class ListRestaurantFragment extends Fragment implements IListRestaurant,
 
     @Override
     public void onShowListRestaurant(List<Restaurant> restaurantList) {
-        restaurantAdapter = new ListRestaurantAdapter(restaurantList, getContext());
+        if(restaurantList!=null) {
+            restaurants = restaurantList;
+        }
+        restaurantAdapter = new ListRestaurantAdapter(restaurants, getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        countRes = restaurantList.size();
+        restaurantAdapter.notifyDataSetChanged();
+        countRes = restaurants.size();
         binding.tvResFound.setText(countRes + " " + getContext().getResources().getString(R.string.tv_restaurant_found));
         binding.rvListRestaurant.setAdapter(restaurantAdapter);
         binding.rvListRestaurant.setLayoutManager(layoutManager);
+
         cartPresenter = new CartDatabasePresenter(this, getContext());
         restaurantAdapter.setClickItemRestaurant(new IOnClickItemRestaurant() {
             @Override
             public void onClickItem(Restaurant restaurant) {
                 EventBus.getDefault().postSticky(restaurant); //
+
                 cartPresenter.saveRestaurantOnCart(restaurant);
-                Cart currentCart = new Cart("001", restaurant, 0, 0);
-
+                Cart currentCart = new Cart(restaurant, 0, 0);
+                cartPresenter.saveCart(currentCart);
                 EventBus.getDefault().postSticky(currentCart);
-
+                EventBus.getDefault().postSticky("default");
                 getFragment(DetailRestaurantFragment.newInstance());
                 // edge://inspect/#devices
             }
@@ -123,7 +157,14 @@ public class ListRestaurantFragment extends Fragment implements IListRestaurant,
     }
 
     @Override
+    public void onErrorListRestaurant() {
+        binding.rvListRestaurant.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        boolean check = restaurantAdapter == null ? true : false;
+        System.out.println(check);
         menu.clear();
         inflater.inflate(R.menu.detail_search, menu);
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
@@ -133,7 +174,6 @@ public class ListRestaurantFragment extends Fragment implements IListRestaurant,
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 restaurantAdapter.getFilter().filter(query, new Filter.FilterListener() {
                     @Override
                     public void onFilterComplete(int count) {
@@ -175,12 +215,38 @@ public class ListRestaurantFragment extends Fragment implements IListRestaurant,
                 return true;
             default:
                 getActivity().finish();
+//                EventBus.getDefault().removeAllStickyEvents();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onShowCart(Cart cart) {
+
+    }
+
+    //
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void getListRestaurant(List<Restaurant> list) {
+        if(list!=null) {
+            restaurants = list;
+        }
+        EventBus.getDefault().removeStickyEvent(list);
+    }
+
+
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
 
     }
 }

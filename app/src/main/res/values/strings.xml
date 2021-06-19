@@ -10,8 +10,8 @@
 
     -- Drawer --
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_user_profile">Profile</string>
+    <string name="menu_terms_conditions">Terms &amp; Conditions</string>
 
     -- Bottom menu --
     <string name="bottom_menu_home">Home</string>
@@ -31,9 +31,15 @@
 
     -- Item food --
     <string name="item_food_add">Add</string>
+    -- Order cart
     <string name="order_cart_title">Your list order</string>
 
-    <string name="order_cart_payment_inf">Payment information</string>
+    <string name="order_cart_payment_summary">Order summary</string>
+    <string name="order_cart_payment_note">Order notes</string>
+    <string name="order_cart_payment_promo_code">Promo code</string>
+
+
+
     <string name="drawer_login">Login</string>
     <string name="login_phone">Phone</string>
     <string name="login_password">Password</string>
@@ -50,6 +56,7 @@
     <string name="detail_restaurant">Detail restaurant</string>
     <string name="detail_activity_menu_search">Search</string>
     <string name="detail_restaurant_view_cart">View Cart</string>
+
     <string name="account_my_wallet">My Wallet</string>
     <string name="payments_cards">Cards</string>
     <string name="payments_wallet">Wallet</string>
@@ -62,12 +69,91 @@
     <string name="payments_other_discover">Discover</string>
 
     -- Cart
+    <string name="cart_title">My Order Cart</string>
     <string name="price">Price</string>
     <string name="amount">Amount: </string>
+    <string name="cart_order">Place Order</string>
+    <string name="cart_payment">Payment</string>
+    <string name="cart_dialog_content_delete_order">Do you want to delete this item?</string>
+    <string name="cart_dialog_content_delete_promo">Do you want to cancel this promo code?</string>
+    <string name="cart_dialog_content_require_promo">You don\&apos;t have any items. Please order some items to show Promo code.</string>
+
+    <string name="cart_dialog_positive">Yes</string>
+    <string name="cart_dialog_negative">Cancel</string>
+
+    <string name="cart_dialog_error_title">Order error</string>
+    <string name="cart_dialog_error_content">You can\&apos;t place order because you don\&apos;t have any items.</string>
+
+    -- order information --
+    <string name="order_inf_delivery_detail">Delivery detail</string>
+    <string name="order_inf_order_detail">Order detail</string>
+    <string name="order_inf_note">Order note</string>
+    <string name="order_inf_summary">Order summary</string>
+
+    <string name="order_inf_recipient_name">Recipient\'s name</string>
+
+
+    -- Login , sign up --
     <string name="login_continue">Continue</string>
     <string name="login_continue_with_google">Continue with <b>Google</b></string>
+    <string name="sign_up_phone">Phone number</string>
     <string name="sign_up_full_name">Full name</string>
     <string name="sign_up_password">Password</string>
     <string name="sign_up_confirm_pass">Confirm password</string>
     <string name="login_title_welcome">You are almost in.<br/>Please enter your password to continue</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="login_welcome">Hi</string>
+
+
+    -- Title tab layout food --
+    <string name="fast_food">Fast Food</string>
+    <string name="starter">Starter</string>
+    <string name="main_course">Main Course</string>
+    <string name="desert">Desert</string>
+    <string name="drink">Drink</string>
+
+    -- login request dialog --
+    <string name="title_login_dialog_error">Error</string>
+    <string name="title_login_dialog">Attention</string>
+    <string name="title_login_content">You need to be logged in to place an order</string>
+
+    <string name="login_dialog_register_required">This phone number is not registered, do you want to register?</string>
+    <string name="login_dialog_positive">Login</string>
+    <string name="login_dialog_negative">Cancel</string>
+    <string name="payments_back_to_home">Back to Home</string>
+    <string name="delivered">Delivered</string>
+    <string name="my_order_total_price">Total: </string>
+
+    -- Login error --
+    <string name="error_phone_empty">Phone can not be empty</string>
+    <string name="error_phone_length">Length of Phone must be 10 or 11 number</string>
+    <string name="error_phone_exists">Phone is exists</string>
+
+    <string name="error_username_empty">Username can not be empty</string>
+    <string name="error_password_empty">Password can not be empty</string>
+    <string name="error_confirm_pass">Confirm password not same password</string>
+
+    <string name="error_login">Phone or password is wrong. Or account is not exists</string>
+
+    -- drawer
+    <string name="phone">Phone: </string>
+
+    -- NETWORK --
+    <string name="network_connected">Connecting to the Internet</string>
+    <string name="error_network_disconnected">Unable to connect to the Internet</string>
+
+    -- main action bar --
+    <string name="action_bar_home">Home</string>
+    <string name="action_bar_my_order">My Order</string>
+    <string name="action_bar_favorites">Favorites</string>
+
+    -- Payment successful
+    <string name="payment_successful_title">Order Placed !!</string>
+    <string name="payment_successful_thank">Thanks for choosing us for delivering your foods.</string>
+    <string name="payment_successful_back_home">You can check your order status in your order section.</string>
+    <string name="detail_restaurant_introduction">We have different kinds of burgers and desserts that will surely suit your taste, and we offer a very affordable price. This business is not new on the market, and we have four branches already. I am attaching a menu for you. I hope you can drop by to our store so that you can try our very yummy burgers and desserts.</string>
+    <string name="cart_empty_list_order">You don\&apos;t have any items yet.</string>
+
+
 </resources>

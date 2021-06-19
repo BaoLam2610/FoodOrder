@@ -39,12 +39,12 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
         FoodCategory foodCategory = categoryList.get(position);
         holder.binding.tvNameFoodCate.setText(foodCategory.getName());
         //Glide.with(mContext).load(image.getId()).into(ivImage);
-        Glide.with(context).load(foodCategory.getImage())
-                //.centerCrop()   // căn ảnh
-//                    .placeholder(R.drawable.ic_baseline_image_24)  // đợi load ảnh
-//                    .error(R.drawable.ic_baseline_error_24)        // load ảnh bị lỗi
-                .into(holder.binding.ivFoodCategory);
-
+//        Glide.with(context).load(foodCategory.getImage())
+//                //.centerCrop()   // căn ảnh
+////                    .placeholder(R.drawable.ic_baseline_image_24)  // đợi load ảnh
+////                    .error(R.drawable.ic_baseline_error_24)        // load ảnh bị lỗi
+//                .into(holder.binding.ivFoodCategory);
+        holder.binding.ivFoodCategory.setImageResource(Integer.parseInt(foodCategory.getImage()));
     }
 
     @Override

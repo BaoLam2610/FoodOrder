@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:elevation="3dp"
+            android:id="@+id/ivAvatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user_avatar_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.02" />
+
+        <RelativeLayout
+            android:id="@+id/btnEditAvatar"
+            android:elevation="3dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/custom_circle_avatar"
+            app:layout_constraintBottom_toTopOf="@+id/tvUsername"
+            app:layout_constraintEnd_toEndOf="@+id/ivAvatar"
+            app:layout_constraintHorizontal_bias="0.89"
+            app:layout_constraintStart_toStartOf="@+id/ivAvatar"
+            app:layout_constraintTop_toTopOf="@+id/ivAvatar"
+            app:layout_constraintVertical_bias="1">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_menu_camera"
+                app:tint="@color/color_text_default" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nguyen Bao Lam"
+            android:textAppearance="@style/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
+            app:layout_constraintVertical_bias="0.01" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUsername"
+            app:layout_constraintVertical_bias="0.1">
+
+            <TextView
+                android:id="@+id/tvProfileDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile Details"
+                android:textAppearance="@style/title"
+                android:textSize="17dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.05" />
+
+            <TextView
+                android:id="@+id/title_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your name"
+                android:textAppearance="@style/title_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvProfileDetails"
+                app:layout_constraintVertical_bias="0.05" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/profile_et_height"
+                android:background="@drawable/custom_login_edit_text"
+                android:text="Nguyen Bao Lam"
+                android:textAppearance="@style/title_item"
+                android:textColor="@color/color_text_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/title_username"
+                app:layout_constraintTop_toBottomOf="@+id/title_username"
+                app:layout_constraintVertical_bias="0.01"
+                app:layout_constraintWidth_percent="0.82"
+                android:inputType="text"
+                android:maxLength="30"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/title_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your phone number"
+                android:textAppearance="@style/title_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/title_username"
+                app:layout_constraintTop_toBottomOf="@+id/etUsername"
+                app:layout_constraintVertical_bias="0.05" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/profile_et_height"
+                android:background="@drawable/custom_login_edit_text"
+                android:text="0945676638"
+                android:textAppearance="@style/title_item"
+                android:textColor="@color/color_text_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/etUsername"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/title_phone_number"
+                app:layout_constraintTop_toBottomOf="@+id/title_phone_number"
+                app:layout_constraintVertical_bias="0.01"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true"
+                 />
+
+            <TextView
+                android:id="@+id/title_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your address"
+                android:textAppearance="@style/title_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/title_username"
+                app:layout_constraintTop_toBottomOf="@+id/etPhone"
+                app:layout_constraintVertical_bias="0.05" />
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/profile_et_height"
+                android:background="@drawable/custom_login_edit_text"
+                android:text="Pha Lai, Chi Linh, Hai Duong"
+                android:textAppearance="@style/title_item"
+                android:textColor="@color/color_text_default"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
+                app:layout_constraintEnd_toStartOf="@+id/btnChooseLocation"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/title_address"
+                app:layout_constraintTop_toBottomOf="@+id/title_address"
+                app:layout_constraintVertical_bias="0.01"
+                android:layout_marginRight="20dp"
+                android:inputType="text"
+                android:maxLength="100"
+                android:singleLine="true"/>
+
+            <RelativeLayout
+                android:id="@+id/btnChooseLocation"
+                android:layout_width="40dp"
+                android:layout_height="@dimen/profile_et_height"
+                android:background="@drawable/custom_btn_choose_location"
+                android:elevation="3dp"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
+                app:layout_constraintEnd_toEndOf="@+id/etPhone"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etAddress"
+                app:layout_constraintVertical_bias="0">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_location"
+                    app:tint="@color/icon_location" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_btn_save_profile"
+                android:elevation="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.98"
+                app:layout_constraintWidth_percent="0.9">
+
+                <TextView
+                    android:id="@+id/btnSaveProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Save Profile"
+                    android:textAppearance="@style/title"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

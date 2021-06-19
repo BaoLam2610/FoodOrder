@@ -33,12 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeListPresenter {
-    final String LIST_RESTAURANT_API = "https://demo9455117.mockable.io/ListRestaurant";
-    final String LIST_BANNER_API = "https://demo9455117.mockable.io/ListBanner";
-    final String LIST_FOOD_CATEGORY_API = "https://demo9455117.mockable.io/ListFoodCategory";
-    final int LIST_BANNER = 0;
-    final int LIST_FOOD_CATEGORY = 1;
-    final int LIST_RESTAURANT = 2;
+
     IHomeListHelper iHomeListHelper;
     List<GroupList> groupList;
     Context context;
@@ -55,8 +50,8 @@ public class HomeListPresenter {
 
                 if (response.body() != null) {
                     List<Restaurant> restaurantList = response.body();
-                    restaurantList.isEmpty();
-                    restaurantList.size();
+//                    restaurantList.isEmpty();
+//                    restaurantList.size();
                     groupList = new ArrayList<>();
                     groupList.add(new GroupList(
                             ListGroupAdapter.TYPE_FOOD_BANNER,
@@ -109,11 +104,11 @@ public class HomeListPresenter {
     }
     public List<FoodCategory> getFoodCategory(){
         List<FoodCategory> foodCategoryList = new ArrayList<>();
-        foodCategoryList.add(new FoodCategory("Fast Food","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
-        foodCategoryList.add(new FoodCategory("Starter","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
-        foodCategoryList.add(new FoodCategory("Main Course","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
-        foodCategoryList.add(new FoodCategory("Dessert","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
-        foodCategoryList.add(new FoodCategory("Drink","http://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg"));
+        foodCategoryList.add(new FoodCategory("Fast Food",R.drawable.ic_fast_food+""));
+        foodCategoryList.add(new FoodCategory("Starter",R.drawable.ic_starter_food+""));
+        foodCategoryList.add(new FoodCategory("Main Course",R.drawable.ic_main_course+""));
+        foodCategoryList.add(new FoodCategory("Dessert",R.drawable.ic_desert+""));
+        foodCategoryList.add(new FoodCategory("Drink",R.drawable.ic_drink+""));
         return foodCategoryList;
     }
 }

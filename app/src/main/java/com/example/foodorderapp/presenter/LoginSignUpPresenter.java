@@ -2,6 +2,7 @@ package com.example.foodorderapp.presenter;
 
 import android.content.Context;
 
+import com.example.foodorderapp.R;
 import com.example.foodorderapp.event.ICheckLogin;
 import com.example.foodorderapp.event.ILogin;
 import com.example.foodorderapp.event.IShowAccountInf;
@@ -35,39 +36,57 @@ public class LoginSignUpPresenter {
         this.context = context;
     }
 
+    public LoginSignUpPresenter(IShowAccountInf iShowAccountInf, Context context) {
+        this.iShowAccountInf = iShowAccountInf;
+        this.context = context;
+    }
+
     public void checkLogin(String phone) {
         if (phone.isEmpty()) {
-            iLogin.onFailure("Phone can not be empty");
+            iLogin.onFailure(context.getResources().getString(R.string.error_phone_empty));
             return;
         }
         if (phone.length() < 10 || phone.length() > 11) {
-            iLogin.onFailure("Length of Phone must be 10 or 11 number");
+            iLogin.onFailure(context.getResources().getString(R.string.error_phone_length));
             return;
         }
         if (helper == null)
             helper = new CartDatabaseHelper(context);
         if (helper.findAccount(phone)) { // if exists -> true -> login form, else false -> sign up
-            iLogin.onSuccessful(EXISTS_PHONE);
+            UserAccount user = helper.getAccount(phone);
+            iLogin.onSuccessful(EXISTS_PHONE,user.getUsername());
         } else {
-            iLogin.onSuccessful(NOT_EXISTS_PHONE);
+            iLogin.onSuccessful(NOT_EXISTS_PHONE,null);
         }
     }
 
     public void checkSignUp(String phone, String username, String pass1, String pass2) {
+        if (helper == null)
+            helper = new CartDatabaseHelper(context);
+        if (phone.isEmpty()) {
+            iSignUp.onFailure(context.getResources().getString(R.string.error_phone_empty));
+            return;
+        }
+        if (phone.length() < 10 || phone.length() > 11) {
+            iSignUp.onFailure(context.getResources().getString(R.string.error_phone_length));
+            return;
+        }
+        if(helper.findAccount(phone)){
+            iSignUp.onFailure(context.getResources().getString(R.string.error_phone_exists));
+            return;
+        }
         if (username.isEmpty()) {
-            iSignUp.onFailure("Username can not be empty");
+            iSignUp.onFailure(context.getResources().getString(R.string.error_username_empty));
             return;
         }
         if (pass1.isEmpty()) {
-            iSignUp.onFailure("Password can not be empty");
+            iSignUp.onFailure(context.getResources().getString(R.string.error_password_empty));
             return;
         }
         if (!pass1.equals(pass2)) {
-            iSignUp.onFailure("Confirm password not same password");
+            iSignUp.onFailure(context.getResources().getString(R.string.error_confirm_pass));
             return;
         }
-        if (helper == null)
-            helper = new CartDatabaseHelper(context);
         UserAccount userAccount = new UserAccount(phone, username, pass1, null, null, 1);
         helper.insertAccount(userAccount);
         iSignUp.onSuccessful();
@@ -78,9 +97,9 @@ public class LoginSignUpPresenter {
             helper = new CartDatabaseHelper(context);
         if(helper.checkAccount(phone, password)) {
             helper.setStatusAccount(phone);
-            iLogin.onSuccessful(0); // type in here is not thing
+            iLogin.onSuccessful(0,null); // type in here is not thing
         }else
-            iLogin.onFailure("Phone or password is wrong. Or account is not exists");
+            iLogin.onFailure(context.getResources().getString(R.string.error_login));
     }
 
     public void logoutAccount(){
@@ -88,8 +107,7 @@ public class LoginSignUpPresenter {
             helper = new CartDatabaseHelper(context);
         UserAccount user = helper.checkStatusAccount();
         if(user != null) {
-            user.setStatus(0);
-            helper.updateAccount(user);
+            helper.logoutAccount(user);
             iCheckLogin.onExists("Logout success");
         }
         else{
