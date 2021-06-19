@@ -104,8 +104,17 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
                             public void onClick(DialogInterface dialog, int which) {
                                 foodList.remove(food);
                                 presenter.deleteOrder(food, cart);
-                                if (foodList.size() == 0)
+                                long price = cart.getTotalPrice();
+                                if(cart.getVoucher()!=null) {
+                                    long discount = (long) ((cart.getVoucher().getDiscount() / 100.0f) * price);
+                                    binding.tvDiscount.setText("-" + FormatHelper.formatPrice(discount));
+                                    binding.tvAmountToPay.setText(FormatHelper.formatPrice(price - discount));
+                                    binding.tvTotalCost.setText(binding.tvAmountToPay.getText().toString());
+                                }
+                                if (foodList.size() == 0) {
                                     onEmptyListFoodOrder();
+                                    binding.tvDiscount.setText("");
+                                }
                             }
                         })
                         .setPositiveButton(getResources().getString(R.string.login_dialog_negative), null)
@@ -282,10 +291,9 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
                 long price = cart.getTotalPrice();
                 long discount = (long) ((voucher.getDiscount() / 100.0f) * price);
                 binding.tvDiscount.setText("-" + FormatHelper.formatPrice(discount));
-
-
                 binding.tvAmountToPay.setText(FormatHelper.formatPrice(price - discount));
                 binding.tvTotalCost.setText(binding.tvAmountToPay.getText().toString());
+
                 voucherDialog.dismiss();
             }
         });
