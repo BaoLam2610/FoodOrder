@@ -41,7 +41,7 @@ public class OrdersFragment extends Fragment implements IMyOrder {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_orders,container,false);
 //        setTitleActionBar();
-        ((MainActivity)getActivity()).setTileActionBar(getString(R.string.action_bar_my_order));
+//        ((MainActivity)getActivity()).setTileActionBar(getString(R.string.action_bar_my_order));
         presenter = new MyOrderPresenter(this,getContext());
         presenter.showMyOrder();
         return binding.getRoot();

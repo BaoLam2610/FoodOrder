@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.foodorderapp.DetailActivity;
+import com.example.foodorderapp.MainActivity;
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.databinding.FragmentLoginBinding;
 import com.example.foodorderapp.detail.ListOrderCartFragment;
@@ -20,6 +21,7 @@ import com.example.foodorderapp.detail.OrderInformationFragment;
 import com.example.foodorderapp.detail.PaymentsFragment;
 import com.example.foodorderapp.event.ILogin;
 import com.example.foodorderapp.model.Cart;
+import com.example.foodorderapp.model.UserAccount;
 import com.example.foodorderapp.presenter.LoginSignUpPresenter;
 
 public class LoginFragment extends Fragment implements ILogin {
@@ -92,14 +94,15 @@ public class LoginFragment extends Fragment implements ILogin {
     }
 
     @Override
-    public void onSuccessful(int type, String username) {
+    public void onSuccessful(int type, UserAccount userAccount) {
+
         switch (getNameActivity()) {
             case "main":
                 getActivity().finish();
                 break;
             case "detail":
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.flDetailFragment, OrderInformationFragment.newInstance(getCart()))
+                        .replace(R.id.flDetailFragment, OrderInformationFragment.newInstance(getCart(),userAccount))
                         .addToBackStack(ListOrderCartFragment.TAG)
                         .commit();
                 break;

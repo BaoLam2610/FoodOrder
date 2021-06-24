@@ -8,13 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.foodorderapp.model.Cart;
 import com.example.foodorderapp.model.DetailCart;
+import com.example.foodorderapp.model.DetailFavorite;
 import com.example.foodorderapp.model.Food;
 import com.example.foodorderapp.model.Restaurant;
 import com.example.foodorderapp.model.UserAccount;
 import com.example.foodorderapp.model.Voucher;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CartDatabaseHelper extends SQLiteOpenHelper {
@@ -25,8 +25,8 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
     static final String DB_TABLE_FOOD = "Food";
     static final String DB_TABLE_DETAIL_CART = "DetailCart";
     static final String DB_TABLE_VOUCHER = "Voucher";
-    static final String DB_TABLE_FOOD_LIST = "FoodList";
-    static final int DB_VERSION = 28;//27
+    static final String DB_TABLE_DETAIL_FAVORITE = "DetailFavorite";
+    static final int DB_VERSION = 33;//32
     Context context;
 
     public CartDatabaseHelper(Context context) {
@@ -37,6 +37,14 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String createTableAccount = "CREATE TABLE Account(" +
+                "phone TEXT NOT NULL PRIMARY KEY," +
+                "username TEXT," +
+                "password TEXT," +
+                "avatar BLOB," +
+                "address TEXT," +
+                "status INTEGER" +
+                ")";
 
         String createTableRestaurant = "CREATE TABLE Restaurant(" +
                 "idRes TEXT NOT NULL PRIMARY KEY," +
@@ -48,7 +56,8 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
                 "resEmail TEXT," +
                 "resRate FLOAT," +
                 "resStatus INTEGER," +
-                "resFavorite INTEGER)";
+                "resFavorite INTEGER" +
+                ")";
 
         String createTableFood = "CREATE TABLE Food(" +
                 "idFood TEXT NOT NULL PRIMARY KEY," +
@@ -68,8 +77,10 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
                 "status INTEGER," +
                 "note TEXT," +
                 "idVoucher TEXT," +
+                "phone TEXT," +
                 "FOREIGN KEY (idRes) REFERENCES Restaurant(idRes)," +
-                "FOREIGN KEY (idVoucher) REFERENCES Voucher(idVoucher)" +
+                "FOREIGN KEY (idVoucher) REFERENCES Voucher(idVoucher)," +
+                "FOREIGN KEY (phone) REFERENCES Account(phone)" +
                 ")";
         String createTableDetailCart = "CREATE TABLE DetailCart(" +
                 "idFood TEXT NOT NULL," +
@@ -87,22 +98,22 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
                 "discount INTEGER" +
                 ")";
 
-        String createTableAccount = "CREATE TABLE Account(" +
-                "phone TEXT NOT NULL PRIMARY KEY," +
-                "username TEXT," +
-                "password TEXT," +
-                "avatar BLOB," +
-                "address TEXT," +
-                "status INTEGER" +
+        String createTableDetailFavorite = "CREATE TABLE DetailFavorite(" +
+                "phone TEXT," +
+                "idRes TEXT," +
+                "PRIMARY KEY(phone,idRes)," +
+                "FOREIGN KEY (phone) REFERENCES Account(phone)," +
+                "FOREIGN KEY (idRes) REFERENCES Restaurant(idRes)" +
                 ")";
 
-
+        db.execSQL(createTableVoucher);
+        db.execSQL(createTableAccount);
         db.execSQL(createTableRestaurant);
         db.execSQL(createTableFood);
         db.execSQL(createTableCart);
         db.execSQL(createTableDetailCart);
-        db.execSQL(createTableVoucher);
-        db.execSQL(createTableAccount);
+        db.execSQL(createTableDetailFavorite);
+
 
     }
 
@@ -112,6 +123,7 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_RESTAURANT);
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_FOOD);
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_DETAIL_CART);
+            db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_DETAIL_FAVORITE);
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_CART);
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_VOUCHER);
             db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_ACCOUNT);
@@ -186,7 +198,7 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         sql.insert(DB_TABLE_DETAIL_CART, null, values);
     }
 
-    public void insertVoucher(Voucher voucher){
+    public void insertVoucher(Voucher voucher) {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SqlTextHelper.VOUCHER_ID, voucher.getId());
@@ -208,7 +220,7 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         sql.delete(DB_TABLE_RESTAURANT, whereClause, new String[]{restaurant.getId()});
     }
 
-    public void deleteFavoriteFood(Restaurant restaurant){
+    public void deleteFavoriteFood(Restaurant restaurant) {
         SQLiteDatabase sql = getWritableDatabase();
         String whereClause = "idFood NOT IN (SELECT idFood FROM DetailCart) AND idRes = ?";
         sql.delete(DB_TABLE_FOOD, whereClause, new String[]{restaurant.getId()});
@@ -227,9 +239,16 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         values.put(SqlTextHelper.CART_TOTAL_PRICE, cart.getTotalPrice());
         sql.update(DB_TABLE_CART, values, whereClause1, new String[]{cart.getIdCart()});
     }
+
     public void deleteAllRestaurant() {
         SQLiteDatabase sql = getWritableDatabase();
-        sql.execSQL("DELETE FROM " + DB_TABLE_RESTAURANT + " WHERE resStatus=0");
+        sql.execSQL("DELETE FROM " + DB_TABLE_RESTAURANT + " WHERE resStatus=0" +
+                " AND idRes not in (SELECT idRes FROM DetailFavorite)");
+    }
+
+    public void deleteFavorite(){
+        SQLiteDatabase sql = getWritableDatabase();
+        sql.execSQL("DELETE FROM " + DB_TABLE_RESTAURANT + " WHERE resFavorite=0");
     }
 
     public void deleteAllFood() {
@@ -303,23 +322,29 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         return cursor.moveToNext();
     }
 
-    public UserAccount getAccount(String phone){
-        UserAccount user= null;
+    public UserAccount getAccount(String phone) {
+        UserAccount user = null;
         String username, password, address;
         byte[] avatar;
         SQLiteDatabase sql = getReadableDatabase();
         Cursor cursor = sql.rawQuery("SELECT * FROM Account WHERE phone=?", new String[]{phone});
-        if(cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             username = cursor.getString(cursor.getColumnIndex(SqlTextHelper.ACCOUNT_USERNAME));
             password = cursor.getString(cursor.getColumnIndex(SqlTextHelper.ACCOUNT_PASSWORD));
             avatar = cursor.getBlob(cursor.getColumnIndex(SqlTextHelper.ACCOUNT_AVATAR));
             address = cursor.getString(cursor.getColumnIndex(SqlTextHelper.ACCOUNT_ADDRESS));
-            user = new UserAccount(phone,username,password,avatar,address,0);
+            user = new UserAccount(phone, username, password, avatar, address, 0);
         }
         return user;
     }
+    public boolean findDetailFavorite(DetailFavorite detailFavorite){
+        SQLiteDatabase sql = getReadableDatabase();
+        Cursor cursor = sql.rawQuery("SELECT * FROM DetailFavorite WHERE idRes=? and phone=?",
+                new String[]{detailFavorite.getRestaurant().getId(),detailFavorite.getUserAccount().getPhone()});
+        return cursor.moveToNext();
+    }
 
-    public boolean findFavoriteRestaurant(Restaurant restaurant){
+    public boolean findFavoriteRestaurant(Restaurant restaurant) {
         SQLiteDatabase sql = getReadableDatabase();
         Cursor cursor = sql.rawQuery("SELECT * FROM Restaurant WHERE idRes=? and resFavorite=1", new String[]{restaurant.getId()});
         return cursor.moveToNext();
@@ -349,7 +374,7 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         return cursor.moveToNext();
     }
 
-    public void logoutAccount(UserAccount userAccount){
+    public void logoutAccount(UserAccount userAccount) {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SqlTextHelper.ACCOUNT_STATUS, 0);
@@ -369,7 +394,14 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         sql.update(DB_TABLE_ACCOUNT, values, whereClause, new String[]{userAccount.getPhone()});
     }
 
-    public void deleteFavoriteRestaurant(Restaurant restaurant){
+    public void deleteDetailFavorite(DetailFavorite detailFavorite) {
+        SQLiteDatabase sql = getWritableDatabase();
+        String whereClause = "idRes=? and phone=?";
+        sql.delete(DB_TABLE_DETAIL_FAVORITE, whereClause, new String[]{detailFavorite.getRestaurant().getId(),
+                detailFavorite.getUserAccount().getPhone()});
+    }
+
+    public void deleteFavoriteRestaurant(Restaurant restaurant) {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SqlTextHelper.RESTAURANT_FAVORITE, 0);
@@ -377,13 +409,24 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         sql.update(DB_TABLE_RESTAURANT, values, whereClause, new String[]{restaurant.getId()});
     }
 
+    public void setDetailFavorite(DetailFavorite detailFavorite) {
+        SQLiteDatabase sql = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(SqlTextHelper.RESTAURANT_ID, detailFavorite.getRestaurant().getId());
+        values.put(SqlTextHelper.ACCOUNT_PHONE, detailFavorite.getUserAccount().getPhone());
+        sql.insert(DB_TABLE_DETAIL_FAVORITE, null, values);
+    }
+
     public void setFavoriteRestaurant(Restaurant restaurant) {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
+
         values.put(SqlTextHelper.RESTAURANT_STATUS, 1);
         values.put(SqlTextHelper.RESTAURANT_FAVORITE, 1);
         String whereClause = "idRes=?";
+
         sql.update(DB_TABLE_RESTAURANT, values, whereClause, new String[]{restaurant.getId()});
+
     }
 
     public void setStatusRestaurant(Restaurant restaurant) {
@@ -416,12 +459,12 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         sql.update(DB_TABLE_DETAIL_CART, values, whereClause, new String[]{detailCart.getCart().getIdCart()});
     }
 
-    public void updateDetailCart(DetailCart detailCart){
+    public void updateDetailCart(DetailCart detailCart) {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SqlTextHelper.DETAIL_CART_COUNT, detailCart.getCount());
         String whereClause = "idFood=? and idCart=?";
-        sql.update(DB_TABLE_DETAIL_CART, values, whereClause, new String[]{detailCart.getFood().getId(),detailCart.getCart().getIdCart()});
+        sql.update(DB_TABLE_DETAIL_CART, values, whereClause, new String[]{detailCart.getFood().getId(), detailCart.getCart().getIdCart()});
     }
 
     public void updateCart(Cart cart) {
@@ -434,13 +477,15 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         values.put(SqlTextHelper.CART_DATE, cart.getDate());
         values.put(SqlTextHelper.CART_NOTE, cart.getNote());
         Voucher voucher = cart.getVoucher();
-        if(voucher!= null)
+        if (voucher != null)
             values.put(SqlTextHelper.VOUCHER_ID, cart.getVoucher().getId());
-        String whereClause = "idCart=? and idRes=?";
-        sql.update(DB_TABLE_CART, values, whereClause, new String[]{cart.getIdCart(), cart.getRestaurant().getId()});
+        else
+            values.put(SqlTextHelper.VOUCHER_ID, (String) null);
+        String whereClause = "idCart=?";
+        sql.update(DB_TABLE_CART, values, whereClause, new String[]{cart.getIdCart()});
     }
 
-    public void setDateCart(Cart cart){
+    public void setDateCart(Cart cart) {
         SQLiteDatabase sql = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SqlTextHelper.CART_DATE, cart.getDate());
@@ -456,6 +501,13 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         sql.update(DB_TABLE_CART, values, whereClause, new String[]{cart.getIdCart(), cart.getRestaurant().getId()});
     }
 
+    public void setAccountOrder(Cart cart, UserAccount userAccount) {
+        SQLiteDatabase sql = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(SqlTextHelper.ACCOUNT_PHONE, userAccount.getPhone());
+        String whereClause = "idCart=?";
+        sql.update(DB_TABLE_CART, values, whereClause, new String[]{cart.getIdCart()});
+    }
 
     public Restaurant getRestaurant(Cart cart) {
         Restaurant restaurant = null;
@@ -479,7 +531,6 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         cursorRestaurant.close();
         return restaurant;
     }
-
 
 
     public Restaurant getRestaurant() {
@@ -524,41 +575,41 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         return restaurant;
     }
 
-    public boolean findVoucher(Voucher voucher){
+    public boolean findVoucher(Voucher voucher) {
         SQLiteDatabase sql = getReadableDatabase();
         Cursor cursor = sql.rawQuery("SELECT * FROM Voucher WHERE idVoucher=?", new String[]{voucher.getId()});
         return cursor.moveToNext();
     }
 
-    public Voucher getVoucher(Cart cart){
+    public Voucher getVoucher(Cart cart) {
         Voucher voucher = null;
         String id, name;
 
         int discount;
 
         SQLiteDatabase sql = getReadableDatabase();
-        if(cart.getVoucher() == null)
-            return null;
+//        if(cart.getVoucher() == null)
+//            return null;
         Cursor cursor = sql.rawQuery("SELECT * FROM Voucher v INNER JOIN Cart c ON v.idVoucher = c.idVoucher " +
                 "WHERE idCart=?", new String[]{cart.getIdCart()});
-        if(cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             id = cursor.getString(cursor.getColumnIndex(SqlTextHelper.VOUCHER_ID));
             name = cursor.getString(cursor.getColumnIndex(SqlTextHelper.VOUCHER_NAME));
 
             discount = cursor.getInt(cursor.getColumnIndex(SqlTextHelper.VOUCHER_DISCOUNT));
-            voucher = new Voucher(id,name,discount);
+            voucher = new Voucher(id, name, discount);
         }
         return voucher;
     }
 
-    public DetailCart findDetailCart(Food food, Cart cart){
+    public DetailCart findDetailCart(Food food, Cart cart) {
         DetailCart detailCart = null;
         int count;
         SQLiteDatabase sql = getReadableDatabase();
-        Cursor cursor = sql.rawQuery("SELECT * FROM DetailCart WHERE idFood=? and idCart=?", new String[]{food.getId(),cart.getIdCart()});
-        if(cursor.moveToNext()){
+        Cursor cursor = sql.rawQuery("SELECT * FROM DetailCart WHERE idFood=? and idCart=?", new String[]{food.getId(), cart.getIdCart()});
+        if (cursor.moveToNext()) {
             count = cursor.getInt(cursor.getColumnIndex(SqlTextHelper.DETAIL_CART_COUNT));
-            detailCart = new DetailCart(food,cart);
+            detailCart = new DetailCart(food, cart);
             detailCart.setCount(count);
         }
         return detailCart;
@@ -614,7 +665,7 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         return foodList;
     }
 
-    public List<Food> getListFavoriteFood(Restaurant restaurant){
+    public List<Food> getListFavoriteFood(Restaurant restaurant) {
         Food food;
         String idFood, idRes, foodName, foodImage, foodCategory;
         int foodCount;
@@ -639,13 +690,42 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         return foodList;
     }
 
-    public List<Restaurant> getListFavoriteRestaurant(){
+    public List<Restaurant> getListDetailFavorite(DetailFavorite detailFavorite) {
         List<Restaurant> restaurantList = new ArrayList<>();
         Restaurant restaurant;
         String idRes, resName, resProvideType, resImage, resAddress, resPhone, resEmail;
         double resRate;
         SQLiteDatabase sql = getReadableDatabase();
-        Cursor cursorRestaurant = sql.rawQuery("SELECT * FROM Restaurant WHERE resFavorite=1",null);
+        Cursor cursorRestaurant = sql.rawQuery("SELECT * FROM DetailFavorite d INNER JOIN Restaurant r ON d.idRes = r.idRes " +
+                "INNER JOIN Account a ON d.phone = a.phone " +
+                        "WHERE d.phone=?",
+                new String[]{detailFavorite.getUserAccount().getPhone()});
+        String s = detailFavorite.getUserAccount().getPhone();
+        System.out.println(s);
+        while (cursorRestaurant.moveToNext()) {
+            idRes = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_ID));
+            resName = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_NAME));
+            resProvideType = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_PROVIDE));
+            resImage = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_IMAGE));
+            resAddress = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_ADDRESS));
+            resPhone = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_PHONE));
+            resEmail = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_EMAIL));
+            resRate = cursorRestaurant.getDouble(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_RATE));
+            restaurant = new Restaurant(idRes, resName, resProvideType, resImage, resAddress, resPhone, resEmail, resRate);
+//            String id, String name, String provideType, String image, String address, String phone, String email, double rate
+            restaurantList.add(restaurant);
+        }
+        cursorRestaurant.close();
+        return restaurantList;
+    }
+
+    public List<Restaurant> getListFavoriteRestaurant() {
+        List<Restaurant> restaurantList = new ArrayList<>();
+        Restaurant restaurant;
+        String idRes, resName, resProvideType, resImage, resAddress, resPhone, resEmail;
+        double resRate;
+        SQLiteDatabase sql = getReadableDatabase();
+        Cursor cursorRestaurant = sql.rawQuery("SELECT * FROM Restaurant WHERE resFavorite=1", null);
         while (cursorRestaurant.moveToNext()) {
             idRes = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_ID));
             resName = cursorRestaurant.getString(cursorRestaurant.getColumnIndex(SqlTextHelper.RESTAURANT_NAME));
@@ -672,7 +752,8 @@ public class CartDatabaseHelper extends SQLiteOpenHelper {
         int status = 0;
         String date;
         SQLiteDatabase sql = getReadableDatabase();
-        Cursor cursorCart = sql.rawQuery("SELECT * FROM Cart WHERE status=1", null);
+        Cursor cursorCart = sql.rawQuery("SELECT * FROM Cart c INNER JOIN Account a ON c.phone = a.phone" +
+                " WHERE c.status=1 AND a.status = 1", null);
         while (cursorCart.moveToNext()) {
             idCart = cursorCart.getString(cursorCart.getColumnIndex(SqlTextHelper.CART_ID));
             idRes = cursorCart.getString(cursorCart.getColumnIndex(SqlTextHelper.RESTAURANT_ID));

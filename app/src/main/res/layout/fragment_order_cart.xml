@@ -69,23 +69,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="0dp"
                     android:text="@string/order_cart_payment_note"
                     android:textAppearance="@style/title" />
 
-                <EditText
-                    android:id="@+id/etOrderNote"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/order_cart_note_height"
-                    android:background="@drawable/custom_et_order_note"
-                    android:gravity="top"
-                    android:imeOptions="actionNext"
-                    android:inputType="text|textMultiLine"
-                    android:lines="3"
-                    android:maxLength="150"
-                    android:maxLines="3"
-                    android:padding="10dp"
-                    android:singleLine="true" />
+                    android:layout_height="wrap_content"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="150"
+                    app:endIconMode="clear_text"
+                    app:helperTextEnabled="true"
+                    app:helperText="*Optional"
+                    app:helperTextTextColor="@color/color_app_default"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+
+                        android:id="@+id/etOrderNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/order_cart_note_height"
+                        android:background="@drawable/custom_et_order_note"
+                        android:gravity="top"
+                        android:inputType="text|textMultiLine"
+                        android:lines="3"
+                        android:maxLength="150"
+                        android:maxLines="3"
+                        android:padding="10dp"
+                        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -186,6 +200,7 @@
                         android:layout_marginBottom="10dp">
 
                         <TextView
+                            android:id="@+id/tvTitleDiscount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -197,9 +212,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-android:textColor="@color/detail_restaurant_phone"
-                            android:textStyle="bold"
-                            android:text="" />
+                            android:text=""
+                            android:textColor="@color/detail_restaurant_phone"
+                            android:textStyle="bold" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -276,12 +291,25 @@ android:textColor="@color/detail_restaurant_phone"
                         android:textAppearance="@style/title_item_cart" />
 
 
-                    <TextView
-                        android:id="@+id/tvTotalCost"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cost"
-                        android:textAppearance="@style/title_item_cart" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvTotalCost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cost"
+                            android:textAppearance="@style/title_item_cart" />
+                        <TextView
+                            android:id="@+id/tvTotalCostNew"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:text=""
+                            android:textAppearance="@style/title_item_cart" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>

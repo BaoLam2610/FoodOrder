@@ -3,6 +3,7 @@ package com.example.foodorderapp.presenter;
 import android.content.Context;
 
 import com.example.foodorderapp.R;
+import com.example.foodorderapp.adapter.MyOrderAdapter;
 import com.example.foodorderapp.event.IOrderCart;
 import com.example.foodorderapp.event.IVoucher;
 import com.example.foodorderapp.model.Cart;
@@ -28,6 +29,16 @@ public class VoucherPresenter {
     public void showListVoucher(Cart cart){
         List<Voucher> voucherList = getVoucherList();
         iVoucher.onShowListVoucher(voucherList,cart);
+    }
+
+    public void showVoucher(MyOrderAdapter.MyOrderViewHolder holder,Cart cart){
+        if(helper == null)
+            helper = new CartDatabaseHelper(context);
+        Voucher voucher = helper.getVoucher(cart);
+        if(voucher!=null)
+            iVoucher.onShowVoucherOrder(holder,voucher,cart);
+        else
+            iVoucher.onEmptyVoucherOrder(holder,cart);
     }
 
     public List<Voucher> getVoucherList(){

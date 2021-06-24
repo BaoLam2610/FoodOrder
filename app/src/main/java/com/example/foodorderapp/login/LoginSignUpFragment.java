@@ -20,6 +20,7 @@ import com.example.foodorderapp.databinding.FragmentLoginSignUpBinding;
 import com.example.foodorderapp.detail.ListOrderCartFragment;
 import com.example.foodorderapp.event.ILogin;
 import com.example.foodorderapp.model.Cart;
+import com.example.foodorderapp.model.UserAccount;
 import com.example.foodorderapp.presenter.LoginSignUpPresenter;
 
 public class LoginSignUpFragment extends Fragment implements ILogin {
@@ -69,7 +70,7 @@ public class LoginSignUpFragment extends Fragment implements ILogin {
     }
 
     @Override
-    public void onSuccessful(int type, String username) {
+    public void onSuccessful(int type, UserAccount userAccount) {
         switch (type) {
             case 0: // not exists phone -> sign up
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext())
@@ -86,7 +87,7 @@ public class LoginSignUpFragment extends Fragment implements ILogin {
                 alertDialog.show();
                 break;
             case 1: // exists phone -> login
-                getFragment(LoginFragment.newInstance(phone, username,getNameActivity(),getCart()));
+                getFragment(LoginFragment.newInstance(phone, userAccount.getUsername(),getNameActivity(),getCart()));
                 break;
         }
     }

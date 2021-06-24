@@ -5,9 +5,10 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Restaurant implements Parcelable {
+public class Restaurant implements Serializable {
     @SerializedName("res_id")
     private String id;
     @SerializedName("res_name")
@@ -58,17 +59,6 @@ public class Restaurant implements Parcelable {
         cart = in.readInt();
     }
 
-    public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
-        @Override
-        public Restaurant createFromParcel(Parcel in) {
-            return new Restaurant(in);
-        }
-
-        @Override
-        public Restaurant[] newArray(int size) {
-            return new Restaurant[size];
-        }
-    };
 
     public Banner getBanner() {
         return banner;
@@ -166,21 +156,5 @@ public class Restaurant implements Parcelable {
         this.status = status;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(name);
-        dest.writeString(provideType);
-        dest.writeString(image);
-        dest.writeString(address);
-        dest.writeString(phone);
-        dest.writeString(email);
-        dest.writeDouble(rate);
-        dest.writeInt(cart);
-    }
 }

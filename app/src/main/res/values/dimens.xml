@@ -75,6 +75,8 @@
     <dimen name="sign_up_ic">30dp</dimen>
     -- my order --
     <dimen name="my_order_restaurant_logo">50dp</dimen>
+    <dimen name="my_order_payment">13dp</dimen>
+
 
     -- profile
     <dimen name="profile_et_height">40dp</dimen>
@@ -85,5 +87,6 @@
 
     <dimen name="action_bar_bgr_corner">30dp</dimen>
     <dimen name="order_cart_promo_height">50dp</dimen>
+
 
 </resources>

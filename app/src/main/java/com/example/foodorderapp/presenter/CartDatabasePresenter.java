@@ -2,12 +2,12 @@ package com.example.foodorderapp.presenter;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
 import com.example.foodorderapp.adapter.MyOrderListFoodAdapter;
 import com.example.foodorderapp.adapter.OrderCartAdapter;
+import com.example.foodorderapp.detail.ListFoodFragment;
 import com.example.foodorderapp.event.ICartDatabase;
 import com.example.foodorderapp.event.IOnListFood;
 import com.example.foodorderapp.event.IOnShowCart;
@@ -17,8 +17,8 @@ import com.example.foodorderapp.helper.FormatHelper;
 import com.example.foodorderapp.model.Cart;
 import com.example.foodorderapp.model.DetailCart;
 import com.example.foodorderapp.model.Food;
-import com.example.foodorderapp.model.FoodCart;
 import com.example.foodorderapp.model.Restaurant;
+import com.example.foodorderapp.model.UserAccount;
 import com.example.foodorderapp.model.Voucher;
 import com.example.foodorderapp.sql.CartDatabaseHelper;
 
@@ -26,7 +26,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartDatabasePresenter {
@@ -41,6 +40,7 @@ public class CartDatabasePresenter {
     Cart currentCart;
     Restaurant tempRestaurant;
     IOnShowDetailCart iOnShowDetailCart;
+    DetailCart tempDc;
 
     public CartDatabasePresenter(IOrderCart iOrderCart, ICartDatabase iCartDatabase, IOnListFood iOnListFood, Context context) {
         this.iOrderCart = iOrderCart;
@@ -49,12 +49,11 @@ public class CartDatabasePresenter {
         this.context = context;
     }
 
-    public CartDatabasePresenter(IOnShowDetailCart iOnShowDetailCart,Context context) {
+
+    public CartDatabasePresenter(IOnShowDetailCart iOnShowDetailCart, Context context) {
         this.context = context;
         this.iOnShowDetailCart = iOnShowDetailCart;
     }
-
-
 
     public CartDatabasePresenter(ICartDatabase iCartDatabase, Context context) {
         this.iCartDatabase = iCartDatabase;
@@ -84,8 +83,6 @@ public class CartDatabasePresenter {
         }
     }
 
-
-
     public void saveFoodOnCart(Food food) {
         EventBus.getDefault().register(this);
         try {
@@ -99,15 +96,17 @@ public class CartDatabasePresenter {
         }
         EventBus.getDefault().unregister(this);
     }
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
-    public void getRestaurant(Restaurant restaurant){
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void getRestaurant(Restaurant restaurant) {
         tempRestaurant = restaurant;
     }
-    DetailCart tempDc;
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
-    public void getDetailCart(DetailCart detailCart){
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void getDetailCart(DetailCart detailCart) {
         tempDc = detailCart;
     }
+
     public void saveCart(Cart cart) {
         try {
             if (helper == null)
@@ -145,23 +144,22 @@ public class CartDatabasePresenter {
 //    public void getStatusCart(Cart cart){
 //
 //    }
-    public void setCart(){
-        EventBus.getDefault().register(this);
-        try {
-            if (helper == null)
-                helper = new CartDatabaseHelper(context);
-            currentCart.setStatus(1);
-            String date = FormatHelper.getCurrentDate();
-            System.out.println(date);
-            currentCart.setDate(date);
 
-            helper.setStatusDetailCart(tempDc);
-            helper.setStatusRestaurant(tempRestaurant);
-            helper.setStatusCart(currentCart);
-            helper.setDateCart(currentCart);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setCart(UserAccount userAccount) {
+        EventBus.getDefault().register(this);
+        ListFoodFragment.resetListFood();
+
+        if (helper == null)
+            helper = new CartDatabaseHelper(context);
+        currentCart.setStatus(1);
+        currentCart.setDate(FormatHelper.getCurrentDate());
+
+        helper.setStatusDetailCart(tempDc);
+        helper.setStatusRestaurant(tempRestaurant);
+        helper.setStatusCart(currentCart);
+        helper.setAccountOrder(currentCart,userAccount);
+        helper.setDateCart(currentCart);
+
         EventBus.getDefault().unregister(this);
     }
 
@@ -187,18 +185,18 @@ public class CartDatabasePresenter {
         }
     }
 
-    public void showDetailCart(Food food, Cart cart, OrderCartAdapter.OrderCartViewHolder holder){
-        if(helper == null)
+    public void showDetailCart(Food food, Cart cart, OrderCartAdapter.OrderCartViewHolder holder) {
+        if (helper == null)
             helper = new CartDatabaseHelper(context);
-        DetailCart detailCart = helper.findDetailCart(food,cart);
-        iOnShowDetailCart.onShowDetailCart(detailCart,holder);
+        DetailCart detailCart = helper.findDetailCart(food, cart);
+        iOnShowDetailCart.onShowDetailCart(detailCart, holder);
     }
 
-    public void showDetailCart(Food food, Cart cart, MyOrderListFoodAdapter.ListFoodOrderViewHolder holder){
-        if(helper == null)
+    public void showDetailCart(Food food, Cart cart, MyOrderListFoodAdapter.ListFoodOrderViewHolder holder) {
+        if (helper == null)
             helper = new CartDatabaseHelper(context);
-        DetailCart detailCart = helper.findDetailCart(food,cart);
-        iOnShowDetailCart.onShowDetailCart(detailCart,holder);
+        DetailCart detailCart = helper.findDetailCart(food, cart);
+        iOnShowDetailCart.onShowDetailCart(detailCart, holder);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -206,23 +204,27 @@ public class CartDatabasePresenter {
         EventBus.getDefault().register(this);
         if (helper == null)
             helper = new CartDatabaseHelper(context);
-
-        Voucher voucher = helper.getVoucher(currentCart);
-        if(voucher !=null)
-            iOrderCart.onShowVoucher(voucher,currentCart);
-
         List<Food> foodList = helper.getFood(currentCart);
-        if(foodList.size() != 0) {
+        if (foodList.size() != 0) {
             foodList.sort((f1, f2) -> f1.getCategory().compareTo(f2.getCategory()));
 
             iOrderCart.onShowListFoodOrder(currentCart, foodList);
         } else
             iOrderCart.onEmptyListFoodOrder();
-
+        Voucher voucher = helper.getVoucher(currentCart);
+        if (voucher != null)
+            iOrderCart.onShowVoucher(voucher, currentCart);
+        else
+            iOrderCart.onEmptyVoucher(currentCart);
         EventBus.getDefault().unregister(this);
     }
 
-
+    public void calculationPrice(Cart cart, Voucher voucher) {
+        long price = cart.getTotalPrice();
+        long discountPercent = voucher.getDiscount();
+        long discount = (long) ((voucher.getDiscount() / 100.0f) * price);
+        iOrderCart.onCalculationPrice(price , discountPercent, discount, 0,price - discount);
+    }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void getCurrentCart(Cart cart) {
@@ -262,5 +264,6 @@ public class CartDatabasePresenter {
             e.printStackTrace();
         }
     }
+
 
 }

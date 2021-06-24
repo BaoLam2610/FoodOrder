@@ -52,6 +52,7 @@ public class ProfileFragment extends Fragment implements IShowAccountInf, IOnPro
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
+
         loginPresenter = new LoginSignUpPresenter(null, this, getContext());
         loginPresenter.showAccountInformation();
         profilePresenter = new ProfilePresenter(this, getContext());

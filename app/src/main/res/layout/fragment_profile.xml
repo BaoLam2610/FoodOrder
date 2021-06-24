@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:elevation="3dp"
@@ -194,7 +198,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout3"
+                android:id="@+id/btnSaveProfile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_btn_save_profile"
@@ -207,7 +211,6 @@
                 app:layout_constraintWidth_percent="0.9">
 
                 <TextView
-                    android:id="@+id/btnSaveProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"

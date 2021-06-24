@@ -9,9 +9,10 @@ import androidx.annotation.RequiresApi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Food implements Parcelable {
+public class Food implements Serializable {
     @SerializedName("food_id")
     private String id;
     @SerializedName("food_name")
@@ -56,19 +57,6 @@ public class Food implements Parcelable {
         restaurant = in.readParcelable(Restaurant.class.getClassLoader());
         cart = in.readString();
     }
-
-    public static final Creator<Food> CREATOR = new Creator<Food>() {
-        @Override
-        public Food createFromParcel(Parcel in) {
-            return new Food(in);
-        }
-
-        @Override
-        public Food[] newArray(int size) {
-            return new Food[size];
-        }
-    };
-
     public String getImage() {
         return image;
     }
@@ -148,20 +136,6 @@ public class Food implements Parcelable {
         return Objects.hash(id);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(name);
-        dest.writeString(image);
-        dest.writeLong(price);
-        dest.writeString(category);
-        dest.writeInt(count);
-        dest.writeParcelable(restaurant, flags);
-        dest.writeString(cart);
-    }
+
 }

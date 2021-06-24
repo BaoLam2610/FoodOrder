@@ -85,6 +85,7 @@
     <string name="cart_dialog_error_content">You can\&apos;t place order because you don\&apos;t have any items.</string>
 
     -- order information --
+    <string name="order_inf_title">Order Information</string>
     <string name="order_inf_delivery_detail">Delivery detail</string>
     <string name="order_inf_order_detail">Order detail</string>
     <string name="order_inf_note">Order note</string>
@@ -123,7 +124,7 @@
     <string name="login_dialog_negative">Cancel</string>
     <string name="payments_back_to_home">Back to Home</string>
     <string name="delivered">Delivered</string>
-    <string name="my_order_total_price">Total: </string>
+    <string name="my_order_total_price">Total price</string>
 
     -- Login error --
     <string name="error_phone_empty">Phone can not be empty</string>
@@ -149,6 +150,7 @@
     <string name="action_bar_favorites">Favorites</string>
 
     -- Payment successful
+    <string name="payment_title">Payment method</string>
     <string name="payment_successful_title">Order Placed !!</string>
     <string name="payment_successful_thank">Thanks for choosing us for delivering your foods.</string>
     <string name="payment_successful_back_home">You can check your order status in your order section.</string>

@@ -4,7 +4,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp">
 
         <androidx.cardview.widget.CardView
             android:visibility="gone"
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="Banh mi"
             android:textAppearance="@style/title_item_food"
-            android:textSize="16dp"
+            android:textSize="@dimen/my_order_payment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvFoodCount"
             app:layout_constraintHorizontal_bias="0.03"
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="x1"
             android:textAppearance="@style/title_item_food"
-            android:textSize="16dp"
+            android:textSize="@dimen/my_order_payment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.7"
@@ -59,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/title_item_food"
-            android:textSize="16dp"
+            android:textSize="@dimen/my_order_payment"
             android:text="10.000đ"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

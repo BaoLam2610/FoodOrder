@@ -40,12 +40,12 @@ public class ListFoodFragment extends Fragment implements IOnListFood, IListFood
 
     FragmentListFoodBinding binding;
     DetailPresenter presenter;
-    List<Food> foods;
+    static List<Food> foods;
     ListFoodAdapter foodAdapter;
     ListFoodPresenter foodPresenter;
     CartDatabasePresenter cartPresenter;
     List<Restaurant> restaurants;
-
+     
     Random rd = new Random();
     Cart currentCart;
 
@@ -125,7 +125,12 @@ public class ListFoodFragment extends Fragment implements IOnListFood, IListFood
 //                EventBus.getDefault().postSticky(currentCart);
             }
         });
-
+    }
+    
+    public static void resetListFood(){
+        for (int i = 0; i < foods.size(); i++) {
+            foods.get(i).setCount(0);
+        }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

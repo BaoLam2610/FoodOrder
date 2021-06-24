@@ -51,7 +51,7 @@ public class FavoritesFragment extends Fragment implements IOnShowListFavoriteRe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites,container,false);
 //        setTitleActionBar();
-        ((MainActivity)getActivity()).setTileActionBar(getString(R.string.action_bar_favorites));
+//        ((MainActivity)getActivity()).setTileActionBar(getString(R.string.action_bar_favorites));
         cartPresenter = new CartDatabasePresenter(this, getContext());
         favoritePresenter = new FavoriteRestaurantPresenter(this,getContext());
         favoritePresenter.showListFavoriteRestaurant();

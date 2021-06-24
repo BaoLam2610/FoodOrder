@@ -56,7 +56,7 @@ public class HomeListFragment extends Fragment implements IHomeListHelper, ICart
 //        setTitleActionBar();
 cartPresenter = new CartDatabasePresenter(this,getContext());
         presenter = new HomeListPresenter(getContext(), this);
-        ((MainActivity)getActivity()).setTileActionBar(getString(R.string.action_bar_home));
+//        ((MainActivity)getActivity()).setTileActionBar(getString(R.string.action_bar_home));
         presenter.showGroupList();
 //        getApiRestaurant();
         return binding.getRoot();
@@ -78,8 +78,7 @@ cartPresenter = new CartDatabasePresenter(this,getContext());
                     case ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES:
                         List<Restaurant> quickDeliveriesList = groupList.get(ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES - 1)
                                 .getRestaurants();
-                        quickDeliveriesList.size();
-                        System.out.println(quickDeliveriesList.size()+"");
+
                         EventBus.getDefault().postSticky(quickDeliveriesList);
                         Intent it = new Intent(getContext(), DetailActivity.class);
                         it.putExtra("quick_deliveries", "show_more");

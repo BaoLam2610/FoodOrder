@@ -48,11 +48,8 @@ public class SqlTextHelper {
     public static final String VOUCHER_IMAGE = "image";
     public static final String VOUCHER_DISCOUNT = "discount";
 
-//    phone TEXT NOT NULL PRIMARY KEY," +
-//            "username TEXT," +
-//            "password TEXT," +
-//            "avatar TEXT," +
-//            "address TEXT," +
-//            "status INTEGER" +
+    // DETAIL FAVORITE (idRes,phone, status)
+    public static final String DETAIL_FAVORITE_STATUS = "status";
+
 
 }

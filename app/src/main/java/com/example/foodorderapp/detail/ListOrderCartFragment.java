@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderapp.DetailActivity;
 import com.example.foodorderapp.R;
+import com.example.foodorderapp.adapter.MyOrderAdapter;
 import com.example.foodorderapp.adapter.OrderCartAdapter;
 import com.example.foodorderapp.databinding.FragmentOrderCartBinding;
 import com.example.foodorderapp.dialog.VoucherBottomDialog;
@@ -104,16 +105,15 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
                             public void onClick(DialogInterface dialog, int which) {
                                 foodList.remove(food);
                                 presenter.deleteOrder(food, cart);
-                                long price = cart.getTotalPrice();
-                                if(cart.getVoucher()!=null) {
-                                    long discount = (long) ((cart.getVoucher().getDiscount() / 100.0f) * price);
-                                    binding.tvDiscount.setText("-" + FormatHelper.formatPrice(discount));
-                                    binding.tvAmountToPay.setText(FormatHelper.formatPrice(price - discount));
-                                    binding.tvTotalCost.setText(binding.tvAmountToPay.getText().toString());
+
+                                if (cart.getVoucher() != null) {
+                                    cartPresenter.calculationPrice(cart, cart.getVoucher());
                                 }
                                 if (foodList.size() == 0) {
                                     onEmptyListFoodOrder();
+                                    binding.tvTitleDiscount.setText("Discount");
                                     binding.tvDiscount.setText("");
+                                    binding.tvTotalCostNew.setText("");
                                 }
                             }
                         })
@@ -124,9 +124,7 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
         });
 
         binding.tvSubTotal.setText(FormatHelper.formatPrice(cart.getTotalPrice()));
-//        binding.tvCoupon.setText(cart.getTotalPrice()+"");
-        if(cart.getVoucher()==null)
-            binding.tvAmountToPay.setText(FormatHelper.formatPrice(cart.getTotalPrice()));
+
         binding.btnOrder.setOnClickListener(v -> {
             if (foodList.size() == 0) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext())
@@ -144,7 +142,7 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
         binding.btnDeleteVoucher.setOnClickListener(v -> {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle(getResources().getString(R.string.title_login_dialog))
-                    .setMessage(getResources().getString(R.string.cart_dialog_content_delete_order))
+                    .setMessage(getResources().getString(R.string.cart_dialog_content_delete_promo))
                     .setNegativeButton(getResources().getString(R.string.cart_dialog_positive), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -152,9 +150,11 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
                             binding.btnPromoCode.setVisibility(View.VISIBLE);
                             cart.setVoucher(null);
                             cartPresenter.editCart(cart);
+                            binding.tvTitleDiscount.setText("Discount");
                             binding.tvDiscount.setText("");
                             binding.tvAmountToPay.setText(FormatHelper.formatPrice(cart.getTotalPrice()));
                             binding.tvTotalCost.setText(binding.tvAmountToPay.getText().toString());
+                            binding.tvTotalCostNew.setText("");
                         }
                     })
                     .setPositiveButton(getResources().getString(R.string.login_dialog_negative), null)
@@ -169,7 +169,6 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
         });
         binding.etOrderNote.setText(cart.getNote());
         binding.tvItemCart.setText(cart.getAmount() + " Item(s)");
-        binding.tvTotalCost.setText(FormatHelper.formatPrice(cart.getTotalPrice()));
     }
 
     @Override
@@ -196,7 +195,7 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
                     .create();
             alertDialog.show();
         });
-
+        binding.tvTitleDiscount.setText("Discount");
     }
 
     @Override
@@ -205,16 +204,29 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
         binding.layoutShowVoucher.setVisibility(View.VISIBLE);
         binding.tvVoucher.setText(voucher.getId());
 
-        long price = cart.getTotalPrice();
-        long discount = (long) ((voucher.getDiscount() / 100.0f) * price);
-        binding.tvDiscount.setText("-" + FormatHelper.formatPrice(discount));
+        cartPresenter.calculationPrice(cart, voucher);
+    }
 
-        binding.tvAmountToPay.setText(FormatHelper.formatPrice(price - discount));
+    @Override
+    public void onEmptyVoucher(Cart cart) {
+        binding.tvAmountToPay.setText(FormatHelper.formatPrice(cart.getTotalPrice()));
         binding.tvTotalCost.setText(binding.tvAmountToPay.getText().toString());
     }
 
+    @Override
+    public void onCalculationPrice(long price,long discountPercent, long discount,long deliveryFee, long totalPrice) {
+        String titleDiscount = "Discount";
+        binding.tvTitleDiscount.setText(titleDiscount + "(" + discountPercent + "%)");
+
+        binding.tvDiscount.setText("-" + FormatHelper.formatPrice(discount));
+        binding.tvAmountToPay.setText(FormatHelper.formatPrice(totalPrice));
+        binding.tvTotalCost.setText(FormatHelper.strikeThroughPrice(FormatHelper.formatPrice(price)));
+
+        binding.tvTotalCostNew.setText(binding.tvAmountToPay.getText().toString());
+    }
+
+
     public void setTitleActionBar() {
-//        ((DetailActivity) getActivity()).getSupportActionBar().setTitle(getContext().getResources().getString(R.string.detail_restaurant));
         ((DetailActivity) getActivity()).getSupportActionBar().setTitle(getContext().getResources().getString(R.string.cart_title));
         ((DetailActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -248,7 +260,10 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
 
     @Override
     public void onExistsAccount(UserAccount userAccount) {
-        getFragment(PaymentsFragment.newInstance());
+        String note = binding.etOrderNote.getText().toString();
+        tempCart.setNote(note);
+        cartPresenter.editCart(tempCart);
+        getFragment(OrderInformationFragment.newInstance(tempCart, userAccount));
     }
 
     // payment
@@ -260,19 +275,19 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
                 .setNegativeButton(getResources().getString(R.string.login_dialog_positive), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getFragment(LoginSignUpFragment.newInstance("detail",tempCart));
+                        getFragment(LoginSignUpFragment.newInstance("detail", tempCart));
                     }
                 })
                 .setPositiveButton(getResources().getString(R.string.login_dialog_negative), null)
-                .setNeutralButton("No login required", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String note = binding.etOrderNote.getText().toString();
-                        tempCart.setNote(note);
-                        cartPresenter.editCart(tempCart);
-                        getFragment(OrderInformationFragment.newInstance(tempCart));
-                    }
-                })
+//                .setNeutralButton("No login required", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        String note = binding.etOrderNote.getText().toString();
+//                        tempCart.setNote(note);
+//                        cartPresenter.editCart(tempCart);
+//                        getFragment(OrderInformationFragment.newInstance(tempCart));
+//                    }
+//                })
                 .create();
         alertDialog.show();
     }
@@ -287,16 +302,22 @@ public class ListOrderCartFragment extends Fragment implements IOrderCart, IOnSh
                 binding.tvVoucher.setText(voucher.getId());
                 cart.setVoucher(voucher);
                 cartPresenter.editCart(cart);
-
-                long price = cart.getTotalPrice();
-                long discount = (long) ((voucher.getDiscount() / 100.0f) * price);
-                binding.tvDiscount.setText("-" + FormatHelper.formatPrice(discount));
-                binding.tvAmountToPay.setText(FormatHelper.formatPrice(price - discount));
-                binding.tvTotalCost.setText(binding.tvAmountToPay.getText().toString());
-
+                cartPresenter.calculationPrice(cart, voucher);
                 voucherDialog.dismiss();
             }
         });
         voucherDialog.show(getParentFragmentManager(), getTag());
     }
+
+    @Override
+    public void onShowVoucherOrder(MyOrderAdapter.MyOrderViewHolder holder, Voucher voucher, Cart cart) {
+        // not thing
+    }
+
+    @Override
+    public void onEmptyVoucherOrder(MyOrderAdapter.MyOrderViewHolder holder, Cart cart) {
+        // not thing
+    }
+
+
 }

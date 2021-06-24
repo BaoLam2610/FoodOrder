@@ -6,8 +6,10 @@ import android.widget.ImageView;
 import com.example.foodorderapp.event.ICheckFavorite;
 import com.example.foodorderapp.event.IOnModifyFavorite;
 import com.example.foodorderapp.event.IOnShowListFavoriteRestaurant;
+import com.example.foodorderapp.model.DetailFavorite;
 import com.example.foodorderapp.model.Food;
 import com.example.foodorderapp.model.Restaurant;
+import com.example.foodorderapp.model.UserAccount;
 import com.example.foodorderapp.sql.CartDatabaseHelper;
 
 import java.util.List;
@@ -33,10 +35,19 @@ public class FavoriteRestaurantPresenter {
     public void checkFavoriteRestaurant(Restaurant restaurant, ImageView checked, ImageView unchecked) {
         if (helper == null)
             helper = new CartDatabaseHelper(context);
-        if (helper.findFavoriteRestaurant(restaurant))
-            iCheckFavorite.onChecked(checked, unchecked);
-        else
-            iCheckFavorite.onUnchecked(checked, unchecked);
+        UserAccount user = helper.checkStatusAccount();
+        if (user != null) {
+            DetailFavorite detailFavorite = new DetailFavorite(restaurant, user);
+            if (helper.findDetailFavorite(detailFavorite))
+                iCheckFavorite.onChecked(checked, unchecked);
+            else
+                iCheckFavorite.onUnchecked(checked, unchecked);
+        } else {
+            if (helper.findFavoriteRestaurant(restaurant))
+                iCheckFavorite.onChecked(checked, unchecked);
+            else
+                iCheckFavorite.onUnchecked(checked, unchecked);
+        }
     }
 
 
@@ -44,7 +55,13 @@ public class FavoriteRestaurantPresenter {
         if (helper == null)
             helper = new CartDatabaseHelper(context);
 //        if(helper.findRestaurant(restaurant))
-        helper.setFavoriteRestaurant(restaurant);
+
+        UserAccount user = helper.checkStatusAccount();
+        if (user != null) {
+            DetailFavorite detailFavorite = new DetailFavorite(restaurant, user);
+            helper.setDetailFavorite(detailFavorite);
+        } else
+            helper.setFavoriteRestaurant(restaurant);
         List<Food> foodList = restaurant.getFoodList();
         for (int i = 0; i < foodList.size(); i++) {
             Food food = foodList.get(i);
@@ -59,7 +76,12 @@ public class FavoriteRestaurantPresenter {
     public void destroyFavoriteRestaurant(Restaurant restaurant) {
         if (helper == null)
             helper = new CartDatabaseHelper(context);
-        helper.deleteFavoriteRestaurant(restaurant);
+        UserAccount user = helper.checkStatusAccount();
+        if (user != null) {
+            DetailFavorite detailFavorite = new DetailFavorite(restaurant, user);
+            helper.deleteDetailFavorite(detailFavorite);
+        } else
+            helper.deleteFavoriteRestaurant(restaurant);
         helper.deleteFavoriteFood(restaurant);
         iOnModify.onDestroyFavorite();
     }
@@ -67,7 +89,14 @@ public class FavoriteRestaurantPresenter {
     public void showListFavoriteRestaurant() {
         if (helper == null)
             helper = new CartDatabaseHelper(context);
-        List<Restaurant> restaurantList = helper.getListFavoriteRestaurant();
+        List<Restaurant> restaurantList;
+        UserAccount user = helper.checkStatusAccount();
+        if (user != null) {
+            DetailFavorite detailFavorite = new DetailFavorite(null, user);
+            restaurantList = helper.getListDetailFavorite(detailFavorite);
+        } else
+            restaurantList = helper.getListFavoriteRestaurant();
+
         if (restaurantList != null)
             iOnShowList.onShowListFavorite(restaurantList);
         else

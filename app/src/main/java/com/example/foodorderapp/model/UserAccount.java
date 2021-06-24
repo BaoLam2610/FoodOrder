@@ -1,6 +1,8 @@
 package com.example.foodorderapp.model;
 
-public class UserAccount {
+import java.io.Serializable;
+
+public class UserAccount implements Serializable {
     private String phone, username, password, address;
     private byte[] avatar;
     private int status;

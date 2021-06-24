@@ -10,6 +10,9 @@
     -- Color app default
     <color name="color_app_default">#F4511E</color>
 
+    <color name="color_app_correct">#4CAF50</color>
+    <color name="color_app_error">#FF0000</color>
+
 
     -- Action bar --
     <color name="action_bar_bgr">#FFFFFFFF</color>

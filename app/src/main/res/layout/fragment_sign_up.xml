@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -8,32 +9,33 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_1"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.02"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.02"
+            app:layout_constraintWidth_percent="0.9">
+
             <ImageView
-                app:tint="@color/tab_selected"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/iv_1"
-                android:src="@drawable/custom_sign_up_ic_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/custom_sign_up_ic_phone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:tint="@color/tab_selected" />
 
             <LinearLayout
-                android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,65 +44,69 @@
 
                 <TextView
                     android:id="@+id/tv_1"
-                    android:textSize="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_up_phone"
                     android:textAppearance="@style/title"
-                    android:textStyle="normal"/>
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:hint="Phone"-->
-<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:inputType="number"-->
-<!--                        android:maxLength="11"-->
-<!--                        android:maxLines="1"-->
-<!--                        />-->
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
-                <EditText
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
 
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:maxLines="1"
-                    android:id="@+id/tvPhone"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiPhone"
+                    style="@style/Widget.App.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    android:hint="@string/sign_up_phone"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="11"
+                    app:endIconDrawable="@drawable/ic_check_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/color_app_correct"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_cancel_24"
+                    app:startIconDrawable="@drawable/drawable_left_ic_phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tvPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_3"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.02"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_1">
+            app:layout_constraintTop_toBottomOf="@id/layout_1"
+            app:layout_constraintVertical_bias="0.02"
+            app:layout_constraintWidth_percent="0.9">
+
             <ImageView
-                app:tint="@color/tab_selected"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/iv_3"
-                android:src="@drawable/custom_sign_up_ic_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/custom_sign_up_ic_user"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:tint="@color/tab_selected" />
 
             <LinearLayout
-                android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,51 +115,77 @@
 
                 <TextView
                     android:id="@+id/tv_4"
-                    android:textSize="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_up_full_name"
                     android:textAppearance="@style/title"
-                    android:textStyle="normal"/>
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
 
-                <EditText
-                    android:inputType="text"
-                    android:maxLength="35"
-                    android:maxLines="1"
-                    android:id="@+id/tvName"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiUsername"
+                    style="@style/Widget.App.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    android:hint="@string/sign_up_full_name"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="35"
+                    app:endIconDrawable="@drawable/ic_check_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/color_app_correct"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_cancel_24"
+                    app:startIconDrawable="@drawable/drawable_left_ic_username">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLength="35"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--                <EditText-->
+<!--                    android:id="@+id/tvName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text"-->
+<!--                    android:maxLength="35"-->
+<!--                    android:maxLines="1"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent" />-->
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_2"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.04"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_3">
+            app:layout_constraintTop_toBottomOf="@id/layout_3"
+            app:layout_constraintVertical_bias="0.04"
+            app:layout_constraintWidth_percent="0.9">
+
             <ImageView
-                app:tint="@color/tab_selected"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/iv_2"
-                android:src="@drawable/custom_sign_up_ic_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/custom_sign_up_ic_password"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:tint="@color/tab_selected" />
 
             <LinearLayout
-                android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -161,63 +193,87 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:textStyle="normal"
-                    android:textSize="18dp"
                     android:id="@+id/tv_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_up_password"
-                    android:textAppearance="@style/title" />
+                    android:textAppearance="@style/title"
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
+
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiPassword"
+                    app:passwordToggleEnabled="true"
+                    style="@style/Widget.App.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
-                    >
+                    android:hint="@string/sign_up_password"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="12"
+
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_cancel_24"
+                    app:startIconDrawable="@drawable/drawable_left_ic_password">
+
                     <EditText
-                        android:inputType="textPassword"
-                        android:maxLength="12"
-                        android:maxLines="1"
                         android:id="@+id/tvPassword1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLength="12"
+                        android:maxLines="1"
                         app:layout_constraintBottom_toBottomOf="parent" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:textStyle="normal"
-                    android:textSize="18dp"
                     android:id="@+id/tv_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_up_confirm_pass"
-                    android:textAppearance="@style/title" />
-                <EditText
-                    android:inputType="textPassword"
-                    android:maxLength="12"
-                    android:maxLines="1"
-                    android:id="@+id/tvPassword2"
+                    android:textAppearance="@style/title"
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiConfirmPassword"
+                    style="@style/Widget.App.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    android:hint="@string/sign_up_confirm_pass"
+
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_cancel_24"
+                    app:startIconDrawable="@drawable/drawable_left_ic_password">
+
+                    <EditText
+                        android:id="@+id/tvPassword2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
         <RelativeLayout
-            android:elevation="10dp"
             android:id="@+id/btnContinue"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/custom_btn_continue"
+            android:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.08"
-            app:layout_constraintWidth_percent="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.99">
+            app:layout_constraintVertical_bias="0.99"
+            app:layout_constraintWidth_percent="0.95">
 
             <TextView
                 android:layout_width="wrap_content"

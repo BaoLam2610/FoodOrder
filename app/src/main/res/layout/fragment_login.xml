@@ -44,10 +44,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintVertical_bias="0.02"
             app:layout_constraintWidth_percent="0.9"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:paddingLeft="10dp"
+
                 android:inputType="textPassword"
                 android:maxLength="12"
                 android:maxLines="1"

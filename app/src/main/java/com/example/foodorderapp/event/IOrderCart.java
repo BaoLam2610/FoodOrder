@@ -11,4 +11,6 @@ public interface IOrderCart {
     void onShowListFoodOrder(Cart cart, List<Food> foodList);
     void onEmptyListFoodOrder();
     void onShowVoucher(Voucher voucher, Cart cart);
+    void onEmptyVoucher(Cart cart);
+    void onCalculationPrice(long price,long discountPercent, long discount,long deliveryFee, long totalPrice);
 }

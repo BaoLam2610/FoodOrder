@@ -43,7 +43,6 @@ import com.example.foodorderapp.model.UserAccount;
 import com.example.foodorderapp.presenter.LoginSignUpPresenter;
 import com.google.android.material.navigation.NavigationView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -53,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
 
     int countFrag = 0;
     ActionBarDrawerToggle toggle;
+    boolean checkLogin = true;
     private NavHeaderMainBinding navBinding;
     private LoginSignUpPresenter presenter;
     private ActivityMainBinding binding;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_slideshow)
                 .setDrawerLayout(binding.drawerLayout)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -90,10 +90,42 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
                     case R.id.nav_logout:
                         presenter.logoutAccount();
                         presenter.showAccountInformation();
+                        checkLogin = false;
                         invalidateOptionsMenu();
+//                        binding.navView.getMenu().getItem(0).setChecked(true);
+                        navController.navigate(R.id.nav_home);
                         break;
+                    case R.id.nav_profile:
+                        if (checkLogin == false) {
 
+                            final Dialog dialog = new Dialog(getApplicationContext());
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setContentView(R.layout.dialog_login_check);
+
+                            Window window = dialog.getWindow();
+                            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                            WindowManager.LayoutParams windowAttributes = window.getAttributes();
+                            windowAttributes.gravity = Gravity.CENTER;
+                            window.setAttributes(windowAttributes);
+                            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                            TextView tvCancel = dialog.findViewById(R.id.tvCancel);
+
+                            tvCancel.setOnClickListener(view -> {
+                                dialog.dismiss();
+                                binding.navView.getMenu().getItem(0).setChecked(true);
+                            });
+                            dialog.show();
+
+                        } else
+                            navController.navigate(R.id.nav_profile);
+                        break;
+                    case R.id.nav_home:
+                        navController.navigate(R.id.nav_home);
+                        break;
                     default:
+
                         if (!sameDestination) {
                             navController.navigate(item.getItemId());
                             currentDestinationId = item.getItemId();
@@ -129,9 +161,6 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
             dialog.setContentView(R.layout.dialog_network_disconnected);
 
             Window window = dialog.getWindow();
-//        if(window == null){
-//            return;
-//        }
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -197,27 +226,40 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
         navBinding.tvPhone.setText(getResources().getString(R.string.phone) + userAccount.getPhone());
         navBinding.tvName.setText(userAccount.getUsername());
         byte[] avatar = userAccount.getAvatar();
-        if(avatar != null){
+        if (avatar != null) {
             Bitmap bitmap = ConvertAvatarHelper.getImage(avatar);
 
-            navBinding.ivAvatar.setImageBitmap(bitmap);}
+            navBinding.ivAvatar.setImageBitmap(bitmap);
+        }
+        checkLogin = true;
+    }
+
+    public boolean isCheckLogin() {
+        return checkLogin;
+    }
+
+    public void setCheckLogin(boolean checkLogin) {
+        this.checkLogin = checkLogin;
     }
 
     @Override
     public void onNotExistsAccount() {
         navBinding.layoutAccount.setVisibility(View.INVISIBLE);
         navBinding.btnLogin.setVisibility(View.VISIBLE);
-
+        checkLogin = false;
+        binding.navView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
     public void onExists(String mes) {
+        binding.navView.getMenu().getItem(0).setChecked(true);
         Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onNotExists(String mes) {
+        binding.navView.getMenu().getItem(0).setChecked(true);
         Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
     }
 
@@ -225,19 +267,6 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
     public void getCheckPointFragment(Integer i) {
         countFrag = i;
         presenter.showAccountInformation();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     public boolean isCheckNetwork() {

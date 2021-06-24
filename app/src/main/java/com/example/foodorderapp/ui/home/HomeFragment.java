@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.foodorderapp.MainActivity;
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.adapter.ListGroupAdapter;
 import com.example.foodorderapp.databinding.FragmentHomeBinding;
@@ -67,8 +68,12 @@ public class HomeFragment extends Fragment {
     }
 
     public void getViewPager(){
-        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerAdapter = new ViewPagerAdapter(getParentFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         binding.vpFragment.setAdapter(viewPagerAdapter);
+//        binding.vpFragment.setCurrentItem(binding.vpFragment.getCurrentItem()-1);
+
+        int i = binding.vpFragment.getCurrentItem();
+        System.out.println(i);
         binding.vpFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -79,12 +84,15 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
+                        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.action_bar_home));
                         binding.bottomMenu.getMenu().findItem(R.id.mnHomeList).setChecked(true);
                         break;
                     case 1:
+                        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.action_bar_my_order));
                         binding.bottomMenu.getMenu().findItem(R.id.mnOrders).setChecked(true);
                         break;
                     case 2:
+                        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.action_bar_favorites));
                         binding.bottomMenu.getMenu().findItem(R.id.mnFavorites).setChecked(true);
                         break;
                 }

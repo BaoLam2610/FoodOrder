@@ -2,7 +2,9 @@ package com.example.foodorderapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Banner {
+import java.io.Serializable;
+
+public class Banner implements Serializable {
     @SerializedName("banner")
     private String image;
     @SerializedName("content")
