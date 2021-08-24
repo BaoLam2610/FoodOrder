@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnMyLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_my_location"
+            app:borderWidth="0dp"
+            app:layout_dodgeInsetEdges="bottom"
+            app:layout_anchor="@id/btnDirect"
+            app:layout_anchorGravity="top|end"
+            android:layout_marginRight="10dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnDirect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_dodgeInsetEdges="bottom"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_map_direction"
+            android:tint="@color/color_text_default"
+            app:borderWidth="0dp"
+            app:layout_anchor="@id/text"
+            app:layout_anchorGravity="top|end"
+            android:layout_marginRight="10dp"
+             />
+
+        <TextView
+            app:layout_insetEdge="bottom"
+            android:layout_marginTop="50dp"
+            android:id="@+id/text"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_anchor="@id/dialog_map"
+            app:layout_anchorGravity="top|end"
+            />
+
+        <include
+            android:id="@+id/layout_map"
+            layout="@layout/layout_map" />
+
+        <include
+            android:id="@+id/dialog_map"
+            layout="@layout/dialog_view_map" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

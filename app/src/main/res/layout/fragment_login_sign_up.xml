@@ -71,7 +71,7 @@
                     android:maxLength="11"
                     android:maxLines="1"
                     android:paddingLeft="3dp"
-                    android:hint="Enter mobile number"
+                    android:hint="@string/login_sign_up_hint"
                     android:textSize="17dp"
                     android:textColor="@color/black"
                     android:textStyle="normal"

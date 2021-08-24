@@ -47,25 +47,30 @@ public class CartDatabasePresenter {
         this.iCartDatabase = iCartDatabase;
         this.iOnListFood = iOnListFood;
         this.context = context;
+        helper = new CartDatabaseHelper(context);
     }
 
 
     public CartDatabasePresenter(IOnShowDetailCart iOnShowDetailCart, Context context) {
+        helper = new CartDatabaseHelper(context);
         this.context = context;
         this.iOnShowDetailCart = iOnShowDetailCart;
     }
 
     public CartDatabasePresenter(ICartDatabase iCartDatabase, Context context) {
+        helper = new CartDatabaseHelper(context);
         this.iCartDatabase = iCartDatabase;
         this.context = context;
     }
 
     public CartDatabasePresenter(IOnListFood iOnListFood, Context context) {
+        helper = new CartDatabaseHelper(context);
         this.iOnListFood = iOnListFood;
         this.context = context;
     }
 
     public CartDatabasePresenter(ICartDatabase iCartDatabase, IOnListFood iOnListFood, Context context) {
+        helper = new CartDatabaseHelper(context);
         this.iCartDatabase = iCartDatabase;
         this.iOnListFood = iOnListFood;
         this.context = context;
@@ -75,9 +80,10 @@ public class CartDatabasePresenter {
         try {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
-            if (!helper.findRestaurant(restaurant))
+            if (!helper.findRestaurant(restaurant) && !helper.findAddress(restaurant)) {
                 helper.insertRestaurant(restaurant);
-
+                helper.insertAddress(restaurant,restaurant.getAddress());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -219,11 +225,36 @@ public class CartDatabasePresenter {
         EventBus.getDefault().unregister(this);
     }
 
-    public void calculationPrice(Cart cart, Voucher voucher) {
+    public void calculationFee(Cart cart, double range){
+        long deliveryFee;
+
+        if(range <= 1.0)
+            deliveryFee = 0;
+        else
+            deliveryFee = (long) (10_000 + range * 3000);
+
+        if(deliveryFee > 50_000)
+            deliveryFee = 50_000;
+        Voucher voucher = helper.getVoucher(cart);
         long price = cart.getTotalPrice();
-        long discountPercent = voucher.getDiscount();
-        long discount = (long) ((voucher.getDiscount() / 100.0f) * price);
-        iOrderCart.onCalculationPrice(price , discountPercent, discount, 0,price - discount);
+        long discountPercent = 0, discount = 0;
+        if(voucher != null) {
+            discountPercent = voucher.getDiscount();
+            discount = (long) ((voucher.getDiscount() / 100.0f) * price);
+        }
+        iOrderCart.onCalculationPrice(price , discountPercent, discount,deliveryFee ,price - discount + deliveryFee);
+    }
+
+    public void calculationPrice(Cart cart) {
+        Voucher voucher = helper.getVoucher(cart);
+        long price = cart.getTotalPrice();
+        long discountPercent = 0, discount = 0;
+        if(voucher != null) {
+            discountPercent = voucher.getDiscount();
+            discount = (long) ((voucher.getDiscount() / 100.0f) * price);
+        }
+        long deliveryFee = cart.getDeliveryFee();
+        iOrderCart.onCalculationPrice(price , discountPercent, discount,0 ,price - discount);
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -256,13 +287,24 @@ public class CartDatabasePresenter {
             if (helper == null)
                 helper = new CartDatabaseHelper(context);
             helper.deleteAllRestaurant();
+            helper.deleteAddress();
             helper.deleteAllDetailCart();
-//            helper.deleteAllFood();
+            helper.deleteAllFood();
             helper.deleteAllCart();
             helper.deleteAllCartEmpty();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void destroyAll(Context context){
+        CartDatabaseHelper cartHelper = new CartDatabaseHelper(context);
+        cartHelper.deleteAllRestaurant();
+        cartHelper.deleteAddress();
+        cartHelper.deleteAllDetailCart();
+        cartHelper.deleteAllFood();
+        cartHelper.deleteAllCart();
+        cartHelper.deleteAllCartEmpty();
     }
 
 

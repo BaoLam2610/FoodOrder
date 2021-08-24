@@ -97,7 +97,7 @@ public class FavoriteRestaurantPresenter {
         } else
             restaurantList = helper.getListFavoriteRestaurant();
 
-        if (restaurantList != null)
+        if (restaurantList.size() != 0)
             iOnShowList.onShowListFavorite(restaurantList);
         else
             iOnShowList.onEmptyListFavorite();

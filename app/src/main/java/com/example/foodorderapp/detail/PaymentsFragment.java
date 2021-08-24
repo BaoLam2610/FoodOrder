@@ -23,7 +23,7 @@ public class PaymentsFragment extends Fragment implements ICartDatabase {
     FragmentPaymentOrderBinding binding;
     CartDatabasePresenter presenter;
 
-    public static PaymentsFragment newInstance(Cart cart,UserAccount userAccount) {
+    public static PaymentsFragment newInstance(Cart cart, UserAccount userAccount) {
 
         Bundle args = new Bundle();
         args.putSerializable("cart", cart);
@@ -32,6 +32,7 @@ public class PaymentsFragment extends Fragment implements ICartDatabase {
         fragment.setArguments(args);
         return fragment;
     }
+
     public Cart getCart() {
         Bundle args = getArguments();
         return (Cart) args.getSerializable("cart");
@@ -41,19 +42,28 @@ public class PaymentsFragment extends Fragment implements ICartDatabase {
         Bundle args = getArguments();
         return (UserAccount) args.getSerializable("user");
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_payment_order,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_payment_order, container, false);
         setHasOptionsMenu(true);
-        presenter = new CartDatabasePresenter(this,getContext());
-        binding.btnBankCards.setOnClickListener(v->{
-            presenter.setCart(getUser());
-            presenter.destroyAllData();
-            getFragment(PaymentSuccessfulFragment.newInstance());
-        });
+        setTitleActionBar();
+        presenter = new CartDatabasePresenter(this, getContext());
+        binding.btnBankCards.setOnClickListener(v -> paymentMethod());
+        binding.btnCOD.setOnClickListener(v -> paymentMethod());
+        binding.itemAirPay.setOnClickListener(v -> paymentMethod());
+        binding.itemMoMo.setOnClickListener(v -> paymentMethod());
+        binding.itemPayPal.setOnClickListener(v -> paymentMethod());
         return binding.getRoot();
     }
+
+    public void paymentMethod() {
+        presenter.setCart(getUser());
+        presenter.destroyAllData();
+        getFragment(PaymentSuccessfulFragment.newInstance());
+    }
+
     public void getFragment(Fragment fragment) {
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.flDetailFragment, fragment)

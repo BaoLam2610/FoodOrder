@@ -9,7 +9,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.example.foodorderapp"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude : ['*mock*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
@@ -67,4 +69,7 @@ dependencies {
     // choose img - permission
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
     implementation 'gun0912.ted:tedpermission:2.2.3'
+
+    // location
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 }

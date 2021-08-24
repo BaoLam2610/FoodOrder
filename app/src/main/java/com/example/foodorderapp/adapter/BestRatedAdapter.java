@@ -51,7 +51,7 @@ public class BestRatedAdapter extends RecyclerView.Adapter<BestRatedAdapter.Best
 //                    .error(R.drawable.ic_baseline_error_24)        // load ảnh bị lỗi
                 .into(holder.binding.ivResImage);
         holder.binding.tvResName.setText(restaurant.getName());
-        holder.binding.tvResAddress.setText(restaurant.getAddress());
+        holder.binding.tvResAddress.setText(restaurant.getAddress().getAddress());
         holder.binding.tvResRate.setText(restaurant.getRate() + " ");
         holder.binding.rbResRate.setRating((float) restaurant.getRate());
         holder.binding.itemRestaurant.setOnClickListener(v -> iOnClickItemRestaurant.onClickItem(restaurant));

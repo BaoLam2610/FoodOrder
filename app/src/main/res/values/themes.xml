@@ -23,8 +23,6 @@
 
     <style name="Theme.FoodOrderApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.FoodOrderApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/lightGrey</item>
         <item name="colorControlActivated">@color/duskYellow</item>
@@ -63,13 +61,6 @@
     <style name="title_item_sub" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/title_item_sub</item>
         <item name="android:textColor">@color/title_item_sub</item>
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <style name="title_item_detail" parent="@android:style/TextAppearance">
-        <item name="android:textSize">@dimen/title_item_detail</item>
-        <item name="android:textColor">@color/title_item_detail</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
@@ -136,10 +127,4 @@
         <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
     </style>
 
-    <style name="custom_text_input" parent="@android:style/TextAppearance">
-        <item name="android:textSize">17dp</item>
-        <item name="android:textColor">@color/title_item</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
 </resources>

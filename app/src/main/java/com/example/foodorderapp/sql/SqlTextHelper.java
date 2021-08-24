@@ -28,6 +28,7 @@ public class SqlTextHelper {
     public static final String CART_DATE = "date";
     public static final String CART_STATUS = "status";
     public static final String CART_NOTE = "note";
+    public static final String CART_DELIVERY_FEE = "fee";
 
     // DETAIL CART
     public static final String DETAIL_CART_COUNT = "count";
@@ -50,6 +51,10 @@ public class SqlTextHelper {
 
     // DETAIL FAVORITE (idRes,phone, status)
     public static final String DETAIL_FAVORITE_STATUS = "status";
-
+    // ADDRESS
+    public static final String ADDRESS_ID = "resAddress";
+    public static final String ADDRESS_X = "x";
+    public static final String ADDRESS_Y = "y";
+    public static final String ADDRESS_NAME = "address";
 
 }

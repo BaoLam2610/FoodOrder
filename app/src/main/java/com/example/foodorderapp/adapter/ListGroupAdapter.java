@@ -85,8 +85,8 @@ public class ListGroupAdapter extends RecyclerView.Adapter<ListGroupAdapter.List
                 FoodBannerAdapter foodBannerAdapter = new FoodBannerAdapter(foodBannerList, context);
                 holder.binding.rvListItem.setHasFixedSize(true);
                 holder.binding.rvListItem.setAdapter(foodBannerAdapter);
-                holder.binding.rvListItem.setLayoutManager(horLayoutManager);
-
+                holder.binding.rvListItem.setLayoutManager(verLayoutManager);
+                holder.binding.rvListItem.setHasFixedSize(true);
 
                 break;
             case TYPE_FOOD_CATEGORY:

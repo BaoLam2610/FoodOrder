@@ -4,6 +4,6 @@
         android:width="15dp"
         android:height="15dp"
         android:drawable="@drawable/ic_location"
-        android:gravity="center"
+        
         />
 </layer-list>

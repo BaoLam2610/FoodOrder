@@ -16,10 +16,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -28,7 +26,7 @@
                 app:cardBackgroundColor="#FAFAFA"
 
                 app:cardCornerRadius="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/view_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,15 +41,15 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:paddingRight="10dp"
                 android:id="@+id/tvResName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingRight="10dp"
                 android:text="Nha Hang"
                 android:textAppearance="@style/title_item_food"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvStatus"
-                app:layout_constraintHorizontal_bias="0.04"
+                app:layout_constraintEnd_toStartOf="@+id/tvSeeDetail"
+                app:layout_constraintHorizontal_bias="0.06"
                 app:layout_constraintStart_toEndOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0" />
@@ -63,14 +61,61 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/custom_item_restaurant_location"
                 android:drawableTint="@color/icon_location"
-                android:paddingRight="5dp"
-                android:text="Ha Noi"
-                android:textSize="@dimen/my_order_payment"
+
+                android:text="Ha Noi asd a sda sd asd a sdas dá da sdas da sdasd a s"
                 android:textAppearance="@style/title_item"
+                android:textSize="@dimen/my_order_payment"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvDateOrder"
+                app:layout_constraintEnd_toEndOf="@+id/view_1"
                 app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDateOrder"
+                app:layout_constraintVertical_bias="0" />
+
+            <LinearLayout
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/tvResAddress"
+                app:layout_constraintEnd_toStartOf="@+id/tvIdCart"
                 app:layout_constraintStart_toStartOf="@+id/tvResName"
+                app:layout_constraintTop_toBottomOf="@+id/tvResName">
+
+                <TextView
+                    android:id="@+id/tvResRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.2"
+                    android:textAppearance="@style/title_item_sub"
+                    android:textColor="@color/rated"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/rbResRate"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="3"
+                    android:stepSize="0.1"
+                    android:theme="@style/RatingBar" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvIdCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID - 20120"
+                android:textAppearance="@style/title_item"
+                android:textSize="@dimen/my_order_payment"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvResName"
                 app:layout_constraintVertical_bias="0" />
 
@@ -79,18 +124,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Order at"
-                android:textSize="@dimen/my_order_payment"
                 android:textAppearance="@style/title_item"
                 android:textColor="@color/color_text_default"
+                android:textSize="@dimen/my_order_payment"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvResName"
+                app:layout_constraintTop_toBottomOf="@+id/tvIdCart"
                 app:layout_constraintVertical_bias="0" />
 
             <View
-                android:layout_marginTop="10dp"
                 android:id="@+id/view_1"
                 android:layout_width="0dp"
                 android:layout_height="5dp"
@@ -102,23 +146,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvResAddress"
                 app:layout_constraintVertical_bias="0" />
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvFoodOrder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_1"
-                app:layout_constraintVertical_bias="0" />
-
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/tvStatus"
+                android:id="@+id/tvSeeDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/delivered"
+                android:text="@string/my_order_see_detail"
                 android:textAppearance="@style/title_item"
                 android:textColor="@color/color_app_correct"
                 app:layout_constraintBottom_toBottomOf="@+id/tvResName"
@@ -132,8 +176,8 @@
                 android:id="@+id/view_2"
                 android:layout_width="0dp"
                 android:layout_height="5dp"
-                android:layerType="software"
                 android:background="@drawable/custom_line_dotted_1"
+                android:layerType="software"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +189,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sub total"
+                android:text="@string/cart_sub_total"
                 android:textAppearance="@style/title_item_food"
 
                 android:textSize="@dimen/my_order_payment"
@@ -174,7 +218,7 @@
                 android:id="@+id/tvTitleDeliveryFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delivery fee"
+                android:text="@string/order_inf_delivery_fee"
                 android:textAppearance="@style/title_item_food"
 
                 android:textSize="@dimen/my_order_payment"
@@ -203,7 +247,7 @@
                 android:id="@+id/tvTitleDiscount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Discount"
+                android:text="@string/cart_discount"
                 android:textAppearance="@style/title_item_food"
 
                 android:textSize="@dimen/my_order_payment"
@@ -235,7 +279,7 @@
                 android:text="@string/my_order_total_price"
                 android:textAppearance="@style/title_item_food"
                 android:textColor="@color/my_order_total_price_color"
-                android:textSize="@dimen/my_order_payment"
+                android:textSize="@dimen/my_order_total_price"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
@@ -249,7 +293,8 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textAppearance="@style/title_item_food"
-                android:textSize="@dimen/my_order_payment"
+                android:textColor="@color/my_order_total_price_color"
+                android:textSize="@dimen/my_order_total_price"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

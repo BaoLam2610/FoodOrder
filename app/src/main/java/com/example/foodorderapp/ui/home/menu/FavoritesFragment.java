@@ -66,6 +66,9 @@ public class FavoritesFragment extends Fragment implements IOnShowListFavoriteRe
 
     @Override
     public void onShowListFavorite(List<Restaurant> restaurantList) {
+        binding.rvFavorRestaurant.setVisibility(View.VISIBLE);
+        binding.layoutEmptyFavorite.setVisibility(View.INVISIBLE);
+
         restaurantAdapter = new ListRestaurantAdapter(restaurantList,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
         binding.rvFavorRestaurant.setAdapter(restaurantAdapter);
@@ -91,7 +94,8 @@ public class FavoritesFragment extends Fragment implements IOnShowListFavoriteRe
 
     @Override
     public void onEmptyListFavorite() {
-
+        binding.rvFavorRestaurant.setVisibility(View.INVISIBLE);
+        binding.layoutEmptyFavorite.setVisibility(View.VISIBLE);
     }
 
     @Override

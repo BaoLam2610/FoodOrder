@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.solver.widgets.Helper;
 
 import com.example.foodorderapp.event.ICartDatabase;
 import com.example.foodorderapp.event.ICheckLogin;
@@ -15,7 +14,6 @@ import com.example.foodorderapp.event.IOnListFood;
 import com.example.foodorderapp.event.IOnShowCart;
 import com.example.foodorderapp.event.IOrderCart;
 import com.example.foodorderapp.event.IRestoreList;
-import com.example.foodorderapp.helper.IHelper;
 import com.example.foodorderapp.model.Cart;
 import com.example.foodorderapp.model.DetailCart;
 import com.example.foodorderapp.model.Food;
@@ -53,12 +51,19 @@ public class DetailPresenter {
     List<Food> listOrder;
     List<Food> listDelete = new ArrayList<>();
     String typeCheck;
-
+    String tempType;
+    //    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+//    public void getListType(String type){
+//        if(type.equals(IHelper.TYPE_QUICK_DELIVERIES) || type.equals(IHelper.TYPE_BEST_RATED))
+//            tempType = type;
+//    }
+    List<Restaurant> bestRestaurantList;
 
     public DetailPresenter(ICheckLogin iCheckLogin, Context context) {
         this.iCheckLogin = iCheckLogin;
         this.context = context;
     }
+
 
     public DetailPresenter(IDetailRestaurant iDetailRestaurant, IOnShowCart iOnShowCart) {
         this.iDetailRestaurant = iDetailRestaurant;
@@ -71,7 +76,6 @@ public class DetailPresenter {
         this.context = context;
         this.cartPresenter = cartPresenter;
     }
-
 
     public DetailPresenter(IDetailRestaurant iDetailRestaurant, Context context, IRestoreList iRestoreList) {
         this.iDetailRestaurant = iDetailRestaurant;
@@ -86,6 +90,7 @@ public class DetailPresenter {
         this.iOnShowCart = iOnShowCart;
     }
 
+
     public DetailPresenter(IListRestaurant iListRestaurant, Context context) {
         this.iListRestaurant = iListRestaurant;
         this.context = context;
@@ -98,18 +103,11 @@ public class DetailPresenter {
         this.context = context;
     }
 
-
     public DetailPresenter(IDetailRestaurant iDetailRestaurant, Context context) {
         this.iDetailRestaurant = iDetailRestaurant;
         this.context = context;
     }
-    String tempType;
-//    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
-//    public void getListType(String type){
-//        if(type.equals(IHelper.TYPE_QUICK_DELIVERIES) || type.equals(IHelper.TYPE_BEST_RATED))
-//            tempType = type;
-//    }
-    List<Restaurant> bestRestaurantList;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void showListRestaurant(String type) {// quick delivery or best rated
         EventBus.getDefault().register(this);
@@ -118,7 +116,7 @@ public class DetailPresenter {
 //        System.out.println(type);
 //        switch (type) {
 //            case "0":
-                iListRestaurant.onShowListRestaurant(restaurantList);
+        iListRestaurant.onShowListRestaurant(restaurantList);
 //                break;
 //            case "1":
 //                bestRestaurantList = new ArrayList<>();
@@ -162,7 +160,7 @@ public class DetailPresenter {
     public void showDetailRestaurant() {
 
         EventBus.getDefault().register(this);
-        iDetailRestaurant.onShowDetailRestaurant(res);
+        iDetailRestaurant.onShowDetailRestaurant(res, null);
         EventBus.getDefault().unregister(this);
 
     }
@@ -187,8 +185,6 @@ public class DetailPresenter {
         desertList = new ArrayList<>();
         drinkList = new ArrayList<>();
 
-//        EventBus.getDefault().register(this);
-//        foodList = res.getFoodList();
         for (int i = 0; i < foodList.size(); i++) {
             switch (foodList.get(i).getCategory()) {
                 case "Fast food":
@@ -212,17 +208,21 @@ public class DetailPresenter {
         }
         switch (type) {
             case "Fast Food":
+            case "Đồ ăn nhanh":
                 return fastFoodList;
             case "Starter":
+            case "Khai vị":
                 return starterFoodList;
             case "Main Course":
+            case "Món chính":
                 return mainCourseList;
             case "Desert":
+            case "Tráng miệng":
                 return desertList;
             case "Drink":
+            case "Đồ uống":
                 return drinkList;
         }
-//        EventBus.getDefault().unregister(this);
         return null;
     }
 
@@ -246,9 +246,6 @@ public class DetailPresenter {
 //        public void showListFood(List<Food> foodList,String type) {
 //        iListFood.onListFood(getListFood());
         EventBus.getDefault().register(this);
-
-        System.out.println(typeCheck);
-        System.out.println(typeCheck);
         switch (typeCheck) {
             case "default":
                 iOnListFood.onShowListFood(getListFood(getListFood(), type));
@@ -264,7 +261,6 @@ public class DetailPresenter {
 //        List<Food> foodList = getListFood();
 
     }
-
 
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

@@ -4,7 +4,7 @@
 
     <LinearLayout
         android:id="@+id/itemRestaurant"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="@dimen/item_restaurant_span_height"
         android:layout_marginRight="@dimen/item_margin"
         android:layout_marginBottom="@dimen/item_margin"
@@ -50,6 +50,8 @@
                 android:drawableLeft="@drawable/custom_item_restaurant_location"
                 android:drawableTint="@color/icon_location"
                 android:text="Address"
+                android:ellipsize="start"
+                android:singleLine="true"
                 android:textAppearance="@style/title_item_sub"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +75,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.85" />
 
-            <androidx.appcompat.widget.AppCompatRatingBar
+            <RatingBar
                 android:id="@+id/rbResRate"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"

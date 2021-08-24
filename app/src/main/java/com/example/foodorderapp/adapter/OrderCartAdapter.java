@@ -58,7 +58,25 @@ implements IOnShowDetailCart {
     public void onBindViewHolder(@NonNull OrderCartViewHolder holder, int position) {
         Food food = foodList.get(position);
         holder.binding.tvFoodName.setText(food.getName());
-        holder.binding.tvFoodCategory.setText(food.getCategory());
+        String category = food.getCategory();
+        switch (category){
+            case "Fast food":
+                holder.binding.tvFoodCategory.setText(context.getString(R.string.fast_food));
+                break;
+            case "Starter food":
+                holder.binding.tvFoodCategory.setText(context.getString(R.string.starter));
+                break;
+            case "Main course food":
+                holder.binding.tvFoodCategory.setText(context.getString(R.string.main_course));
+                break;
+            case "Desert food":
+                holder.binding.tvFoodCategory.setText(context.getString(R.string.desert));
+                break;
+            case "Drink":
+                holder.binding.tvFoodCategory.setText(context.getString(R.string.drink));
+                break;
+        }
+
         holder.binding.tvFoodPrice.setText(df.format(food.getPrice()));
         presenter = new CartDatabasePresenter(this,context);
         presenter.showDetailCart(food,cart,holder);

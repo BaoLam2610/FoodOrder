@@ -2,8 +2,10 @@ package com.example.foodorderapp;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,7 +28,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -40,11 +41,10 @@ import com.example.foodorderapp.event.IDrawer;
 import com.example.foodorderapp.event.IShowAccountInf;
 import com.example.foodorderapp.helper.ConvertAvatarHelper;
 import com.example.foodorderapp.model.UserAccount;
+import com.example.foodorderapp.network.BroadCastNetWork;
+import com.example.foodorderapp.presenter.CartDatabasePresenter;
 import com.example.foodorderapp.presenter.LoginSignUpPresenter;
 import com.google.android.material.navigation.NavigationView;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity implements IShowAccountInf, ICheckLogin, IDrawer {
 
@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
     int countFrag = 0;
     ActionBarDrawerToggle toggle;
     boolean checkLogin = true;
+    BroadCastNetWork broadCastNetWork;
+    BroadcastReceiver broadcastReceiver;
+    boolean check = true;
     private NavHeaderMainBinding navBinding;
     private LoginSignUpPresenter presenter;
     private ActivityMainBinding binding;
@@ -65,7 +68,37 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        checkNetwork();
+//        checkNetwork();
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                final Dialog dialog = new Dialog(context);
+
+                if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
+                    if (isCheckNetwork(context)) {
+
+                    } else {
+                        check = false;
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_network_disconnected);
+
+                        Window window = dialog.getWindow();
+                        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+                        windowAttributes.gravity = Gravity.CENTER;
+                        window.setAttributes(windowAttributes);
+
+                        TextView tvCancel = dialog.findViewById(R.id.tvCancel);
+                        tvCancel.setOnClickListener(view -> {
+                            dialog.dismiss();
+                        });
+                        dialog.show();
+                    }
+                }
+            }
+        };
 
         setSupportActionBar(binding.appBarMain.toolbar);
 //        binding.appBarMain.toolbar.getOverflowIcon().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
@@ -75,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_terms_conditions)
                 .setDrawerLayout(binding.drawerLayout)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -88,12 +121,39 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
                 final boolean sameDestination = item.getItemId() == currentDestinationId;
                 switch (item.getItemId()) {
                     case R.id.nav_logout:
-                        presenter.logoutAccount();
-                        presenter.showAccountInformation();
-                        checkLogin = false;
-                        invalidateOptionsMenu();
-//                        binding.navView.getMenu().getItem(0).setChecked(true);
-                        navController.navigate(R.id.nav_home);
+//                        final Dialog dialog1 = new Dialog(getApplicationContext());
+//                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                        dialog1.setContentView(R.layout.dialog_logout);
+//
+//                        Window window1 = dialog1.getWindow();
+//                        window1.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//                        window1.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//
+//                        WindowManager.LayoutParams windowAttributes1 = window1.getAttributes();
+//                        windowAttributes1.gravity = Gravity.CENTER;
+//                        window1.setAttributes(windowAttributes1);
+//                        dialog1.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//
+//                        TextView tvCancel1 = dialog1.findViewById(R.id.tvCancel);
+//                        TextView tvLogout = dialog1.findViewById(R.id.tvLogout);
+//                        dialog1.show();
+//                        tvCancel1.setOnClickListener(view -> {
+//                            dialog1.dismiss();
+//
+//                        });
+
+//                        tvLogout.setOnClickListener(v -> {
+                            presenter.logoutAccount();
+                            presenter.showAccountInformation();
+                            checkLogin = false;
+                            invalidateOptionsMenu();
+                            navController.navigate(R.id.nav_home);
+//                            dialog1.dismiss();
+//                       });
+
+                        binding.navView.getMenu().getItem(0).setChecked(true);
+
+
                         break;
                     case R.id.nav_profile:
                         if (checkLogin == false) {
@@ -153,28 +213,10 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
         presenter.showAccountInformation();
     }
 
-    public void checkNetwork() {
-
-        if (!isCheckNetwork()) {
-            final Dialog dialog = new Dialog(this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_network_disconnected);
-
-            Window window = dialog.getWindow();
-            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-            WindowManager.LayoutParams windowAttributes = window.getAttributes();
-            windowAttributes.gravity = Gravity.CENTER;
-            window.setAttributes(windowAttributes);
-
-            TextView tvCancel = dialog.findViewById(R.id.tvCancel);
-
-            tvCancel.setOnClickListener(view -> {
-                dialog.dismiss();
-            });
-            dialog.show();
-        }
+    public boolean isCheckNetwork(Context context) {
+        ConnectivityManager connect = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connect.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
     public void setTileActionBar(String title) {
@@ -182,17 +224,24 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.showAccountInformation();
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
-    public void getFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment)
-                .addToBackStack(TAG)
-                .commit();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadcastReceiver);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, intentFilter);
+        presenter.showAccountInformation();
     }
 
     @Override
@@ -234,14 +283,6 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
         checkLogin = true;
     }
 
-    public boolean isCheckLogin() {
-        return checkLogin;
-    }
-
-    public void setCheckLogin(boolean checkLogin) {
-        this.checkLogin = checkLogin;
-    }
-
     @Override
     public void onNotExistsAccount() {
         navBinding.layoutAccount.setVisibility(View.INVISIBLE);
@@ -254,7 +295,13 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
     public void onExists(String mes) {
         binding.navView.getMenu().getItem(0).setChecked(true);
         Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    protected void onDestroy() {
+
+//        CartDatabasePresenter.destroyAll(getBaseContext());
+        super.onDestroy();
     }
 
     @Override
@@ -262,12 +309,12 @@ public class MainActivity extends AppCompatActivity implements IShowAccountInf, 
         binding.navView.getMenu().getItem(0).setChecked(true);
         Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
     }
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void getCheckPointFragment(Integer i) {
-        countFrag = i;
-        presenter.showAccountInformation();
-    }
+//
+//    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+//    public void getCheckPointFragment(Integer i) {
+//        countFrag = i;
+//        presenter.showAccountInformation();
+//    }
 
     public boolean isCheckNetwork() {
         ConnectivityManager connect = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

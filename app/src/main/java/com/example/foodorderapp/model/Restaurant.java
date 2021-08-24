@@ -18,7 +18,7 @@ public class Restaurant implements Serializable {
     @SerializedName("res_img")
     private String image;
     @SerializedName("res_addr")
-    private String address;
+    private Address address;
     @SerializedName("res_phone")
     private String phone;
     @SerializedName("res_email")
@@ -34,7 +34,8 @@ public class Restaurant implements Serializable {
 
     //    String id, String name, String provideType, String image, String address, String phone, String email, double rate
 
-    public Restaurant(String id, String name, String provideType, String image, String address, String phone, String email, double rate) {
+
+    public Restaurant(String id, String name, String provideType, String image, Address address, String phone, String email, double rate) {
         this.id = id;
         this.name = name;
         this.provideType = provideType;
@@ -44,19 +45,6 @@ public class Restaurant implements Serializable {
         this.email = email;
         this.rate = rate;
         status = 0;
-    }
-
-
-    protected Restaurant(Parcel in) {
-        id = in.readString();
-        name = in.readString();
-        provideType = in.readString();
-        image = in.readString();
-        address = in.readString();
-        phone = in.readString();
-        email = in.readString();
-        rate = in.readDouble();
-        cart = in.readInt();
     }
 
 
@@ -116,11 +104,11 @@ public class Restaurant implements Serializable {
         this.image = image;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

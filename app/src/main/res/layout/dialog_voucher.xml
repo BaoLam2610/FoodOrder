@@ -10,7 +10,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Voucher available"
+            android:text="@string/cart_voucher_available"
             android:textAppearance="@style/title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

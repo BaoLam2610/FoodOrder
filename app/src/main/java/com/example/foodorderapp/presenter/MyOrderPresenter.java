@@ -31,7 +31,7 @@ public class MyOrderPresenter {
         if(helper == null)
             helper = new CartDatabaseHelper(context);
         List<Cart> cartList = helper.getMyOrderList();
-        if(cartList !=null)
+        if(cartList.size() != 0)
             iMyOrder.onShowListOrder(cartList);
         else
             iMyOrder.onEmptyListOrder();

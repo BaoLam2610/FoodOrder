@@ -26,6 +26,8 @@ public class TabFoodCategoryAdapter extends FragmentStatePagerAdapter {
         this.type = type;
     }
 
+    
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
@@ -48,6 +50,8 @@ public class TabFoodCategoryAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 5;
     }
+
+
 
     @Nullable
     @Override

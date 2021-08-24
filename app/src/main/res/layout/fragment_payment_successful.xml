@@ -69,19 +69,21 @@
             android:id="@+id/btnBackToHome"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/tab_selected"
+            android:background="@drawable/custom_btn_continue"
+            android:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.08"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/line_divide">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.99"
+            app:layout_constraintWidth_percent="0.95">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/payments_back_to_home"
-                android:drawableTint="@color/white"
-                android:textStyle="normal"
                 android:textAppearance="@style/title"
                 android:textColor="@color/white" />
         </RelativeLayout>

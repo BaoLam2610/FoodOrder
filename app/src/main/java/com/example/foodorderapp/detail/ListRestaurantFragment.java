@@ -163,8 +163,6 @@ public class ListRestaurantFragment extends Fragment implements IListRestaurant,
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        boolean check = restaurantAdapter == null ? true : false;
-        System.out.println(check);
         menu.clear();
         inflater.inflate(R.menu.detail_search, menu);
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);

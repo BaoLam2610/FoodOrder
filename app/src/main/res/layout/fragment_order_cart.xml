@@ -80,7 +80,7 @@
                     app:counterMaxLength="150"
                     app:endIconMode="clear_text"
                     app:helperTextEnabled="true"
-                    app:helperText="*Optional"
+                    app:helperText="@string/cart_note_optional"
                     app:helperTextTextColor="@color/color_app_default"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
@@ -128,7 +128,7 @@
                             android:drawableLeft="@drawable/drawable_left_voucher"
                             android:drawableTint="@color/color_text_default"
                             android:gravity="center"
-                            android:text="Add Voucher"
+                            android:text="@string/cart_add_voucher"
                             android:textAppearance="@style/title_item"
                             android:textColor="@color/color_text_default" />
                     </RelativeLayout>
@@ -183,7 +183,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Sub total" />
+                            android:text="@string/cart_sub_total" />
 
                         <TextView
                             android:id="@+id/tvSubTotal"
@@ -204,7 +204,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Discount" />
+                            android:text="@string/cart_discount" />
 
                         <TextView
                             android:id="@+id/tvDiscount"
@@ -226,7 +226,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Amount to pay"
+                            android:text="@string/cart_amount_to_pay"
                             android:textColor="@color/title"
                             android:textStyle="bold" />
 

@@ -15,20 +15,17 @@
             android:background="@color/action_bar_bgr"
             >
 
-            <androidx.appcompat.widget.Toolbar
-                android:gravity="center_vertical"
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/action_bar_height"
+                <androidx.appcompat.widget.Toolbar
+                    android:gravity="center_vertical"
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/action_bar_height"
 
-                app:titleTextColor="@color/black"
-                />
-            <ImageView
-                android:layout_marginTop="80dp"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:id="@+id/actionBarImage"
-                android:background="@drawable/custom_bgr_action_bar"/>
+                    app:titleTextColor="@color/black"
+                    />
+
+
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout

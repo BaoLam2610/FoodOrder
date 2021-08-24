@@ -22,13 +22,11 @@
 
     -- Title --
     <color name="title">#FF000000</color>
-    <color name="title_see_all">#4CAF50</color>
     <color name="title_sub">@color/lightGrey</color>
     -- Title item --
     <color name="title_item">#FF000000</color>
     <color name="title_item_sub">@color/lightGrey</color>
     - detail -
-    <color name="title_item_detail">#FF000000</color>
     <color name="title_item_detail_sub">@color/lightGrey</color>
     - cart -
     <color name="title_item_cart">#FFFFFFFF</color>
@@ -47,7 +45,6 @@
     <color name="lightGrey">#888888</color>
 
     -- Home List --
-    <color name="home_list_title_text_color">#FF000000</color>
     - category
     <color name="item_category_bgr">#F4F4F4</color>
 
@@ -58,10 +55,7 @@
     <color name="detail_restaurant_email">@color/duskYellow</color>
 
 
-
     -- Item --
-    <color name="item_restaurant_tv_color">#FF000000</color>
-    <color name="item_food_tv_color">#FF000000</color>
 
 
     -- rated --
@@ -80,4 +74,7 @@
     -- bottom menu
     <color name="item_menu_selected">#F44336</color>
     <color name="item_menu_unselected">#919191</color>
+
+
+    <color name="tranferent">#80000000</color>
 </resources>

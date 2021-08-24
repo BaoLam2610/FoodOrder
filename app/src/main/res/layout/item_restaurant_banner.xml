@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="10dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/ivBanner"
+                android:layout_width="wrap_content"
+                android:layout_height="175dp"
+                app:layout_constraintVertical_bias="0"
+                android:src="@drawable/bgr_food_delivery"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/custom_bgr_banner"
+                app:layout_constraintBottom_toBottomOf="@+id/ivBanner"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:paddingLeft="10dp"
+                android:id="@+id/tvResName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nha Hang Kieu Hoa"
+                android:textAppearance="@style/title_item"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/ivBanner"
+                app:layout_constraintEnd_toEndOf="@+id/ivBanner"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ivBanner"
+                app:layout_constraintVertical_bias="0.98" />
+
+            <TextView
+                android:textAppearance="@style/title_item"
+                android:padding="10dp"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintVertical_bias="0"
+                android:text="Giam gia 50% ngay hom nay, duy nhat ngay hom nay"
+                android:id="@+id/tvContentBanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivBanner" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

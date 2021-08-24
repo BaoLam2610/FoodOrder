@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.foodorderapp.map.ViewAllRestaurantFragment;
+import com.example.foodorderapp.map.ViewMapFragment;
+
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -20,25 +23,19 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return HomeListFragment.newInstance();
             case 1:
-//                return HomeListFragment.newInstance();
                 return OrdersFragment.newInstance();
             case 2:
-//                return OrdersFragment.newInstance();
                 return FavoritesFragment.newInstance();
+            case 3:
+                return ViewAllRestaurantFragment.newInstance();
             default:
                 return HomeListFragment.newInstance();
         }
-//        if(position == 0){
-//            return HomeListFragment.newInstance();
-//        } else if(position == 1){
-//            return OrdersFragment.newInstance();
-//        } else
-//            return FavoritesFragment.newInstance();
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
 

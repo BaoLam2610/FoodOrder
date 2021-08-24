@@ -12,10 +12,12 @@ public class Cart implements Serializable {
     private String date;
     private int amount;
     private long totalPrice;
+    private long deliveryFee;
     private Voucher voucher;
     private String note;
     private int status = 0;
     private static int id = 0;
+    private UserAccount user;
     Random rd = new Random();
     DecimalFormat df = new DecimalFormat("0");
 
@@ -29,7 +31,7 @@ public class Cart implements Serializable {
 
     public Cart(Restaurant restaurant, int amount, long totalPrice) {
 
-        idCart = df.format(rd.nextInt(1000));
+        idCart = df.format(rd.nextInt(10000));
         this.restaurant = restaurant;
 
         this.amount = amount;
@@ -111,5 +113,21 @@ public class Cart implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public long getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public void setDeliveryFee(long deliveryFee) {
+        this.deliveryFee = deliveryFee;
+    }
+
+    public UserAccount getUser() {
+        return user;
+    }
+
+    public void setUser(UserAccount user) {
+        this.user = user;
     }
 }

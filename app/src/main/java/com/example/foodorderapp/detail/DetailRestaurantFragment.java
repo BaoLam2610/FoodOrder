@@ -28,6 +28,7 @@ import com.example.foodorderapp.event.IOnBackPressed;
 import com.example.foodorderapp.event.IOnModifyFavorite;
 import com.example.foodorderapp.event.IRestoreList;
 import com.example.foodorderapp.helper.FormatHelper;
+import com.example.foodorderapp.map.ViewMapFragment;
 import com.example.foodorderapp.model.Cart;
 import com.example.foodorderapp.model.Food;
 import com.example.foodorderapp.model.Restaurant;
@@ -84,15 +85,14 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
 //        presenter1 = new DetailPresenter((IOnShowCart) this, getContext());
         cartPresenter = new CartDatabasePresenter(this, getContext());
 
-        binding.scrollView.scrollTo(0,0);
 
 
         return binding.getRoot();
     }
 
     public void setTitleActionBar() {
-//        ((DetailActivity) getActivity()).getSupportActionBar().setTitle(getContext().getResources().getString(R.string.detail_restaurant));
-        ((DetailActivity) getActivity()).getSupportActionBar().setTitle("");
+        ((DetailActivity) getActivity()).getSupportActionBar().setTitle(getContext().getResources().getString(R.string.detail_restaurant));
+//        ((DetailActivity) getActivity()).getSupportActionBar().setTitle("");
         ((DetailActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -101,11 +101,12 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
                 .replace(R.id.flDetailFragment, fragment)
                 .addToBackStack(TAG)
                 .commit();
+        fragment.setTargetFragment(DetailRestaurantFragment.this, 100);
     }
 
 
     @Override
-    public void onShowDetailRestaurant(Restaurant restaurant) {
+    public void onShowDetailRestaurant(Restaurant restaurant,String type) {
         currentRes = restaurant;
         binding.tvResName.setText(restaurant.getName());
         Glide.with(getContext()).load(restaurant.getImage())
@@ -114,7 +115,9 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
 //                    .error(R.drawable.ic_baseline_error_24)        // load ảnh bị lỗi
                 .into(binding.ivResImage);
         binding.tvResProvide.setText(restaurant.getProvideType());
-        binding.tvResAddress.setText(restaurant.getAddress());
+        binding.tvResAddress.setText(" " + restaurant.getAddress().getAddress());
+        binding.tvResPhone.setText(" " + restaurant.getPhone());
+        binding.tvResEmail.setText(" " + restaurant.getEmail());
         binding.tvResRate.setText(restaurant.getRate() + " ");
         binding.rbResRate.setRating((float)restaurant.getRate());
 
@@ -125,6 +128,10 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
                 getContext());
         binding.vpListFood.setAdapter(categoryAdapter);
         binding.tlFoodCategory.setupWithViewPager(binding.vpListFood);
+
+        binding.btnFindLocation.setOnClickListener(v->{
+            getFragment(ViewMapFragment.newInstance(restaurant));
+        });
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -145,7 +152,7 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
 //                cartPresenter.editCart(cart);
         });
 
-        binding.tvItemCart.setText(currentCart.getAmount() + " Item(s)");
+        binding.tvItemCart.setText(currentCart.getAmount() + " " + getContext().getString(R.string.cart_items));
 
 
         binding.tvTotalCost.setText(FormatHelper.formatPrice(currentCart.getTotalPrice()));
@@ -153,7 +160,7 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
 
     @Override
     public void onStart() {
-        ((DetailActivity) getActivity()).setActionBarCustom(150);
+        ((DetailActivity) getActivity()).setActionBarDefault(50);
         super.onStart();
         EventBus.getDefault().register(this);
     }
@@ -168,7 +175,7 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
     @Override
     public void onStop() {
         super.onStop();
-        ((DetailActivity) getActivity()).setActionBarDefault(50);
+
         EventBus.getDefault().unregister(this);
     }
 
@@ -291,12 +298,12 @@ public class DetailRestaurantFragment extends Fragment implements IDetailRestaur
 
     @Override
     public void onSaveFavorite() {
-        Toast.makeText(getContext(), "Insert successful", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getContext().getString(R.string.favorite_insert), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDestroyFavorite() {
-        Toast.makeText(getContext(), "Destroy successful", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getContext().getString(R.string.favorite_remove), Toast.LENGTH_SHORT).show();
     }
 
     @Override

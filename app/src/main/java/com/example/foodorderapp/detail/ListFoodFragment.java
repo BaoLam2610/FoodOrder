@@ -77,17 +77,11 @@ public class ListFoodFragment extends Fragment implements IOnListFood, IListFood
 //        presenter = new DetailPresenter(this, getContext(), cartPresenter);
 
         foodPresenter = new ListFoodPresenter(this,getContext());
-//        foodPresenter.showListFood();
-        presenter = new DetailPresenter(this,this,this, getContext());
-//        foodList = presenter.getListFood();
-//        presenter.showListFood(getFoodList(),getTitle());
-        String str = getType();
-        System.out.println(str);
-        presenter.showListFood(getTitle(),getType()); // title : stater food , fast food,...
-            // type : default, favorite
-//        presenter.showListFood();
 
-//        presenter.showListFood(foodList, getTitle());
+        presenter = new DetailPresenter(this,this,this, getContext());
+        String getTitle = getTitle();
+        System.out.println(getTitle);
+        presenter.showListFood(getTitle(),getType()); // title : stater food , fast food,...
 
 
         return binding.getRoot();

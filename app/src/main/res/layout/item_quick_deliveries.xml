@@ -4,13 +4,15 @@
 
     <LinearLayout
         android:id="@+id/itemRestaurant"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/item_restaurant_span_height"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/item_restaurant_span_margin"
         android:layout_marginBottom="@dimen/item_restaurant_span_margin"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
+
+            android:layout_gravity="center_vertical"
             android:layout_width="@dimen/item_restaurant_span_height"
             android:layout_height="@dimen/item_restaurant_span_height"
             app:cardCornerRadius="10dp"
@@ -64,6 +66,10 @@
                 android:drawableTint="@color/icon_location"
                 android:drawableLeft="@drawable/custom_item_restaurant_location"
                 android:text="Address"
+                android:ellipsize="start"
+
+                android:singleLine="true"
+                app:layout_constraintWidth_percent="0.6"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"

@@ -1,6 +1,8 @@
 package com.example.foodorderapp;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -9,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.foodorderapp.databinding.ActivityDetailBinding;
+import com.example.foodorderapp.detail.BannerFragment;
 import com.example.foodorderapp.detail.DetailRestaurantFragment;
 import com.example.foodorderapp.detail.ListRestaurantFragment;
 
@@ -25,7 +28,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = "DetailActivity";
     ActivityDetailBinding binding;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +37,18 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent it = getIntent();
         Bundle bundle = new Bundle();
+        if(it.hasExtra("restaurant_banner")){
+            switch (it.getStringExtra("restaurant_banner")) {
+                case "show_more":
+                    getFragment(BannerFragment.newInstance());
+                    break;
+            }
+        }
+
         if (it.hasExtra("quick_deliveries")) {
             switch (it.getStringExtra("quick_deliveries")) {
                 case "show_more":
-//                    List<Restaurant> quickDeliveriesList = it.getParcelableArrayListExtra("quick_deliveries_list");
-//                    EventBus.getDefault().postSticky("check");
-//                    EventBus.getDefault().postSticky(IHelper.TYPE_QUICK_DELIVERIES);
                     getFragment(ListRestaurantFragment.newInstance(IHelper.TYPE_QUICK_DELIVERIES));
-//                    getFragment(ListRestaurantFragment.newInstance());
                     break;
                 case "item":
                     bundle.putString("back_pressed", "check");
@@ -58,9 +65,7 @@ public class DetailActivity extends AppCompatActivity {
         if (it.hasExtra("best_rated")) {
             switch (it.getStringExtra("best_rated")) {
                 case "show_more":
-//                    EventBus.getDefault().postSticky(IHelper.TYPE_BEST_RATED);
                     getFragment(ListRestaurantFragment.newInstance(IHelper.TYPE_BEST_RATED));
-//                    getFragment(ListRestaurantFragment.newInstance());
                     break;
                 case "item":
                     bundle.putString("back_pressed", "check");
@@ -102,6 +107,10 @@ public class DetailActivity extends AppCompatActivity {
         float px = dp *density;
         binding.appBar.getLayoutParams().height = (int)px;
         binding.appBar.setBackgroundResource(R.drawable.bgr_cooking);
+    }
+
+    public void setActionBarOpacity(){
+        binding.appBar.setBackgroundColor(Color.TRANSPARENT);
     }
 
     public void setActionBarDefault(int dp){

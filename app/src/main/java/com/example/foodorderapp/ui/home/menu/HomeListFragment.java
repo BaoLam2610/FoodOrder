@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,12 +54,10 @@ public class HomeListFragment extends Fragment implements IHomeListHelper, ICart
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_list, container, false);
-//        setTitleActionBar();
 cartPresenter = new CartDatabasePresenter(this,getContext());
         presenter = new HomeListPresenter(getContext(), this);
-//        ((MainActivity)getActivity()).setTileActionBar(getString(R.string.action_bar_home));
         presenter.showGroupList();
-//        getApiRestaurant();
+
         return binding.getRoot();
     }
 
@@ -75,15 +74,26 @@ cartPresenter = new CartDatabasePresenter(this,getContext());
             public void onClickShowMore(int type, int position) {
 
                 switch (type) {
+                    case ListGroupAdapter.TYPE_FOOD_BANNER:
+                    case ListGroupAdapter.TYPE_FOOD_CATEGORY:
+                        List<Restaurant> restaurantBanner = groupList.get(ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES - 1)
+                                .getRestaurants();
+                        EventBus.getDefault().postSticky(restaurantBanner);
+
+                        Intent it1 = new Intent(getContext(), DetailActivity.class);
+                        it1.putExtra("restaurant_banner", "show_more");
+                        startActivity(it1);
+
+                        break;
+
                     case ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES:
                         List<Restaurant> quickDeliveriesList = groupList.get(ListGroupAdapter.TYPE_FOOD_QUICK_DELIVERIES - 1)
                                 .getRestaurants();
 
                         EventBus.getDefault().postSticky(quickDeliveriesList);
-                        Intent it = new Intent(getContext(), DetailActivity.class);
-                        it.putExtra("quick_deliveries", "show_more");
-//                        it.putParcelableArrayListExtra("quick_deliveries_list", (ArrayList<? extends Parcelable>) quickDeliveriesList);
-                        startActivity(it);
+                        Intent it2 = new Intent(getContext(), DetailActivity.class);
+                        it2.putExtra("quick_deliveries", "show_more");
+                        startActivity(it2);
 
                         break;
                     case ListGroupAdapter.TYPE_FOOD_BEST_RATED:
@@ -97,9 +107,9 @@ cartPresenter = new CartDatabasePresenter(this,getContext());
                         }
 
                         EventBus.getDefault().postSticky(bestRatedList);
-                        Intent it1 = new Intent(getContext(), DetailActivity.class);
-                        it1.putExtra("best_rated", "show_more");
-                        startActivity(it1);
+                        Intent it3 = new Intent(getContext(), DetailActivity.class);
+                        it3.putExtra("best_rated", "show_more");
+                        startActivity(it3);
                         break;
                 }
             }

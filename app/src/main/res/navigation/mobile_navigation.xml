@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.foodorderapp.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_terms_conditions"
+        android:name="com.example.foodorderapp.ui.terms.TermsConditionsFragment"
         android:label="@string/menu_terms_conditions"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_terms_conditions" />
 </navigation>

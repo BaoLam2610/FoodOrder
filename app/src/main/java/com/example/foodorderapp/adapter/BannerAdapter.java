@@ -56,7 +56,7 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public int getCount() {
         //if (bannerList != null)
-            return bannerList.size();
+        return bannerList.size();
         //return 0;
     }
 

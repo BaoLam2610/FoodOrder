@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <androidx.viewpager.widget.ViewPager
+    <com.example.foodorderapp.layout.CustomSwipeViewPager
         android:id="@+id/vpFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -26,6 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemIconTint="@color/item_menu_selection"
         app:itemTextColor="@color/item_menu_selection"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu"
         android:elevation="5dp"
         app:elevation="5dp"/>

@@ -77,9 +77,9 @@
                             android:background="@drawable/custom_et_order_username"
                             android:drawableLeft="@drawable/drawable_left_ic_location"
                             android:drawableTint="@color/color_text_default"
-                            android:hint="Delivery address"
+                            android:hint="@string/order_inf_delivery_address"
                             android:inputType="text"
-                            android:maxLength="100"
+                            android:maxLength="200"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textAppearance="@style/title_item"
@@ -127,10 +127,11 @@
                         android:textAppearance="@style/title" />
 
                     <TextView
+                        android:layout_gravity="center"
                         android:id="@+id/tvResName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Restaurant's Name"
+                        android:text="@string/order_inf_restaurant_name"
                         android:textAppearance="@style/title_item"
                         android:textColor="@color/color_text_default" />
 
@@ -192,7 +193,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Sub total" />
+                                android:text="@string/cart_sub_total" />
 
                             <TextView
                                 android:id="@+id/tvSubTotal"
@@ -212,7 +213,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Delivery fee" />
+                                android:text="@string/order_inf_delivery_fee" />
 
                             <TextView
                                 android:id="@+id/tvDeliveryFee"
@@ -233,7 +234,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Discount" />
+                                android:text="@string/cart_discount" />
 
                             <TextView
                                 android:id="@+id/tvDiscount"
@@ -261,7 +262,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="Amount to pay"
+                                android:text="@string/cart_amount_to_pay"
                                 android:textColor="@color/title"
                                 android:textStyle="bold" />
 

@@ -60,6 +60,9 @@ public class HomeFragment extends Fragment {
                     case R.id.mnFavorites:
                         binding.vpFragment.setCurrentItem(2);
                         break;
+                    case R.id.mnMap:
+                        binding.vpFragment.setCurrentItem(3);
+                        break;
                 }
                 return true;
             }
@@ -72,8 +75,13 @@ public class HomeFragment extends Fragment {
         binding.vpFragment.setAdapter(viewPagerAdapter);
 //        binding.vpFragment.setCurrentItem(binding.vpFragment.getCurrentItem()-1);
 
-        int i = binding.vpFragment.getCurrentItem();
-        System.out.println(i);
+        binding.vpFragment.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
         binding.vpFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -94,6 +102,10 @@ public class HomeFragment extends Fragment {
                     case 2:
                         ((MainActivity)getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.action_bar_favorites));
                         binding.bottomMenu.getMenu().findItem(R.id.mnFavorites).setChecked(true);
+                        break;
+                    case 3:
+                        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.action_bar_map));
+                        binding.bottomMenu.getMenu().findItem(R.id.mnMap).setChecked(true);
                         break;
                 }
             }

@@ -100,7 +100,7 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.FoodVi
 
     @Override
     public int getItemCount() {
-        return foodList.size();
+        return foodList == null ? 0 : foodList.size();
     }
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {

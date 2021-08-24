@@ -50,7 +50,7 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         Restaurant restaurant = restaurantList.get(position);
-        holder.binding.ivResImage.setImageResource(R.drawable.ic_launcher_background);// change this
+
         Glide.with(context).load(restaurant.getImage())
                 .centerCrop()   // căn ảnh
 //                    .placeholder(R.drawable.ic_baseline_image_24)  // đợi load ảnh
@@ -58,7 +58,7 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
                 .into(holder.binding.ivResImage);
         holder.binding.tvResName.setText(restaurant.getName());
         holder.binding.tvResProvide.setText(restaurant.getProvideType());
-        holder.binding.tvResAddress.setText(restaurant.getAddress());
+        holder.binding.tvResAddress.setText(restaurant.getAddress().getAddress());
         holder.binding.rbResRate.setRating((float) restaurant.getRate());
         holder.binding.tvResRate.setText(restaurant.getRate()+"");
         holder.binding.itemRestaurant.setOnClickListener( v->{

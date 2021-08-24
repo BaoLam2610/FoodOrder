@@ -1,10 +1,6 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 
 
     -- Title --
@@ -15,7 +11,6 @@
     <dimen name="title_item">15dp</dimen>
     <dimen name="title_item_sub">12dp</dimen>
     - detail -
-    <dimen name="title_item_detail">20dp</dimen>
     <dimen name="title_item_detail_sub">15dp</dimen>
      - cart -
     <dimen name="title_item_cart">15dp</dimen>
@@ -26,7 +21,6 @@
     -- home list
     <dimen name="padding_home_list">10dp</dimen>
     <dimen name="home_list_padding_header_title">7dp</dimen>
-    <dimen name="home_list_text_size_header_title">24dp</dimen>
 
     - banner
     <dimen name="item_banner_height">135dp</dimen>
@@ -37,11 +31,9 @@
     <dimen name="item_food_category_height">100dp</dimen>
     <dimen name="item_category_corner">20dp</dimen>
     <dimen name="item_category_margin">6dp</dimen>
-    <dimen name="item_category_elevation">35dp</dimen>
 
 
     - item restaurant span--
-    <dimen name="item_restaurant_span_width">300dp</dimen>
     <dimen name="item_restaurant_span_height">80dp</dimen>
     <dimen name="item_restaurant_span_margin">10dp</dimen>
 
@@ -59,7 +51,6 @@
     <dimen name="order_cart_note_height">100dp</dimen>
 
     -- Item food --
-    <dimen name="item_food_height">70dp</dimen>
     <dimen name="item_food_img">70dp</dimen>
     <dimen name="title_item_food">20dp</dimen>
     <dimen name="title_item_food_sub">15dp</dimen>
@@ -76,6 +67,7 @@
     -- my order --
     <dimen name="my_order_restaurant_logo">50dp</dimen>
     <dimen name="my_order_payment">13dp</dimen>
+    <dimen name="my_order_total_price">15dp</dimen>
 
 
     -- profile
@@ -83,7 +75,6 @@
 
     -- action bar --
     <dimen name="action_bar_height">50dp</dimen>
-    <dimen name="action_bar_image">200dp</dimen>
 
     <dimen name="action_bar_bgr_corner">30dp</dimen>
     <dimen name="order_cart_promo_height">50dp</dimen>

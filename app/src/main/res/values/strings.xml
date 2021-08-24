@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">Food Order App</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name" translatable="false">Food Order App</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
 
 
     -- Drawer --
@@ -17,12 +15,13 @@
     <string name="bottom_menu_home">Home</string>
     <string name="bottom_menu_orders">Orders</string>
     <string name="bottom_menu_favorites">Favorites</string>
+    <string name="bottom_menu_map">Map</string>
 
     -- Home List --
     -- Title --
     <string name="home_list_title_category">What\'d you like to eat today?</string>
     <string name="home_list_title_banner">Offers for you</string>
-    <string name="home_list_title_quick_delivery">Quick deliveries</string>
+    <string name="home_list_title_quick_delivery">Restaurants</string>
     <string name="home_list_title_best_rated">Best rated</string>
 
     <string name="home_list_see_all">See all</string>
@@ -39,17 +38,14 @@
     <string name="order_cart_payment_promo_code">Promo code</string>
 
 
-
     <string name="drawer_login">Login</string>
     <string name="login_phone">Phone</string>
-    <string name="login_password">Password</string>
-    <string name="login_hint_phone">Your phone</string>
     <string name="login_forger_pass">Forget password?</string>
-    <string name="sign_in_username">Name</string>
-    <string name="sign_in_hint_name">Your name</string>
-    <string name="drawer_sign_in">SIGN IN</string>
     <string name="drawer_logout">Logout</string>
 
+
+    -- Banner --
+    <string name="restaurant_banner_title">Offers for you</string>
 
 
     -- Detail activity --
@@ -57,19 +53,18 @@
     <string name="detail_activity_menu_search">Search</string>
     <string name="detail_restaurant_view_cart">View Cart</string>
 
-    <string name="account_my_wallet">My Wallet</string>
     <string name="payments_cards">Cards</string>
-    <string name="payments_wallet">Wallet</string>
     <string name="payments_bank_cards">Bank Cards</string>
     <string name="payments_cash">Cash</string>
     <string name="payments_cash_on_delivery">Cash On Delivery</string>
     <string name="payments_other">Other</string>
-    <string name="payments_other_paypal">PayPal</string>
-    <string name="payments_other_visa">Visa</string>
-    <string name="payments_other_discover">Discover</string>
+    <string name="payments_other_paypal" translatable="false">PayPal</string>
+    <string name="payments_other_visa" translatable="false">Visa</string>
+    <string name="payments_other_discover" translatable="false">Discover</string>
 
     -- Cart
     <string name="cart_title">My Order Cart</string>
+    <string name="cart_empty">You have not ordered 1 dish yet. Place your order to enjoy.</string>
     <string name="price">Price</string>
     <string name="amount">Amount: </string>
     <string name="cart_order">Place Order</string>
@@ -84,28 +79,67 @@
     <string name="cart_dialog_error_title">Order error</string>
     <string name="cart_dialog_error_content">You can\&apos;t place order because you don\&apos;t have any items.</string>
 
+    <string name="cart_items">Item(s)</string>
+    <string name="cart_discount">Discount</string>
+    <string name="cart_note_optional">*Optional</string>
+    <string name="cart_add_voucher">Add voucher</string>
+    <string name="cart_voucher_available">Voucher available</string>
+    <string name="cart_sub_total">Sub total</string>
+    <string name="cart_amount_to_pay">Amount to pay</string>
+
+
     -- order information --
     <string name="order_inf_title">Order Information</string>
+
+    <string name="order_inf_restaurant_name">Restaurant\&apos;s name:</string>
     <string name="order_inf_delivery_detail">Delivery detail</string>
+    <string name="order_inf_delivery_address">Delivery address</string>
+    <string name="order_inf_delivery_fee">Delivery fee</string>
     <string name="order_inf_order_detail">Order detail</string>
     <string name="order_inf_note">Order note</string>
     <string name="order_inf_summary">Order summary</string>
 
     <string name="order_inf_recipient_name">Recipient\'s name</string>
+    <string name="order_inf_error">Consignee name and delivery address cannot be empty</string>
+    <string name="order_inf_title_attention">Are you sure?</string>
+    <string name="order_inf_content_attention">Any information will not be saved</string>
 
+    -- My order
+    <string name="my_order_total_price">Total price</string>
+    <string name="my_order_see_detail">See detail</string>
+    <string name="my_order_customer">Customer:</string>
+    <string name="my_order_phone">Phone:</string>
+    <string name="my_order_receiving_address">Receiving address:</string>
+    <string name="my_order_date">Order date:</string>
+    <string name="my_order_note">Note: </string>
+    <string name="my_order_empty_note">Note: empty note</string>
+
+    -- favorite --
+    <string name="favorite_empty">You don\&apos;t have any favorites yet, choose for yourself what you like.</string>
+    <string name="favorite_insert">Added the restaurant to your favorite</string>
+    <string name="favorite_remove">Removed this restaurant from your favorite</string>
 
     -- Login , sign up --
+    <string name="login_sign_up_hint">Enter mobile number</string>
     <string name="login_continue">Continue</string>
     <string name="login_continue_with_google">Continue with <b>Google</b></string>
     <string name="sign_up_phone">Phone number</string>
     <string name="sign_up_full_name">Full name</string>
     <string name="sign_up_password">Password</string>
     <string name="sign_up_confirm_pass">Confirm password</string>
-    <string name="login_title_welcome">You are almost in.<br/>Please enter your password to continue</string>
+    <string name="login_title_welcome">You are almost in.<br />Please enter your password to continue</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="login_welcome">Hi</string>
 
+    -- Detail restaurant
+    <string name="detail_restaurant_introduction">\tWe have different kinds of burgers and desserts that will surely suit your taste, and we offer a very affordable price. This business is not new on the market, and we have four branches already. I am attaching a menu for you. I hope you can drop by to our store so that you can try our very yummy burgers and desserts.</string>
+    <string name="detail_restaurant_title_introduction">Introductions</string>
+    <string name="detail_restaurant_contact">Contact Information</string>
+    <string name="detail_restaurant_contact_address">Address: </string>
+    <string name="detail_restaurant_contact_phone">Phone: </string>
+    <string name="detail_restaurant_contact_email" translatable="false">Email: </string>
+    <string name="detail_restaurant_menu">Menu</string>
 
     -- Title tab layout food --
     <string name="fast_food">Fast Food</string>
@@ -123,8 +157,7 @@
     <string name="login_dialog_positive">Login</string>
     <string name="login_dialog_negative">Cancel</string>
     <string name="payments_back_to_home">Back to Home</string>
-    <string name="delivered">Delivered</string>
-    <string name="my_order_total_price">Total price</string>
+
 
     -- Login error --
     <string name="error_phone_empty">Phone can not be empty</string>
@@ -141,21 +174,32 @@
     <string name="phone">Phone: </string>
 
     -- NETWORK --
-    <string name="network_connected">Connecting to the Internet</string>
     <string name="error_network_disconnected">Unable to connect to the Internet</string>
 
     -- main action bar --
     <string name="action_bar_home">Home</string>
     <string name="action_bar_my_order">My Order</string>
     <string name="action_bar_favorites">Favorites</string>
+    <string name="action_bar_map">Map</string>
 
     -- Payment successful
     <string name="payment_title">Payment method</string>
     <string name="payment_successful_title">Order Placed !!</string>
     <string name="payment_successful_thank">Thanks for choosing us for delivering your foods.</string>
     <string name="payment_successful_back_home">You can check your order status in your order section.</string>
-    <string name="detail_restaurant_introduction">We have different kinds of burgers and desserts that will surely suit your taste, and we offer a very affordable price. This business is not new on the market, and we have four branches already. I am attaching a menu for you. I hope you can drop by to our store so that you can try our very yummy burgers and desserts.</string>
+
     <string name="cart_empty_list_order">You don\&apos;t have any items yet.</string>
 
 
+    -- Map --
+    <string name="map_your_location">Your location</string>
+    <string name="map_restaurants_location">Restaurant(s) location</string>
+    <string name="map_range">Range</string>
+    <string name="map_next">Next</string>
+
+    -- terms , conditions --
+    <string name="terms_conditions_content">\tThe Customer must be aware and accept that the Customer is responsible for using the Service in the service business in accordance with the laws and customs of Vietnam. You don\&apos;t be used service to media the content of the depraved, anti-state, spamming and/or unwanted information to other organizations and individuals in the system in any form.</string>
+    <string name="terms_conditions_content_1">\tUnlike a Privacy Policy, a Terms and Conditions is not mandatory under any laws or required by any app stores. However, because of the benefits discussed above, you can see why you\&apos;d want one anyway.</string>
+    <string name="terms_conditions_content_2">\tAlso, while app stores don\&apos;t explicitly require you to have a Terms and Conditions agreement with your app, there are some direct ways that having one can help you meet other app store requirements.</string>
+    <string name="terms_conditions_content_3">\tGenerally, the Terms and Conditions agreement is broader than the EULA agreement and it\&apos;s particularly relevant for web-based mobile apps.</string>
 </resources>

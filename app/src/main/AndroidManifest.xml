@@ -4,41 +4,51 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
     <application
-        android:usesCleartextTraffic="true"
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FoodOrderApp">
-        <activity android:name=".DetailActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            ></activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.FoodOrderApp.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
+        android:theme="@style/Theme.FoodOrderApp"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.FoodOrderApp.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-
-
+        <meta-data
+            android:name="com.here.sdk.access_key_id"
+            android:value="Ec9KSWu5wdqm5lCvF0b3pg" />
+        <meta-data
+            android:name="com.here.sdk.access_key_secret"
+            android:value="311Alaww0cST4kojNoyMOG0nHPwarYfRcRZIi7f1IjT2Qz384UbbvAW7faPKvwFOJ2IYmkN_KyxHdkhiafLaWg" />
     </application>
 
 </manifest>
